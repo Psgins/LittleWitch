@@ -120,7 +120,7 @@ public class Game2D extends Screen {
                         break;
                     case ENTER:
                         main.setState(Witch.State.atk1);
-                        objCollection.add(new Fireball(layer,main.layer().tx(),main.layer().ty()));
+                        objCollection.add(new Fireball(layer,main.layer().tx() + 25f,main.layer().ty()));
                         break;
                 }
             }

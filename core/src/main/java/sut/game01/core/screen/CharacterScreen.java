@@ -34,7 +34,7 @@ public class CharacterScreen extends UIScreen {
         layer.add(bgLayer);
 
         ImageLayer startLayer = PlayN.graphics().createImageLayer(PlayN.assets().getImage("images/CharacterScreen/MapButton.png"));
-        startLayer.setTranslation(640f - 230f,480f - 170f);
+        startLayer.setTranslation(640f - 220f,480f - 170f);
 
         startLayer.addListener(new Pointer.Adapter(){
             @Override
@@ -46,7 +46,7 @@ public class CharacterScreen extends UIScreen {
         layer.add(startLayer);
 
         ImageLayer backLayer = PlayN.graphics().createImageLayer(PlayN.assets().getImage("images/CharacterScreen/BackButton.png"));
-        backLayer.setTranslation(640f - 230f,480f - 100f);
+        backLayer.setTranslation(640f - 220f,480f - 100f);
         backLayer.addListener(new Pointer.Adapter(){
             @Override
             public void onPointerEnd(Pointer.Event event) {
@@ -55,6 +55,15 @@ public class CharacterScreen extends UIScreen {
             }
         });
         layer.add(backLayer);
+
+        ImageLayer upLayer = PlayN.graphics().createImageLayer(PlayN.assets().getImage("images/CharacterScreen/Up.png"));
+        upLayer.setTranslation(640f - 275f,480f - 170f);
+        layer.add(upLayer);
+
+        ImageLayer downLayer = PlayN.graphics().createImageLayer(PlayN.assets().getImage("images/CharacterScreen/Down.png"));
+        downLayer.setTranslation(640f - 275f,480f - 60f);
+        layer.add(downLayer);
+
 
         // Add model for show
         Witch model = new Witch(null,125f,150f,true);

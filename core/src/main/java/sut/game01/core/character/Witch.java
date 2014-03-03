@@ -54,8 +54,6 @@ public class Witch implements ObjectDynamic {
                 PlayN.log().error("Error loading image!", cause);
             }
         });
-
-        
     }
 
     public void update(int delta)
