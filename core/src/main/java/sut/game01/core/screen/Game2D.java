@@ -10,14 +10,12 @@ import org.jbox2d.dynamics.Body;
 import org.jbox2d.dynamics.BodyDef;
 import org.jbox2d.dynamics.World;
 import org.jbox2d.dynamics.contacts.Contact;
-import playn.core.CanvasImage;
-import playn.core.Keyboard;
-import playn.core.PlayN;
+import playn.core.*;
 import playn.core.util.Clock;
 import sut.game01.core.Environment.CubeBox;
-import sut.game01.core.sprite.Chipmunk;
-import sut.game01.core.sprite.GameCharacter;
-import sut.game01.core.sprite.Witch;
+import sut.game01.core.Skill.Fireball;
+import sut.game01.core.sprite.ObjectDynamic;
+import sut.game01.core.character.Witch;
 import tripleplay.game.Screen;
 import tripleplay.game.ScreenStack;
 
@@ -36,7 +34,8 @@ public class Game2D extends Screen {
 
     private final ScreenStack ss;
 
-    private ArrayList<GameCharacter> objCollection = new ArrayList<GameCharacter>();
+    private ArrayList<ObjectDynamic> objCollection = new ArrayList<ObjectDynamic>();
+    private ArrayList<ObjectDynamic> trash = new ArrayList<ObjectDynamic>();
 
     public Game2D(ScreenStack ss)
     {
@@ -70,8 +69,6 @@ public class Game2D extends Screen {
         world.setContactListener(new ContactListener() {
             @Override
             public void beginContact(Contact contact) {
-                System.out.println("A:"+contact.getFixtureA().toString());
-                System.out.println("B:"+contact.getFixtureB().toString()+"\n");
             }
 
             @Override
@@ -99,23 +96,17 @@ public class Game2D extends Screen {
         CubeBox box1 = new CubeBox(world,20,height-7,100,20);
 
         //character
-        Chipmunk cm = new Chipmunk(world,100,100);
-        layer.add(cm.layer());
-        objCollection.add(cm);
 
-        final Witch main = new Witch(world, 250,100);
+        final Witch main = new Witch(world, 250,100, false);
         layer.add(main.layer());
         objCollection.add(main);
 
-
-
-        PlayN.keyboard().setListener(new Keyboard.Adapter(){
+        PlayN.keyboard().setListener(new Keyboard.Adapter() {
             @Override
             public void onKeyDown(Keyboard.Event event) {
                 super.onKeyDown(event);
 
-                switch (event.key())
-                {
+                switch (event.key()) {
                     case A:
                     case LEFT:
                         main.setState(Witch.State.runL);
@@ -127,6 +118,10 @@ public class Game2D extends Screen {
                     case SPACE:
                         main.jump();
                         break;
+                    case ENTER:
+                        main.setState(Witch.State.atk1);
+                        objCollection.add(new Fireball(layer,main.layer().tx(),main.layer().ty()));
+                        break;
                 }
             }
 
@@ -134,8 +129,7 @@ public class Game2D extends Screen {
             public void onKeyUp(Keyboard.Event event) {
                 super.onKeyUp(event);
 
-                switch (event.key())
-                {
+                switch (event.key()) {
                     case A:
                     case LEFT:
                         main.setState(Witch.State.idleL);
@@ -147,7 +141,6 @@ public class Game2D extends Screen {
                     case ESCAPE:
                         ss.remove(Game2D.this);
                         break;
-
                 }
             }
         });
@@ -158,7 +151,17 @@ public class Game2D extends Screen {
         super.update(delta);
         world.step(0.033f,10,10);
 
-        for(GameCharacter cm : objCollection) cm.update(delta);
+        for(ObjectDynamic cm : objCollection)
+        {
+            if (cm.Alive())
+                cm.update(delta);
+            else
+                trash.add(cm);
+        }
+
+        for (ObjectDynamic x : trash)
+            objCollection.remove(x);
+        trash.clear();
     }
 
     @Override
@@ -170,6 +173,6 @@ public class Game2D extends Screen {
             world.drawDebugData();
         }
 
-        for(GameCharacter cm : objCollection) cm.paint(clock);
+        for(ObjectDynamic cm : objCollection) cm.paint();
     }
 }

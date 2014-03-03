@@ -1,4 +1,4 @@
-package sut.game01.core.sprite;
+package sut.game01.core.character;
 
 import org.jbox2d.collision.shapes.PolygonShape;
 import org.jbox2d.common.Vec2;
@@ -9,16 +9,19 @@ import playn.core.Pointer;
 import playn.core.util.Callback;
 import playn.core.util.Clock;
 import sut.game01.core.screen.Game2D;
+import sut.game01.core.sprite.ObjectDynamic;
+import sut.game01.core.sprite.Sprite;
+import sut.game01.core.sprite.SpriteLoader;
 
 /**
  * Created by PSG on 2/6/14.
  */
-public class Witch implements GameCharacter {
+public class Witch implements ObjectDynamic {
     private Sprite sprite;
     private int spriteIndex = 0;
     private boolean hashLoaded = false;
 
-    public enum State {idleL,idleR,runL,runR,dead}
+    public enum State {idleL,idleR,runL,runR,dead,atk1}
 
     private int e = 0;
     private int offset = 0;
@@ -27,10 +30,12 @@ public class Witch implements GameCharacter {
     private Body body;
 
     private State state = State.idleR;
+    private boolean alive = true;
 
-    public Witch(final World world, final float px, final float py)
+    public Witch(final World world, final float px, final float py,final boolean justShow)
     {
-        sprite = SpriteLoader.getSprite("images/witch.json");
+        String spritePath = justShow ? "images/Model/witch.json" : "images/CharSprite/witch.json";
+        sprite = SpriteLoader.getSprite(spritePath);
         sprite.addCallback(new Callback<Sprite>() {
             @Override
             public void onSuccess(Sprite result) {
@@ -40,15 +45,8 @@ public class Witch implements GameCharacter {
 
                 hashLoaded = true;
 
-                body = initPhysicsBody(world,px * Game2D.M_PER_PIXEL,py * Game2D.M_PER_PIXEL);
-
-                sprite.layer().addListener(new Pointer.Adapter(){
-                    @Override
-                    public void onPointerEnd(Pointer.Event event) {
-                        //body.applyLinearImpulse(new Vec2(100f,0f), body.getPosition());
-                        setState(State.dead);
-                    }
-                });
+                if(!justShow)
+                    body = initPhysicsBody(world,px * Game2D.M_PER_PIXEL,py * Game2D.M_PER_PIXEL);
             }
 
             @Override
@@ -57,12 +55,12 @@ public class Witch implements GameCharacter {
             }
         });
 
-
+        
     }
 
     public void update(int delta)
     {
-        if (!hashLoaded) return;
+        if (!hashLoaded || !alive) return;
 
         e+= delta;
 
@@ -86,7 +84,11 @@ public class Witch implements GameCharacter {
                     break;
                 case dead:
                     offset = 16;
-                    if(spriteIndex == 18) hashLoaded = false;
+                    if(spriteIndex == 18) alive = false;
+                    break;
+                case atk1:
+                    offset = 20;
+                    if(spriteIndex == 22) setState(State.idleR);
                     break;
             }
 
@@ -96,7 +98,7 @@ public class Witch implements GameCharacter {
         }
     }
 
-    public void paint(Clock clock)
+    public void paint()
     {
         if (!hashLoaded) return;
         sprite.layer().setTranslation(body.getPosition().x / Game2D.M_PER_PIXEL,body.getPosition().y / Game2D.M_PER_PIXEL);
@@ -110,6 +112,11 @@ public class Witch implements GameCharacter {
     public void jump()
     {
         body.applyLinearImpulse(new Vec2(0f,-20f),body.getPosition());
+    }
+
+    @Override
+    public boolean Alive() {
+        return alive;
     }
 
     public void setState (State state)
@@ -127,7 +134,12 @@ public class Witch implements GameCharacter {
             case runR:
                 renderSpeed = 50;
                 break;
+            case atk1:
+                renderSpeed = 25;
+                break;
         }
+
+        spriteIndex = -1;
     }
 
     private Body initPhysicsBody(World world, float x, float y)
@@ -140,7 +152,7 @@ public class Witch implements GameCharacter {
         body.setFixedRotation(true);
 
         PolygonShape shape = new PolygonShape();
-        shape.setAsBox((sprite.layer().width()-40f) * Game2D.M_PER_PIXEL / 2, sprite.layer().height() * Game2D.M_PER_PIXEL / 2);
+        shape.setAsBox((sprite.layer().width()-40f) * Game2D.M_PER_PIXEL / 2, (sprite.layer().height()-10f) * Game2D.M_PER_PIXEL / 2);
         FixtureDef fixtureDef = new FixtureDef();
         fixtureDef.shape = shape;
         fixtureDef.density = 0.4f;

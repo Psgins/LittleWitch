@@ -1,4 +1,4 @@
-package sut.game01.core.sprite;
+package sut.game01.core.character;
 
 import org.jbox2d.collision.shapes.PolygonShape;
 import org.jbox2d.common.Vec2;
@@ -7,8 +7,11 @@ import playn.core.*;
 import playn.core.util.Callback;
 import playn.core.util.Clock;
 import sut.game01.core.screen.Game2D;
+import sut.game01.core.sprite.ObjectDynamic;
+import sut.game01.core.sprite.Sprite;
+import sut.game01.core.sprite.SpriteLoader;
 
-public class Chipmunk implements GameCharacter {
+public class Chipmunk implements ObjectDynamic {
 
     private Sprite sprite;
     private int spriteIndex = 0;
@@ -24,6 +27,7 @@ public class Chipmunk implements GameCharacter {
     private Body body;
 
     private State state = State.idle;
+    private boolean alive = true;
 
     private float x=0;
     private float y=0;
@@ -76,7 +80,7 @@ public class Chipmunk implements GameCharacter {
 
     public void update(int delta)
     {
-        if (!hashLoaded || !working) return;
+        if (!hashLoaded || !working || !alive) return;
 
         e+= delta;
         decreasetime += delta;
@@ -120,10 +124,15 @@ public class Chipmunk implements GameCharacter {
         }
     }
 
-    public void paint(Clock clock)
+    public void paint()
     {
         if (!hashLoaded) return;
         sprite.layer().setTranslation(body.getPosition().x / Game2D.M_PER_PIXEL,body.getPosition().y / Game2D.M_PER_PIXEL);
+    }
+
+    @Override
+    public boolean Alive() {
+        return alive;
     }
 
     public void setState(State state)

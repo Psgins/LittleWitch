@@ -5,7 +5,8 @@ import playn.core.util.Clock;
 /**
  * Created by PSG on 2/6/14.
  */
-public interface GameCharacter {
+public interface ObjectDynamic {
     abstract public void update(int delta);
-    abstract public void paint(Clock clock);
+    abstract public void paint();
+    abstract public boolean Alive();
 }
