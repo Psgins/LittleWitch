@@ -7,11 +7,8 @@ import playn.core.GroupLayer;
 import playn.core.ImageLayer;
 import playn.core.PlayN;
 import playn.core.util.Callback;
-import sut.game01.core.all_etc.CharacterObject;
-import sut.game01.core.all_etc.Skill;
-import sut.game01.core.all_etc.Skills;
+import sut.game01.core.all_etc.*;
 import sut.game01.core.screen.Game2D;
-import sut.game01.core.all_etc.ObjectDynamic;
 import sut.game01.core.sprite.Sprite;
 import sut.game01.core.sprite.SpriteLoader;
 
@@ -51,8 +48,12 @@ public class MiniGhost extends CharacterObject implements ObjectDynamic {
     private State state = State.idle;
     private Skills.SkillOwner owner;
 
-    public MiniGhost(final World world,final GroupLayer layer,final float px,final float py,Skills.SkillOwner owner)
+    //FloatLabel
+    FloatLabel fLabel;
+
+    public MiniGhost(final World world,final GroupLayer layer,final float px,final float py,Skills.SkillOwner owner,FloatLabel fLabel)
     {
+        this.fLabel = fLabel;
         this.owner = owner;
         this.layer = layer;
         this.px = px;
@@ -168,8 +169,11 @@ public class MiniGhost extends CharacterObject implements ObjectDynamic {
             Skill skillObject = (Skill)other;
             if(skillObject.getOwner() != owner)
             {
-                hp -= skillObject.getDmg();
+                float dmg = skillObject.getDmg();
+                hp = (hp - dmg) < 0 ? 0 : (hp - dmg);
                 hpBar.setWidth(HPBar_Width * (hp/hpmax));
+
+                fLabel.CreateText((int)dmg,body.getPosition().x / Game2D.M_PER_PIXEL,(body.getPosition().y / Game2D.M_PER_PIXEL)-10f);
 
                 if (hp <= 0)
                 {

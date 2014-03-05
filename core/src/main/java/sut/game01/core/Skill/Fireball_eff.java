@@ -4,7 +4,6 @@ import static playn.core.PlayN.*;
 import playn.core.GroupLayer;
 import playn.core.Image;
 import playn.core.ImageLayer;
-import playn.core.util.Callback;
 
 /**
  * Created by PSG on 2/26/14.

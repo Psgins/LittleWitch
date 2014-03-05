@@ -159,8 +159,8 @@ public class Fireball extends Skills implements ObjectDynamic,Skill {
 
     @Override
     public float getDmg() {
-        float ranRange = random() % dmgRange;
-        float dmgTotal = (dmgBase+dmgAddition) +  (ranRange * ((new Random()).nextBoolean() ? 1 : -1)) ;
+        float ranRange = (new Random()).nextInt() % dmgRange;
+        float dmgTotal = (dmgBase+dmgAddition) +  ranRange;
         return dmgTotal;
     }
 

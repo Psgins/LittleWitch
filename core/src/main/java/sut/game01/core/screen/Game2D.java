@@ -13,13 +13,13 @@ import org.jbox2d.dynamics.contacts.Contact;
 import playn.core.*;
 import playn.core.util.Clock;
 import sut.game01.core.Skill.Fireball;
+import sut.game01.core.all_etc.FloatLabel;
 import sut.game01.core.character.MiniGhost;
 import sut.game01.core.all_etc.ObjectDynamic;
 import sut.game01.core.character.Witch;
 import sut.game01.core.all_etc.Skills;
 import tripleplay.game.Screen;
 import tripleplay.game.ScreenStack;
-
 import java.util.ArrayList;
 
 public class Game2D extends Screen {
@@ -33,8 +33,13 @@ public class Game2D extends Screen {
     private boolean ShowDebugDraw = true;
     private DebugDrawBox2D debugDraw;
 
+    //Screen
     private final ScreenStack ss;
 
+    //FloatLabel
+    private FloatLabel fLabel = new FloatLabel(layer);
+
+    // list collection
     private ArrayList<ObjectDynamic> objCollection = new ArrayList<ObjectDynamic>();
     private ArrayList<ObjectDynamic> trash = new ArrayList<ObjectDynamic>();
 
@@ -136,9 +141,9 @@ public class Game2D extends Screen {
         layer.add(main.layer());
         objCollection.add(main);
 
-        objCollection.add(new MiniGhost(world,layer,400f,350f, Skills.SkillOwner.Enemy));
-        objCollection.add(new MiniGhost(world,layer,500f,350f, Skills.SkillOwner.Ally));
-        objCollection.add(new MiniGhost(world,layer,400f,250f, Skills.SkillOwner.Enemy));
+        objCollection.add(new MiniGhost(world,layer,400f,350f, Skills.SkillOwner.Enemy,fLabel));
+        objCollection.add(new MiniGhost(world,layer,500f,350f, Skills.SkillOwner.Enemy,fLabel));
+        objCollection.add(new MiniGhost(world,layer,400f,250f, Skills.SkillOwner.Enemy,fLabel));
 
         // controller
         PlayN.keyboard().setListener(new Keyboard.Adapter() {
@@ -184,9 +189,6 @@ public class Game2D extends Screen {
                 }
             }
         });
-
-
-
     }
 
     @Override
@@ -205,6 +207,8 @@ public class Game2D extends Screen {
         for (ObjectDynamic x : trash)
             objCollection.remove(x);
         trash.clear();
+
+        fLabel.update(delta);
     }
 
     @Override
