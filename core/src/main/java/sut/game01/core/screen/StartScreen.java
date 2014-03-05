@@ -1,28 +1,20 @@
 package sut.game01.core.screen;
 
-import playn.core.Font;
+import playn.core.Image;
+import playn.core.ImageLayer;
 import playn.core.PlayN;
-import react.UnitSlot;
+import playn.core.Pointer;
 import tripleplay.game.ScreenStack;
 import tripleplay.game.UIScreen;
-import tripleplay.ui.*;
-import tripleplay.ui.layout.AxisLayout;
+
+import javax.imageio.spi.ImageReaderSpi;
 
 /**
- * Created by PSG on 1/22/14.
+ * Created by PSG on 3/2/14.
  */
 public class StartScreen extends UIScreen {
 
-    public static  final Font TITLE_FONT = PlayN.graphics().createFont(
-            "Helvetica",
-            Font.Style.BOLD,
-            24
-    );
-
-    private Root root;
-
-
-    private final ScreenStack ss;
+    final ScreenStack ss;
 
     public StartScreen(ScreenStack ss)
     {
@@ -30,19 +22,27 @@ public class StartScreen extends UIScreen {
     }
 
     @Override
-    public void wasShown() {
-        super.wasShown();
+    public void wasAdded() {
+        super.wasAdded();
 
-        root = iface.createRoot(AxisLayout.vertical().gap(15), SimpleStyles.newSheet(),layer);
-        root.addStyles(Style.BACKGROUND.is(Background.bordered(0xFFCCCCCC,0xFF99CCFF,5).inset(5,10)));
-        root.setSize(width(),height());
+        ImageLayer bgLayer = PlayN.graphics().createImageLayer(PlayN.assets().getImage("images/bg.png"));
+        layer.add(bgLayer);
 
-        root.add(new Label("Start Screen").addStyles(Style.FONT.is(StartScreen.TITLE_FONT)));
-        root.add(new Button("Start").onClick(new UnitSlot() {
+        ImageLayer startLayer = PlayN.graphics().createImageLayer(PlayN.assets().getImage("images/startbutton.png"));
+        startLayer.setWidth(100f);
+        startLayer.setHeight(100f);
+        startLayer.setTranslation(640f/2f-50f,480/2f-50f);
+
+        startLayer.addListener(new Pointer.Adapter(){
             @Override
-            public void onEmit() {
-                ss.push(new Game2D(ss));
+            public void onPointerEnd(Pointer.Event event) {
+                super.onPointerEnd(event);
+
+                ss.push(new CharacterScreen(ss));
             }
-        }));
+        });
+        layer.add(startLayer);
     }
+
+
 }
