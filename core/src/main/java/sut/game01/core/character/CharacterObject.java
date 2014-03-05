@@ -1,0 +1,35 @@
+package sut.game01.core.character;
+
+import org.jbox2d.collision.shapes.PolygonShape;
+import org.jbox2d.common.Vec2;
+import org.jbox2d.dynamics.*;
+import sut.game01.core.screen.Game2D;
+
+/**
+ * Created by PSG on 3/5/14.
+ */
+public class CharacterObject {
+
+    public Body initPhysicsBody(World world, float x, float y,float width, float height)
+    {
+        BodyDef bodyDef = new BodyDef();
+        bodyDef.type = BodyType.DYNAMIC;
+        bodyDef.position = new Vec2(0,0);
+
+        Body body = world.createBody(bodyDef);
+        body.setFixedRotation(true);
+
+        PolygonShape shape = new PolygonShape();
+        shape.setAsBox(width * Game2D.M_PER_PIXEL / 2, height * Game2D.M_PER_PIXEL / 2);
+        FixtureDef fixtureDef = new FixtureDef();
+        fixtureDef.shape = shape;
+        fixtureDef.density = 0.4f;
+        fixtureDef.friction = 0.05f;
+        fixtureDef.restitution = 0f;
+        body.createFixture(fixtureDef);
+
+        body.setLinearDamping(0.2f); // 0.2f
+        body.setTransform(new Vec2(x,y), 0f);
+        return body;
+    }
+}

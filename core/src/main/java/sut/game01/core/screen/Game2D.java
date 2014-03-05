@@ -14,6 +14,7 @@ import playn.core.*;
 import playn.core.util.Clock;
 import sut.game01.core.Environment.CubeBox;
 import sut.game01.core.Skill.Fireball;
+import sut.game01.core.character.MiniGhost;
 import sut.game01.core.sprite.ObjectDynamic;
 import sut.game01.core.character.Witch;
 import tripleplay.game.Screen;
@@ -29,7 +30,7 @@ public class Game2D extends Screen {
     private World world;
 
     // showdebug
-    private boolean ShowDebugDraw = true;
+    private boolean ShowDebugDraw = false;
     private DebugDrawBox2D debugDraw;
 
     private final ScreenStack ss;
@@ -46,8 +47,11 @@ public class Game2D extends Screen {
     public void wasAdded() {
         super.wasAdded();
 
+        ImageLayer bgLayer = PlayN.graphics().createImageLayer(PlayN.assets().getImage("images/GameScreen/GameScreen.png"));
+        layer.add(bgLayer);
+
         // set world
-        Vec2 gravity = new Vec2(0.0f,9.81f);
+        Vec2 gravity = new Vec2(0.0f,50f);
         world = new World(gravity, true);
         world.setWarmStarting(true);
         world.setAutoClearForces(true);
@@ -69,6 +73,7 @@ public class Game2D extends Screen {
         world.setContactListener(new ContactListener() {
             @Override
             public void beginContact(Contact contact) {
+                //if(contact.getFixtureA().getBody() == )
             }
 
             @Override
@@ -88,19 +93,36 @@ public class Game2D extends Screen {
         });
 
         //Environment
+
         Body ground = world.createBody(new BodyDef());
         PolygonShape groundShape = new PolygonShape();
-        groundShape.setAsEdge(new Vec2(0,height-2),new Vec2(width,height-2));
+        groundShape.setAsEdge(new Vec2(0,height-2.5f),new Vec2(width,height-2.5f));
         ground.createFixture(groundShape,0.0f);
 
-        CubeBox box1 = new CubeBox(world,20,height-7,100,20);
+        Body blockLeft = world.createBody(new BodyDef());
+        PolygonShape blockLeftShape = new PolygonShape();
+        blockLeftShape.setAsEdge(new Vec2(0,0),new Vec2(0,height));
+        blockLeft.createFixture(blockLeftShape,0.0f);
+
+        Body blockRight = world.createBody(new BodyDef());
+        PolygonShape blockRightShape = new PolygonShape();
+        blockRightShape.setAsEdge(new Vec2(width,0),new Vec2(width,height));
+        blockRight.createFixture(blockRightShape,0.0f);
+
+
+//      CubeBox box1 = new CubeBox(world,20,height-8,100,20);
 
         //character
 
-        final Witch main = new Witch(world, 250,100, false);
+        final Witch main = new Witch(world, 250,400, false);
         layer.add(main.layer());
         objCollection.add(main);
 
+        objCollection.add(new MiniGhost(world,layer,400f,350f));
+        objCollection.add(new MiniGhost(world,layer,500f,350f));
+        objCollection.add(new MiniGhost(world,layer,400f,250f));
+
+        // controller
         PlayN.keyboard().setListener(new Keyboard.Adapter() {
             @Override
             public void onKeyDown(Keyboard.Event event) {
@@ -120,7 +142,7 @@ public class Game2D extends Screen {
                         break;
                     case ENTER:
                         main.setState(Witch.State.atk1);
-                        objCollection.add(new Fireball(layer,main.layer().tx() + 25f,main.layer().ty()));
+                        objCollection.add(new Fireball(world,layer,main.layer().tx() + 25f,main.layer().ty()));
                         break;
                 }
             }
@@ -144,6 +166,9 @@ public class Game2D extends Screen {
                 }
             }
         });
+
+
+
     }
 
     @Override

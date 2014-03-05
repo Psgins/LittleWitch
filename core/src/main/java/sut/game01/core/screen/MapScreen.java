@@ -22,24 +22,11 @@ public class MapScreen extends UIScreen {
     public void wasAdded() {
         super.wasAdded();
 
-        ImageLayer bgLayer = PlayN.graphics().createImageLayer(PlayN.assets().getImage("images/MapBG.jpg"));
-        bgLayer.setSize(640f,480f);
+        ImageLayer bgLayer = PlayN.graphics().createImageLayer(PlayN.assets().getImage("images/MapScreen/Mapscreen.png"));
         layer.add(bgLayer);
 
-        ImageLayer startLayer = PlayN.graphics().createImageLayer(PlayN.assets().getImage("images/startbutton.png"));
-        startLayer.setSize(100f,100f);
-        startLayer.setTranslation(640f/2f-50f,480/2f-50f);
-        startLayer.addListener(new Pointer.Adapter(){
-            @Override
-            public void onPointerEnd(Pointer.Event event) {
-                super.onPointerEnd(event);
-
-                ss.push(new Game2D(ss));
-            }
-        });
-        layer.add(startLayer);
-
-        ImageLayer backLayer = PlayN.graphics().createImageLayer(PlayN.assets().getImage("images/back_button.png"));
+        ImageLayer backLayer = PlayN.graphics().createImageLayer(PlayN.assets().getImage("images/MapScreen/back.png"));
+        backLayer.setTranslation(640f-200f,480f - 430f);
         backLayer.addListener(new Pointer.Adapter(){
             @Override
             public void onPointerEnd(Pointer.Event event) {
@@ -48,5 +35,27 @@ public class MapScreen extends UIScreen {
             }
         });
         layer.add(backLayer);
+
+        ImageLayer btnStage1 = PlayN.graphics().createImageLayer(PlayN.assets().getImage("images/MapScreen/play.png"));
+        btnStage1.setOrigin(22.5f,22.5f);
+        btnStage1.setTranslation(640f - 230f, 480f - 120f);
+        btnStage1.addListener(new Pointer.Adapter() {
+            @Override
+            public void onPointerEnd(Pointer.Event event) {
+                super.onPointerEnd(event);
+                ss.push(new Game2D(ss));
+            }
+        });
+        layer.add(btnStage1);
+
+        ImageLayer btnStage2 = PlayN.graphics().createImageLayer(PlayN.assets().getImage("images/MapScreen/lock.png"));
+        btnStage2.setOrigin(22.5f,22.5f);
+        btnStage2.setTranslation(640f - 430f, 480f - 225f);
+        layer.add(btnStage2);
+
+        ImageLayer btnStage3 = PlayN.graphics().createImageLayer(PlayN.assets().getImage("images/MapScreen/lock.png"));
+        btnStage3.setOrigin(22.5f,22.5f);
+        btnStage3.setTranslation(640f - 210f, 480f - 290f);
+        layer.add(btnStage3);
     }
 }

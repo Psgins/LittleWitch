@@ -74,11 +74,11 @@ public class Witch implements ObjectDynamic {
                     break;
                 case runR:
                     offset = 8;
-                    body.applyForce(new Vec2(20f,0),body.getPosition());
+                    body.applyForce(new Vec2(50f,0),body.getPosition());
                     break;
                 case  runL:
                     offset = 12;
-                    body.applyForce(new Vec2(-20f, 0), body.getPosition());
+                    body.applyForce(new Vec2(-50f, 0), body.getPosition());
                     break;
                 case dead:
                     offset = 16;
@@ -109,7 +109,7 @@ public class Witch implements ObjectDynamic {
 
     public void jump()
     {
-        body.applyLinearImpulse(new Vec2(0f,-20f),body.getPosition());
+        body.applyLinearImpulse(new Vec2(0f,-35f),body.getPosition());
     }
 
     @Override

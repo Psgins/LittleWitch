@@ -1,5 +1,5 @@
 {
-    "urls": ["images/witch.png"],
+    "urls": ["images/CharSprite/witch.png"],
     "sprites": [
         {"id": "idleR_1", "url": 0, "x":0 , "y": 0, "w": 75,"h": 84},
         {"id": "idleR_2", "url": 0, "x":75 , "y": 0, "w": 75,"h": 84},
