@@ -1,4 +1,4 @@
-package sut.game01.core.character;
+package sut.game01.core.all_etc;
 
 import org.jbox2d.collision.shapes.PolygonShape;
 import org.jbox2d.common.Vec2;

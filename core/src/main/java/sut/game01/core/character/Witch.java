@@ -5,11 +5,9 @@ import org.jbox2d.common.Vec2;
 import org.jbox2d.dynamics.*;
 import playn.core.Layer;
 import playn.core.PlayN;
-import playn.core.Pointer;
 import playn.core.util.Callback;
-import playn.core.util.Clock;
 import sut.game01.core.screen.Game2D;
-import sut.game01.core.sprite.ObjectDynamic;
+import sut.game01.core.all_etc.ObjectDynamic;
 import sut.game01.core.sprite.Sprite;
 import sut.game01.core.sprite.SpriteLoader;
 
@@ -115,6 +113,16 @@ public class Witch implements ObjectDynamic {
     @Override
     public boolean Alive() {
         return alive;
+    }
+
+    @Override
+    public Body getBody() {
+        return body;
+    }
+
+    @Override
+    public void contact(ObjectDynamic A, ObjectDynamic B) {
+
     }
 
     public void setState (State state)

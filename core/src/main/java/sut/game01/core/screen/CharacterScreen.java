@@ -4,8 +4,7 @@ import playn.core.ImageLayer;
 import playn.core.PlayN;
 import playn.core.Pointer;
 import sut.game01.core.character.Witch;
-import sut.game01.core.sprite.ObjectDynamic;
-import tripleplay.game.Screen;
+import sut.game01.core.all_etc.ObjectDynamic;
 import tripleplay.game.ScreenStack;
 import tripleplay.game.UIScreen;
 

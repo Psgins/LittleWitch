@@ -3,33 +3,39 @@ package sut.game01.core.Skill;
 import org.jbox2d.common.Vec2;
 import org.jbox2d.dynamics.Body;
 import org.jbox2d.dynamics.World;
-import org.omg.DynamicAny._DynFixedStub;
 import playn.core.GroupLayer;
 import playn.core.Image;
-import playn.core.ImageLayer;
 import playn.core.util.Callback;
+import sut.game01.core.character.Witch;
+import sut.game01.core.all_etc.Skill;
+import sut.game01.core.all_etc.Skills;
 import sut.game01.core.screen.Game2D;
-import sut.game01.core.sprite.ObjectDynamic;
+import sut.game01.core.all_etc.ObjectDynamic;
 
 import java.util.ArrayList;
-import java.util.Collections;
 import java.util.List;
+import java.util.Random;
 
 import static playn.core.PlayN.assets;
+import static playn.core.PlayN.random;
 
 /**
  * Created by PSG on 2/26/14.
  */
-public class Fireball extends Skill implements ObjectDynamic {
+public class Fireball extends Skills implements ObjectDynamic,Skill {
+
+    //============ Skill information section ==================
+    private float dmgBase = 20f;
+    private float dmgAddition = 0;
+    private float dmgRange = 5f;
+    private SkillOwner owner;
+    private int timelife = 500;
+    //=========================================================
 
     private boolean alive = true;
-    private int timelife = 0;
+
     private int e = 0;
-
-    private float x;
-    private float y;
-
-    private float angle = 0;
+    private float y; // for keep floating
 
     private GroupLayer layer;
     private Image img;
@@ -40,22 +46,23 @@ public class Fireball extends Skill implements ObjectDynamic {
     List<Fireball_eff> coll = new ArrayList<Fireball_eff>();
     List<Fireball_eff> tmp = new ArrayList<Fireball_eff>();
 
-    public Fireball(final World world,GroupLayer layer,final float x,final float y)
+    public Fireball(final World world,GroupLayer layer,final float x,final float y,SkillOwner owner, float dmgAddition)
     {
         this.world = world;
-        this.x = x;
         this.y = y;
         this.layer = layer;
+        this.owner = owner;
+        this.dmgAddition = dmgAddition;
 
         img = assets().getImage("images/fireball.png");
         img.addCallback(new Callback<Image>() {
             @Override
             public void onSuccess(Image result) {
-                body = initPhysicsBody(world,x * Game2D.M_PER_PIXEL,y * Game2D.M_PER_PIXEL,result.width()/2.5f,result.height()/2.5f);
+                body = initPhysicsBody(world,x * Game2D.M_PER_PIXEL,y * Game2D.M_PER_PIXEL,result.width()/5f,result.height()/5f);
                 body.setFixedRotation(true);
                 body.setBullet(true);
 
-                body.applyLinearImpulse(new Vec2(30f,0f),body.getPosition());
+                body.applyLinearImpulse(new Vec2(4.7f,0f),body.getPosition());
 
                 hasLoaded = true;
             }
@@ -72,16 +79,16 @@ public class Fireball extends Skill implements ObjectDynamic {
         if(!alive || !hasLoaded) return;
 
         e+= delta;
-        timelife += delta;
+        timelife -= delta;
 
-        if(e >= 25)
+        // create effect if still alive
+        if(e >= 25 && timelife > 0)
         {
             coll.add(new Fireball_eff(img,layer,body.getPosition().x / Game2D.M_PER_PIXEL,body.getPosition().y / Game2D.M_PER_PIXEL));
             e = 0;
         }
 
-        if(body.getPosition().y / Game2D.M_PER_PIXEL < y + 20f) body.applyLinearImpulse(new Vec2(0f,-1.6f),body.getPosition());
-
+        // update and make effect to trash
         for(Fireball_eff x : coll)
         {
             if(x.Alive())
@@ -90,21 +97,31 @@ public class Fireball extends Skill implements ObjectDynamic {
                 tmp.add(x);
         }
 
+        // clear trash
         for(Fireball_eff x : tmp)
             coll.remove(x);
-
         tmp.clear();
 
-        if(timelife >500)
+        // when out of timelife
+        if(timelife <= 0)
         {
-            alive = false;
+            //destroy body when out of time
+            if (body != null)
+            {
+                world.destroyBody(body);
+                body = null;
+            }
 
-            for(Fireball_eff x : coll)
-                if(x.Alive()) x.destroy();
-            coll.clear();
-
-            world.destroyBody(body);
+            // keep doing effect if them don't dead and make this to trash when out of effect
+            if(coll.size() <= 0)
+                alive = false;
+            else
+                return;
         }
+
+        // keep fireball floating
+        if (body != null)
+            if(body.getPosition().y / Game2D.M_PER_PIXEL > y + 10f) body.applyForce(new Vec2(0f,-30f),body.getPosition());
     }
 
     @Override
@@ -112,8 +129,43 @@ public class Fireball extends Skill implements ObjectDynamic {
 
     }
 
+    @Override
     public boolean Alive()
     {
         return alive;
+    }
+
+    @Override
+    public Body getBody()
+    {
+        return body;
+    }
+
+    @Override
+    public void contact(ObjectDynamic A, ObjectDynamic B) {
+        ObjectDynamic other;
+
+        if(A.getClass() == this.getClass())
+            other = B;
+        else
+            other = A;
+
+        if (other.getClass() != Witch.class)
+        {
+            timelife = 0;
+        }
+
+    }
+
+    @Override
+    public float getDmg() {
+        float ranRange = random() % dmgRange;
+        float dmgTotal = (dmgBase+dmgAddition) +  (ranRange * ((new Random()).nextBoolean() ? 1 : -1)) ;
+        return dmgTotal;
+    }
+
+    @Override
+    public SkillOwner getOwner() {
+        return owner;
     }
 }

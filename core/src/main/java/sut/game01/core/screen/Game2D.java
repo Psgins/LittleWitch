@@ -12,11 +12,11 @@ import org.jbox2d.dynamics.World;
 import org.jbox2d.dynamics.contacts.Contact;
 import playn.core.*;
 import playn.core.util.Clock;
-import sut.game01.core.Environment.CubeBox;
 import sut.game01.core.Skill.Fireball;
 import sut.game01.core.character.MiniGhost;
-import sut.game01.core.sprite.ObjectDynamic;
+import sut.game01.core.all_etc.ObjectDynamic;
 import sut.game01.core.character.Witch;
+import sut.game01.core.all_etc.Skills;
 import tripleplay.game.Screen;
 import tripleplay.game.ScreenStack;
 
@@ -30,7 +30,7 @@ public class Game2D extends Screen {
     private World world;
 
     // showdebug
-    private boolean ShowDebugDraw = false;
+    private boolean ShowDebugDraw = true;
     private DebugDrawBox2D debugDraw;
 
     private final ScreenStack ss;
@@ -73,7 +73,25 @@ public class Game2D extends Screen {
         world.setContactListener(new ContactListener() {
             @Override
             public void beginContact(Contact contact) {
-                //if(contact.getFixtureA().getBody() == )
+
+                ObjectDynamic A = null;
+                ObjectDynamic B = null;
+
+                for(ObjectDynamic x : objCollection)
+                {
+                    if (x.getBody() == contact.getFixtureA().getBody())
+                        A = x;
+                    else if (x.getBody() == contact.getFixtureB().getBody())
+                        B = x;
+
+                    if (A != null && B != null)
+                    {
+                        A.contact(A,B);
+                        B.contact(A,B);
+
+                        break;
+                    }
+                }
             }
 
             @Override
@@ -118,9 +136,9 @@ public class Game2D extends Screen {
         layer.add(main.layer());
         objCollection.add(main);
 
-        objCollection.add(new MiniGhost(world,layer,400f,350f));
-        objCollection.add(new MiniGhost(world,layer,500f,350f));
-        objCollection.add(new MiniGhost(world,layer,400f,250f));
+        objCollection.add(new MiniGhost(world,layer,400f,350f, Skills.SkillOwner.Enemy));
+        objCollection.add(new MiniGhost(world,layer,500f,350f, Skills.SkillOwner.Ally));
+        objCollection.add(new MiniGhost(world,layer,400f,250f, Skills.SkillOwner.Enemy));
 
         // controller
         PlayN.keyboard().setListener(new Keyboard.Adapter() {
@@ -142,7 +160,7 @@ public class Game2D extends Screen {
                         break;
                     case ENTER:
                         main.setState(Witch.State.atk1);
-                        objCollection.add(new Fireball(world,layer,main.layer().tx() + 25f,main.layer().ty()));
+                        objCollection.add(new Fireball(world,layer,main.layer().tx() + 25f,main.layer().ty(), Skills.SkillOwner.Ally,0));
                         break;
                 }
             }

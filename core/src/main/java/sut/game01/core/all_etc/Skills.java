@@ -1,4 +1,4 @@
-package sut.game01.core.Skill;
+package sut.game01.core.all_etc;
 
 import org.jbox2d.collision.shapes.PolygonShape;
 import org.jbox2d.common.Vec2;
@@ -8,7 +8,9 @@ import sut.game01.core.screen.Game2D;
 /**
  * Created by PSG on 3/4/14.
  */
-public class Skill {
+public class Skills {
+
+    public enum SkillOwner {Ally,Enemy}
 
     protected Body initPhysicsBody(World world, float x, float y,float width, float height)
     {

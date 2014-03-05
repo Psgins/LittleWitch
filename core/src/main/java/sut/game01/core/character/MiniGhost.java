@@ -1,16 +1,17 @@
 package sut.game01.core.character;
 
-import org.jbox2d.collision.shapes.PolygonShape;
 import org.jbox2d.common.Vec2;
 import org.jbox2d.dynamics.*;
-import org.jbox2d.dynamics.contacts.Contact;
 import playn.core.Image;
 import playn.core.GroupLayer;
 import playn.core.ImageLayer;
 import playn.core.PlayN;
 import playn.core.util.Callback;
+import sut.game01.core.all_etc.CharacterObject;
+import sut.game01.core.all_etc.Skill;
+import sut.game01.core.all_etc.Skills;
 import sut.game01.core.screen.Game2D;
-import sut.game01.core.sprite.ObjectDynamic;
+import sut.game01.core.all_etc.ObjectDynamic;
 import sut.game01.core.sprite.Sprite;
 import sut.game01.core.sprite.SpriteLoader;
 
@@ -20,31 +21,40 @@ import sut.game01.core.sprite.SpriteLoader;
 public class MiniGhost extends CharacterObject implements ObjectDynamic {
 
     public enum State {idle,die}
-    private State state = State.idle;
 
-    private float px;
-    private float py;
-
+    //BOX2D
     private Body body;
 
+    //sprite
     private Sprite sprite;
     private int spriteIndex = -1;
     private int offset = 0;
     private int renderspeed = 25;
 
+    //state
     private int e = 0;
     private boolean alive = true;
     private boolean hasLoaded = false;
     private boolean barHasLoead  = false;
 
+    //layer
     private GroupLayer allLayer = PlayN.graphics().createGroupLayer();
     private ImageLayer hpBar;
+    private GroupLayer layer;
+    private float HPBar_Width;
 
     //ChatStatus
+    private float px;
+    private float py;
     private float hp = 200f;
+    private float hpmax = 200f;
+    private State state = State.idle;
+    private Skills.SkillOwner owner;
 
-    public MiniGhost(final World world,final GroupLayer layer,final float px,final float py)
+    public MiniGhost(final World world,final GroupLayer layer,final float px,final float py,Skills.SkillOwner owner)
     {
+        this.owner = owner;
+        this.layer = layer;
         this.px = px;
         this.py = py;
 
@@ -55,7 +65,7 @@ public class MiniGhost extends CharacterObject implements ObjectDynamic {
                 sprite.setSprite(spriteIndex);
                 sprite.layer().setOrigin(80f /2f, 48f /2f);
 
-                body = initPhysicsBody(world, px * Game2D.M_PER_PIXEL, py * Game2D.M_PER_PIXEL, 80f-40f, 48f);
+                body = initPhysicsBody(world, px * Game2D.M_PER_PIXEL, py * Game2D.M_PER_PIXEL, 30f, 35f);
 
                 allLayer.add(sprite.layer());
                 hasLoaded = true;
@@ -80,6 +90,7 @@ public class MiniGhost extends CharacterObject implements ObjectDynamic {
                 hpBar.setOrigin(width / 2f, result.height() /2f);
                 allLayer.add(hpBar);
 
+                HPBar_Width = hpBar.width();
                 barHasLoead = true;
             }
 
@@ -105,6 +116,13 @@ public class MiniGhost extends CharacterObject implements ObjectDynamic {
                 case idle:
                     offset = 0;
                     break;
+                case die:
+                    offset = 4;
+                    if (spriteIndex == 7) {
+                        layer.remove(allLayer);
+                        body.getWorld().destroyBody(body);
+                        alive = false;
+                    }
             }
 
             spriteIndex = offset + ((spriteIndex + 1)%4);
@@ -112,7 +130,7 @@ public class MiniGhost extends CharacterObject implements ObjectDynamic {
             e= 0;
         }
 
-        if(body.getPosition().y / Game2D.M_PER_PIXEL > py + 10) body.applyForce(new Vec2(0,-80f),body.getPosition());
+        if(body.getPosition().y / Game2D.M_PER_PIXEL > py + 10) body.applyForce(new Vec2(0,-40f),body.getPosition());
     }
 
     @Override
@@ -128,8 +146,38 @@ public class MiniGhost extends CharacterObject implements ObjectDynamic {
         return alive;
     }
 
-    public void contact(Contact contact)
+    @Override
+    public Body getBody()
     {
+        return body;
+    }
+
+    @Override
+    public void contact(ObjectDynamic A, ObjectDynamic B) {
+
+        if (!alive) return;
+        ObjectDynamic other;
+
+        if(A.getClass() == this.getClass())
+            other = B;
+        else
+            other = A;
+
+        if(other.getBody().isBullet())
+        {
+            Skill skillObject = (Skill)other;
+            if(skillObject.getOwner() != owner)
+            {
+                hp -= skillObject.getDmg();
+                hpBar.setWidth(HPBar_Width * (hp/hpmax));
+
+                if (hp <= 0)
+                {
+                    renderspeed = 50;
+                    state = State.die;
+                }
+            }
+        }
 
     }
 }
