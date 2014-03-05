@@ -1,13 +1,10 @@
 package sut.game01.core.screen;
 
-import playn.core.Image;
 import playn.core.ImageLayer;
 import playn.core.PlayN;
 import playn.core.Pointer;
 import tripleplay.game.ScreenStack;
 import tripleplay.game.UIScreen;
-
-import javax.imageio.spi.ImageReaderSpi;
 
 /**
  * Created by PSG on 3/2/14.
