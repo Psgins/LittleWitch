@@ -7,14 +7,14 @@ import playn.core.Layer;
 import playn.core.PlayN;
 import playn.core.util.Callback;
 import sut.game01.core.screen.Game2D;
-import sut.game01.core.all_etc.ObjectDynamic;
+import sut.game01.core.all_etc.WorldObject;
 import sut.game01.core.sprite.Sprite;
 import sut.game01.core.sprite.SpriteLoader;
 
 /**
  * Created by PSG on 2/6/14.
  */
-public class Witch implements ObjectDynamic {
+public class Witch implements WorldObject {
     private Sprite sprite;
     private int spriteIndex = 0;
     private boolean hashLoaded = false;
@@ -121,7 +121,7 @@ public class Witch implements ObjectDynamic {
     }
 
     @Override
-    public void contact(ObjectDynamic A, ObjectDynamic B) {
+    public void contact(WorldObject A, WorldObject B) {
 
     }
 
@@ -169,5 +169,10 @@ public class Witch implements ObjectDynamic {
         body.setLinearDamping(0.2f); // 0.2f
         body.setTransform(new Vec2(x,y), 0f);
         return body;
+    }
+
+    public boolean isHashLoaded()
+    {
+        return hashLoaded;
     }
 }
