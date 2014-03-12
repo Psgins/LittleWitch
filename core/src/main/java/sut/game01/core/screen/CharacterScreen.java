@@ -4,7 +4,7 @@ import playn.core.ImageLayer;
 import playn.core.PlayN;
 import playn.core.Pointer;
 import sut.game01.core.character.Witch;
-import sut.game01.core.all_etc.ObjectDynamic;
+import sut.game01.core.all_etc.WorldObject;
 import tripleplay.game.ScreenStack;
 import tripleplay.game.UIScreen;
 
@@ -18,7 +18,7 @@ public class CharacterScreen extends UIScreen {
 
     private final ScreenStack ss;
 
-    List<ObjectDynamic> objColl = new ArrayList<ObjectDynamic>();
+    List<WorldObject> objColl = new ArrayList<WorldObject>();
 
     public CharacterScreen(ScreenStack ss)
     {
@@ -74,7 +74,7 @@ public class CharacterScreen extends UIScreen {
     public void update(int delta) {
         super.update(delta);
 
-        for(ObjectDynamic x : objColl)
+        for(WorldObject x : objColl)
             x.update(delta);
     }
 }

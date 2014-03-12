@@ -10,7 +10,7 @@ import sut.game01.core.character.Witch;
 import sut.game01.core.all_etc.Skill;
 import sut.game01.core.all_etc.Skills;
 import sut.game01.core.screen.Game2D;
-import sut.game01.core.all_etc.ObjectDynamic;
+import sut.game01.core.all_etc.WorldObject;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -22,7 +22,7 @@ import static playn.core.PlayN.random;
 /**
  * Created by PSG on 2/26/14.
  */
-public class Fireball extends Skills implements ObjectDynamic,Skill {
+public class Fireball extends Skills implements WorldObject,Skill {
 
     //============ Skill information section ==================
     private float dmgBase = 20f;
@@ -142,8 +142,8 @@ public class Fireball extends Skills implements ObjectDynamic,Skill {
     }
 
     @Override
-    public void contact(ObjectDynamic A, ObjectDynamic B) {
-        ObjectDynamic other;
+    public void contact(WorldObject A, WorldObject B) {
+        WorldObject other;
 
         if(A.getClass() == this.getClass())
             other = B;

@@ -15,7 +15,7 @@ import sut.game01.core.sprite.SpriteLoader;
 /**
  * Created by PSG on 3/5/14.
  */
-public class MiniGhost extends CharacterObject implements ObjectDynamic {
+public class MiniGhost extends CharacterObject implements WorldObject {
 
     public enum State {idle,die}
 
@@ -154,10 +154,10 @@ public class MiniGhost extends CharacterObject implements ObjectDynamic {
     }
 
     @Override
-    public void contact(ObjectDynamic A, ObjectDynamic B) {
+    public void contact(WorldObject A, WorldObject B) {
 
         if (!alive) return;
-        ObjectDynamic other;
+        WorldObject other;
 
         if(A.getClass() == this.getClass())
             other = B;
