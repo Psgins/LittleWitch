@@ -161,8 +161,22 @@ public class Game2D extends Screen {
                         main.jump();
                         break;
                     case ENTER:
-                        main.setState(Witch.State.atk1);
-                        objCollection.add(new Fireball(world, layer, main.layer().tx() + 25f, main.layer().ty(), Skills.SkillOwner.Ally, 0));
+
+                        switch (main.getState())
+                        {
+                            case idleL:
+                            case runL:
+                            case atkL:
+                                objCollection.add(new Fireball(world, layer, main.layer().tx() - 25f, main.layer().ty(),true, Skills.SkillOwner.Ally, 0));
+                                main.setState(Witch.State.atkL);
+                                break;
+                            case idleR:
+                            case runR:
+                            case atkR:
+                                objCollection.add(new Fireball(world, layer, main.layer().tx() + 25f, main.layer().ty(),false, Skills.SkillOwner.Ally, 0));
+                                main.setState(Witch.State.atkR);
+                                break;
+                        }
                         break;
                 }
             }

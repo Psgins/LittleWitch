@@ -19,7 +19,7 @@ public class Witch implements WorldObject {
     private int spriteIndex = 0;
     private boolean hashLoaded = false;
 
-    public enum State {idleL,idleR,runL,runR,dead,atk1}
+    public enum State {idleL,idleR,runL,runR,dead,atkR,atkL}
 
     private int e = 0;
     private int offset = 0;
@@ -82,9 +82,13 @@ public class Witch implements WorldObject {
                     offset = 16;
                     if(spriteIndex == 18) alive = false;
                     break;
-                case atk1:
+                case atkR:
                     offset = 20;
                     if(spriteIndex == 22) setState(State.idleR);
+                    break;
+                case atkL:
+                    offset = 24;
+                    if(spriteIndex == 26) setState(State.idleL);
                     break;
             }
 
@@ -140,7 +144,8 @@ public class Witch implements WorldObject {
             case runR:
                 renderSpeed = 50;
                 break;
-            case atk1:
+            case atkR:
+            case atkL:
                 renderSpeed = 25;
                 break;
         }
@@ -174,5 +179,10 @@ public class Witch implements WorldObject {
     public boolean isHashLoaded()
     {
         return hashLoaded;
+    }
+
+    public State getState()
+    {
+        return state;
     }
 }
