@@ -1,85 +1,52 @@
 package sut.game01.core.Skill;
 
 import org.jbox2d.common.Vec2;
-import org.jbox2d.dynamics.Body;
 import org.jbox2d.dynamics.World;
 import playn.core.GroupLayer;
-import playn.core.Image;
-import playn.core.util.Callback;
-import sut.game01.core.character.Witch;
-import sut.game01.core.all_etc.Skill;
-import sut.game01.core.all_etc.Skills;
-import sut.game01.core.screen.Game2D;
-import sut.game01.core.all_etc.WorldObject;
+import sut.game01.core.screen.Stage1;
 
 import java.util.ArrayList;
 import java.util.List;
-import java.util.Random;
-
-import static playn.core.PlayN.assets;
-import static playn.core.PlayN.random;
 
 /**
- * Created by PSG on 2/26/14.
+ * Created by PSG on 3/13/14.
  */
-public class Fireball extends Skills implements WorldObject,Skill {
+public class Fireball extends Skill {
 
-    //============ Skill information section ==================
-    private float dmgBase = 20f;
-    private float dmgAddition = 0;
-    private float dmgRange = 5f;
-    private SkillOwner owner;
-    private int timelife = 500;
-    //=========================================================
-
-    private boolean alive = true;
-
-    private int e = 0;
-    private float y; // for keep floating
-
-    private GroupLayer layer;
-    private Image img;
-    private boolean hasLoaded = false;
-    private Body body;
-    private World world;
+    private float y;
+    private int timelife = 0;
 
     List<Fireball_eff> coll = new ArrayList<Fireball_eff>();
     List<Fireball_eff> tmp = new ArrayList<Fireball_eff>();
 
-    public Fireball(final World world,GroupLayer layer,final float x,final float y,final boolean sideLeft,SkillOwner owner, float dmgAddition)
+    public Fireball(World world, GroupLayer layer, float x, float y, Owner own, boolean isLeft, float moreDMG)
     {
-        this.world = world;
+        owner = own;
+        AdditionDamage = moreDMG;
+        layer.add(AllLayer);
         this.y = y;
-        this.layer = layer;
-        this.owner = owner;
-        this.dmgAddition = dmgAddition;
+        timelife = 500;
 
-        img = assets().getImage("images/fireball.png");
-        img.addCallback(new Callback<Image>() {
-            @Override
-            public void onSuccess(Image result) {
-                body = initPhysicsBody(world,x * Game2D.M_PER_PIXEL,y * Game2D.M_PER_PIXEL,result.width()/5f,result.height()/5f);
-                body.setFixedRotation(true);
-                body.setBullet(true);
+        BaseDamage = 20;
+        RangeDamage = 5;
 
-                if(sideLeft)
-                    body.applyLinearImpulse(new Vec2(-4.7f,0f),body.getPosition());
-                else
-                    body.applyLinearImpulse(new Vec2(4.7f,0f),body.getPosition());
+        initPhysicsBody(world,x,y,20,20,true);
+        body.setBullet(true);
+        body.setFixedRotation(true);
 
-                hasLoaded = true;
-            }
+        if(isLeft)
+            body.applyLinearImpulse(new Vec2(-4.7f,0f),body.getPosition());
+        else
+            body.applyLinearImpulse(new Vec2(4.7f,0f),body.getPosition());
 
-            @Override
-            public void onFailure(Throwable cause) {
-
-            }
-        });
+        ready = true;
     }
 
     @Override
     public void update(int delta) {
-        if(!alive || !hasLoaded) return;
+        super.update(delta);
+
+        if(!alive || !ready) return;
 
         e+= delta;
         timelife -= delta;
@@ -87,7 +54,7 @@ public class Fireball extends Skills implements WorldObject,Skill {
         // create effect if still alive
         if(e >= 25 && timelife > 0)
         {
-            coll.add(new Fireball_eff(img,layer,body.getPosition().x / Game2D.M_PER_PIXEL,body.getPosition().y / Game2D.M_PER_PIXEL));
+            coll.add(new Fireball_eff(Stage1.imageStore.Fireball,AllLayer,body.getPosition().x / Stage1.M_PER_PIXEL,body.getPosition().y / Stage1.M_PER_PIXEL));
             e = 0;
         }
 
@@ -111,7 +78,7 @@ public class Fireball extends Skills implements WorldObject,Skill {
             //destroy body when out of time
             if (body != null)
             {
-                world.destroyBody(body);
+                body.getWorld().destroyBody(body);
                 body = null;
             }
 
@@ -124,56 +91,13 @@ public class Fireball extends Skills implements WorldObject,Skill {
 
         // keep fireball floating
         if (body != null)
-            if(body.getPosition().y / Game2D.M_PER_PIXEL > y + 10f) body.applyForce(new Vec2(0f,-30f),body.getPosition());
+            if(body.getPosition().y / Stage1.M_PER_PIXEL > y + 10f) body.applyForce(new Vec2(0f,-30f),body.getPosition());
     }
 
     @Override
-    public void paint() {
+    public void destroy() {
+        super.destroy();
 
-    }
-
-    @Override
-    public boolean Alive()
-    {
-        return alive;
-    }
-
-    @Override
-    public Body getBody()
-    {
-        return body;
-    }
-
-    @Override
-    public void contact(WorldObject A, WorldObject B) {
-        WorldObject other;
-
-        if(A.getClass() == this.getClass())
-            other = B;
-        else
-            other = A;
-
-//        if (other.getClass() != Witch.class)
-//        {
-//            timelife = 0;
-//        }
-
-    }
-
-    @Override
-    public float getDmg() {
-        float ranRange = (new Random()).nextInt() % dmgRange;
-        float dmgTotal = (dmgBase+dmgAddition) +  ranRange;
-        return dmgTotal;
-    }
-
-    @Override
-    public SkillOwner getOwner() {
-        return owner;
-    }
-
-    @Override
-    public void Destroy() {
         timelife = 0;
     }
 }

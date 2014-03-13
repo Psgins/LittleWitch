@@ -1,13 +1,12 @@
 package sut.game01.core.character;
 
 import playn.core.GroupLayer;
-import playn.core.Image;
 import playn.core.ImageLayer;
 import static playn.core.PlayN.*;
-import playn.core.util.Callback;
+
 import sut.game01.core.all_etc.DynamicObject;
 import sut.game01.core.all_etc.FloatLabel;
-import sut.game01.core.screen.Game2D;
+import sut.game01.core.screen.Stage1;
 import sut.game01.core.sprite.Sprite;
 
 /**
@@ -48,7 +47,7 @@ public class Character extends DynamicObject {
 
     public void createHPbar(float x, float y,float width)
     {
-        ImageLayer HPBar = graphics().createImageLayer(Game2D.imageStore.HPBar);
+        ImageLayer HPBar = graphics().createImageLayer(Stage1.imageStore.HPBar);
         HPBar.setWidth(width);
         HPBar.setOrigin(HPBar.width() / 2f, HPBar.height() / 2f);
         HPBar.setTranslation(x,y);

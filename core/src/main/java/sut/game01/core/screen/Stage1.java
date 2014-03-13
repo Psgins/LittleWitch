@@ -11,7 +11,6 @@ import playn.core.*;
 import playn.core.util.Clock;
 import sut.game01.core.Environment.EdgeLine;
 import sut.game01.core.Skill.Fireball;
-import sut.game01.core.Skill.Fireball2;
 import sut.game01.core.all_etc.*;
 import sut.game01.core.character.*;
 import sut.game01.core.character.Character;
@@ -20,7 +19,7 @@ import tripleplay.game.ScreenStack;
 import java.util.ArrayList;
 import java.util.List;
 
-public class Game2D extends Screen {
+public class Stage1 extends Screen {
     // world variable
     public static float M_PER_PIXEL = 1 / 26.666667f;
     private  static int width = 48;
@@ -38,18 +37,16 @@ public class Game2D extends Screen {
     private FloatLabel fLabel = new FloatLabel(layer);
 
     // list collection
-    //private ArrayList<WorldObject> objCollection = new ArrayList<WorldObject>();
-
     private List<DynamicObject> objDynamic = new ArrayList<DynamicObject>();
     private ArrayList<DynamicObject> trash = new ArrayList<DynamicObject>();
-    private Witch2 main;
+    private Witch main;
 
     public static ImageStore imageStore = new ImageStore();
 
     //UIGroup
     private GroupLayer UIGroup = PlayN.graphics().createGroupLayer();
 
-    public Game2D(ScreenStack ss)
+    public Stage1(ScreenStack ss)
     {
         this.ss = ss;
     }
@@ -77,7 +74,7 @@ public class Game2D extends Screen {
             debugDraw.setStrokeAlpha(150);
             debugDraw.setFillAlpha(75);
             debugDraw.setFlags(DebugDraw.e_shapeBit | DebugDraw.e_jointBit | DebugDraw.e_aabbBit);
-            debugDraw.setCamera(0,0,1f / Game2D.M_PER_PIXEL);
+            debugDraw.setCamera(0,0,1f / Stage1.M_PER_PIXEL);
             world.setDebugDraw(debugDraw);
         }
 
@@ -131,10 +128,13 @@ public class Game2D extends Screen {
 
         //character
 
-        main = new Witch2(world,layer, 320,0);
+        main = new Witch(world,layer, 320,0);
         objDynamic.add(main);
 
-        objDynamic.add(new MiniGhost2(world,layer,600f,350f, Character.Owner.Enemy,fLabel));
+        objDynamic.add(new MiniGhost(world,layer,600f,350f, Character.Owner.Enemy,fLabel));
+        objDynamic.add(new MiniGhost(world,layer,500f,350f, Character.Owner.Enemy,fLabel));
+        objDynamic.add(new MiniGhost(world,layer,550f,300f, Character.Owner.Enemy,fLabel));
+        objDynamic.add(new MiniGhost(world,layer,600f,275f, Character.Owner.Enemy,fLabel));
 
 
         //UI
@@ -152,11 +152,11 @@ public class Game2D extends Screen {
                 switch (event.key()) {
                     case A:
                     case LEFT:
-                        main.setState(Witch2.State.runL);
+                        main.setState(Witch.State.runL);
                         break;
                     case D:
                     case RIGHT:
-                        main.setState(Witch2.State.runR);
+                        main.setState(Witch.State.runR);
                         break;
                     case SPACE:
                         main.jump();
@@ -168,14 +168,14 @@ public class Game2D extends Screen {
                             case idleL:
                             case runL:
                             case atkL:
-                                objDynamic.add(new Fireball2(world,layer,(main.getBody().getPosition().x / M_PER_PIXEL) - 25f,(main.getBody().getPosition().y / M_PER_PIXEL), DynamicObject.Owner.Ally,true,main.getAttack()));
-                                main.setState(Witch2.State.atkL);
+                                objDynamic.add(new Fireball(world,layer,(main.getBody().getPosition().x / M_PER_PIXEL) - 25f,(main.getBody().getPosition().y / M_PER_PIXEL), DynamicObject.Owner.Ally,true,main.getAttack()));
+                                main.setState(Witch.State.atkL);
                                 break;
                             case idleR:
                             case runR:
                             case atkR:
-                                objDynamic.add(new Fireball2(world,layer,(main.getBody().getPosition().x / M_PER_PIXEL) + 25f,(main.getBody().getPosition().y / M_PER_PIXEL), DynamicObject.Owner.Ally,false,main.getAttack()));
-                                main.setState(Witch2.State.atkR);
+                                objDynamic.add(new Fireball(world,layer,(main.getBody().getPosition().x / M_PER_PIXEL) + 25f,(main.getBody().getPosition().y / M_PER_PIXEL), DynamicObject.Owner.Ally,false,main.getAttack()));
+                                main.setState(Witch.State.atkR);
                                 break;
                         }
                         break;
@@ -189,14 +189,14 @@ public class Game2D extends Screen {
                 switch (event.key()) {
                     case A:
                     case LEFT:
-                        main.setState(Witch2.State.idleL);
+                        main.setState(Witch.State.idleL);
                         break;
                     case D:
                     case RIGHT:
-                        main.setState(Witch2.State.idleR);
+                        main.setState(Witch.State.idleR);
                         break;
                     case ESCAPE:
-                        ss.remove(Game2D.this);
+                        ss.remove(Stage1.this);
                         break;
                 }
             }

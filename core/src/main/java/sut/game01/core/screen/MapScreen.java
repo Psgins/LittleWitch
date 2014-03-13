@@ -43,7 +43,7 @@ public class MapScreen extends UIScreen {
             @Override
             public void onPointerEnd(Pointer.Event event) {
                 super.onPointerEnd(event);
-                ss.push(new Game2D(ss));
+                ss.push(new Stage1(ss));
             }
         });
         layer.add(btnStage1);

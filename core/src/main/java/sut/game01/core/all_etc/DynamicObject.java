@@ -3,7 +3,7 @@ package sut.game01.core.all_etc;
 import org.jbox2d.collision.shapes.PolygonShape;
 import org.jbox2d.common.Vec2;
 import org.jbox2d.dynamics.*;
-import sut.game01.core.screen.Game2D;
+import sut.game01.core.screen.Stage1;
 
 /**
  * Created by PSG on 3/13/14.
@@ -26,7 +26,7 @@ public class DynamicObject {
         body.setFixedRotation(true);
 
         PolygonShape shape = new PolygonShape();
-        shape.setAsBox(width * Game2D.M_PER_PIXEL / 2, height * Game2D.M_PER_PIXEL / 2);
+        shape.setAsBox(width * Stage1.M_PER_PIXEL / 2, height * Stage1.M_PER_PIXEL / 2);
         FixtureDef fixtureDef = new FixtureDef();
         fixtureDef.shape = shape;
         fixtureDef.density = 0.4f;
@@ -36,7 +36,7 @@ public class DynamicObject {
         body.createFixture(fixtureDef);
 
         body.setLinearDamping(0.2f); // 0.2f
-        body.setTransform(new Vec2(pX * Game2D.M_PER_PIXEL, pY * Game2D.M_PER_PIXEL), 0f);
+        body.setTransform(new Vec2(pX * Stage1.M_PER_PIXEL, pY * Stage1.M_PER_PIXEL), 0f);
     }
 
     public Body getBody()
