@@ -28,6 +28,9 @@ public class Fireball2 extends Skill {
         this.y = y;
         timelife = 500;
 
+        BaseDamage = 20;
+        RangeDamage = 5;
+
         initPhysicsBody(world,x,y,20,20,true);
         body.setBullet(true);
         body.setFixedRotation(true);

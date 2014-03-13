@@ -6,6 +6,7 @@ import playn.core.ImageLayer;
 import static playn.core.PlayN.*;
 import playn.core.util.Callback;
 import sut.game01.core.all_etc.DynamicObject;
+import sut.game01.core.all_etc.FloatLabel;
 import sut.game01.core.screen.Game2D;
 import sut.game01.core.sprite.Sprite;
 
@@ -27,12 +28,15 @@ public class Character extends DynamicObject {
     protected int e = 0;
     protected int offset = 0;
     protected int renderSpeed = 150;
+    protected GroupLayer AllLayer = graphics().createGroupLayer();
 
     // HPBar infomation
     protected boolean hasHPBar = false;
+    protected ImageLayer HPBar;
     protected float HPBarWidth = 0;
 
-    protected GroupLayer AllLayer = graphics().createGroupLayer();
+    // Float Label
+    protected FloatLabel floatLabel;
 
     public float getAttack() { return attack; }
 
@@ -52,5 +56,6 @@ public class Character extends DynamicObject {
 
         hasHPBar = true;
         HPBarWidth = width;
+        this.HPBar = HPBar;
     }
 }

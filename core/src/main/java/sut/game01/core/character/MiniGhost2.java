@@ -5,6 +5,7 @@ import org.jbox2d.dynamics.World;
 import playn.core.GroupLayer;
 import playn.core.util.Callback;
 import sut.game01.core.all_etc.DynamicObject;
+import sut.game01.core.all_etc.FloatLabel;
 import sut.game01.core.all_etc.Skill;
 import sut.game01.core.all_etc.WorldObject;
 import sut.game01.core.screen.Game2D;
@@ -21,12 +22,13 @@ public class MiniGhost2 extends Character {
 
     private State state = State.idle;
 
-    public MiniGhost2(final World world,final GroupLayer layer,final float x,final float y,Owner own)
+    public MiniGhost2(final World world,final GroupLayer layer,final float x,final float y,Owner own,FloatLabel fLabel)
     {
+        this.y = y;
+        floatLabel = fLabel;
+
         hp = 200;
         maxHP = 200;
-
-        this.y = y;
 
         sprite = SpriteLoader.getSprite("images/CharSprite/MiniGhost.json");
         sprite.addCallback(new Callback<Sprite>() {
@@ -94,6 +96,13 @@ public class MiniGhost2 extends Character {
     }
 
     @Override
+    public void destroy() {
+        super.destroy();
+
+
+    }
+
+    @Override
     public void contact(DynamicObject A, DynamicObject B) {
 
         if (!alive) return;
@@ -104,27 +113,29 @@ public class MiniGhost2 extends Character {
             other = B;
         else
             other = A;
-        /*
+
         if(other.getBody().isBullet())
         {
-            Skill skillObject = (Skill)other;
+            sut.game01.core.Skill.Skill skillObject = (sut.game01.core.Skill.Skill)other;
             if(skillObject.getOwner() != owner)
             {
-                float dmg = skillObject.getDmg();
+                float dmg = skillObject.getDamage();
                 hp = (hp - dmg) < 0 ? 0 : (hp - dmg);
-                hpBar.setWidth(HPBar_Width * (hp/hpmax));
+                HPBar.setWidth(HPBarWidth * (hp/maxHP));
 
-                fLabel.CreateText((int)dmg,body.getPosition().x / Game2D.M_PER_PIXEL,(body.getPosition().y / Game2D.M_PER_PIXEL)-10f);
+                floatLabel.CreateText((int)dmg,body.getPosition().x / Game2D.M_PER_PIXEL,(body.getPosition().y / Game2D.M_PER_PIXEL)-15f);
 
                 if (hp <= 0)
                 {
-                    renderspeed = 50;
+                    renderSpeed = 50;
                     state = State.die;
                 }
 
-                skillObject.Destroy();
+                skillObject.destroy();
             }
         }
-        */
+
+
+
     }
 }
