@@ -1,63 +1,33 @@
 package sut.game01.core.character;
 
 import org.jbox2d.common.Vec2;
-import org.jbox2d.dynamics.*;
-import playn.core.Image;
+import org.jbox2d.dynamics.World;
 import playn.core.GroupLayer;
-import playn.core.ImageLayer;
-import playn.core.PlayN;
 import playn.core.util.Callback;
-import sut.game01.core.all_etc.*;
-import sut.game01.core.screen.Game2D;
+import sut.game01.core.Skill.Skill;
+import sut.game01.core.all_etc.DynamicObject;
+import sut.game01.core.all_etc.FloatLabel;
+import sut.game01.core.screen.Stage1;
 import sut.game01.core.sprite.Sprite;
 import sut.game01.core.sprite.SpriteLoader;
 
 /**
- * Created by PSG on 3/5/14.
+ * Created by PSG on 3/13/14.
  */
-public class MiniGhost extends CharacterObject implements WorldObject {
+public class MiniGhost extends Character {
 
     public enum State {idle,die}
+    private float y;
 
-    //BOX2D
-    private Body body;
-
-    //sprite
-    private Sprite sprite;
-    private int spriteIndex = -1;
-    private int offset = 0;
-    private int renderspeed = 25;
-
-    //state
-    private int e = 0;
-    private boolean alive = true;
-    private boolean hasLoaded = false;
-    private boolean barHasLoead  = false;
-
-    //layer
-    private GroupLayer allLayer = PlayN.graphics().createGroupLayer();
-    private ImageLayer hpBar;
-    private GroupLayer layer;
-    private float HPBar_Width;
-
-    //ChatStatus
-    private float px;
-    private float py;
-    private float hp = 200f;
-    private float hpmax = 200f;
     private State state = State.idle;
-    private Skills.SkillOwner owner;
 
-    //FloatLabel
-    FloatLabel fLabel;
-
-    public MiniGhost(final World world,final GroupLayer layer,final float px,final float py,Skills.SkillOwner owner,FloatLabel fLabel)
+    public MiniGhost(final World world, final GroupLayer layer, final float x, final float y, Owner own, FloatLabel fLabel)
     {
-        this.fLabel = fLabel;
-        this.owner = owner;
-        this.layer = layer;
-        this.px = px;
-        this.py = py;
+        this.y = y;
+        floatLabel = fLabel;
+
+        hp = 200;
+        maxHP = 200;
 
         sprite = SpriteLoader.getSprite("images/CharSprite/MiniGhost.json");
         sprite.addCallback(new Callback<Sprite>() {
@@ -66,33 +36,13 @@ public class MiniGhost extends CharacterObject implements WorldObject {
                 sprite.setSprite(spriteIndex);
                 sprite.layer().setOrigin(80f /2f, 48f /2f);
 
-                body = initPhysicsBody(world, px * Game2D.M_PER_PIXEL, py * Game2D.M_PER_PIXEL, 30f, 35f);
+                initPhysicsBody(world, x, y, 30f, 35f,false);
 
-                allLayer.add(sprite.layer());
-                hasLoaded = true;
-            }
+                createHPbar(sprite.layer().tx(),sprite.layer().ty()- 25,45);
 
-            @Override
-            public void onFailure(Throwable cause) {
-                PlayN.log().error("Error loading image!", cause);
-            }
-        });
-
-        Image hpImg = PlayN.assets().getImage("images/etc/hpbar.png");
-        hpImg.addCallback(new Callback<Image>() {
-            @Override
-            public void onSuccess(Image result) {
-
-                hpBar = PlayN.graphics().createImageLayer(result);
-
-                float width = hpBar.width() * 0.5f;
-
-                hpBar.setWidth(width);
-                hpBar.setOrigin(width / 2f, result.height() /2f);
-                allLayer.add(hpBar);
-
-                HPBar_Width = hpBar.width();
-                barHasLoead = true;
+                AllLayer.add(sprite.layer());
+                layer.add(AllLayer);
+                ready = true;
             }
 
             @Override
@@ -100,17 +50,18 @@ public class MiniGhost extends CharacterObject implements WorldObject {
 
             }
         });
-
-        layer.add(allLayer);
+        owner = own;
     }
 
     @Override
     public void update(int delta) {
-        if (!alive || !hasLoaded || !barHasLoead) return;
+        super.update(delta);
+
+        if (!alive || !ready) return;
 
         e+= delta;
 
-        if (e > renderspeed)
+        if (e > renderSpeed)
         {
             switch (state)
             {
@@ -120,7 +71,7 @@ public class MiniGhost extends CharacterObject implements WorldObject {
                 case die:
                     offset = 4;
                     if (spriteIndex == 7) {
-                        layer.remove(allLayer);
+                        AllLayer.parent().remove(AllLayer);
                         body.getWorld().destroyBody(body);
                         alive = false;
                     }
@@ -131,33 +82,31 @@ public class MiniGhost extends CharacterObject implements WorldObject {
             e= 0;
         }
 
-        if(body.getPosition().y / Game2D.M_PER_PIXEL > py + 10) body.applyForce(new Vec2(0,-40f),body.getPosition());
+        if(body.getPosition().y / Stage1.M_PER_PIXEL > y + 10) body.applyForce(new Vec2(0,-40f),body.getPosition());
     }
 
     @Override
     public void paint() {
-        if(!alive || !hasLoaded || !barHasLoead) return;
+        super.paint();
 
-        sprite.layer().setTranslation(body.getPosition().x / Game2D.M_PER_PIXEL,body.getPosition().y / Game2D.M_PER_PIXEL);
-        hpBar.setTranslation(body.getPosition().x / Game2D.M_PER_PIXEL,(body.getPosition().y / Game2D.M_PER_PIXEL)- 25f);
+        if(!alive || !ready) return;
+
+        AllLayer.setTranslation(body.getPosition().x / Stage1.M_PER_PIXEL, body.getPosition().y / Stage1.M_PER_PIXEL);
     }
 
     @Override
-    public boolean Alive() {
-        return alive;
+    public void destroy() {
+        super.destroy();
+
+
     }
 
     @Override
-    public Body getBody()
-    {
-        return body;
-    }
-
-    @Override
-    public void contact(WorldObject A, WorldObject B) {
+    public void contact(DynamicObject A, DynamicObject B) {
 
         if (!alive) return;
-        WorldObject other;
+
+        DynamicObject other;
 
         if(A.getClass() == this.getClass())
             other = B;
@@ -169,21 +118,19 @@ public class MiniGhost extends CharacterObject implements WorldObject {
             Skill skillObject = (Skill)other;
             if(skillObject.getOwner() != owner)
             {
-                float dmg = skillObject.getDmg();
+                float dmg = skillObject.getDamage();
                 hp = (hp - dmg) < 0 ? 0 : (hp - dmg);
-                hpBar.setWidth(HPBar_Width * (hp/hpmax));
+                HPBar.setWidth(HPBarWidth * (hp/maxHP));
 
-                fLabel.CreateText((int)dmg,body.getPosition().x / Game2D.M_PER_PIXEL,(body.getPosition().y / Game2D.M_PER_PIXEL)-10f);
+                floatLabel.CreateText((int)dmg,body.getPosition().x / Stage1.M_PER_PIXEL,(body.getPosition().y / Stage1.M_PER_PIXEL)-15f);
 
                 if (hp <= 0)
                 {
-                    renderspeed = 50;
+                    renderSpeed = 50;
                     state = State.die;
                 }
-
-                skillObject.Destroy();
+                skillObject.destroy();
             }
         }
-
     }
 }

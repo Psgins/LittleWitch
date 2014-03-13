@@ -1,62 +1,52 @@
 package sut.game01.core.character;
 
-import org.jbox2d.collision.shapes.PolygonShape;
 import org.jbox2d.common.Vec2;
-import org.jbox2d.dynamics.*;
-import playn.core.Layer;
-import playn.core.PlayN;
+import org.jbox2d.dynamics.World;
+import playn.core.GroupLayer;
 import playn.core.util.Callback;
-import sut.game01.core.screen.Game2D;
-import sut.game01.core.all_etc.WorldObject;
+import sut.game01.core.screen.Stage1;
 import sut.game01.core.sprite.Sprite;
 import sut.game01.core.sprite.SpriteLoader;
 
 /**
- * Created by PSG on 2/6/14.
+ * Created by PSG on 3/13/14.
  */
-public class Witch implements WorldObject {
-    private Sprite sprite;
-    private int spriteIndex = 0;
-    private boolean hashLoaded = false;
+public class Witch extends Character {
 
     public enum State {idleL,idleR,runL,runR,dead,atkR,atkL}
-
-    private int e = 0;
-    private int offset = 0;
-    private int renderSpeed = 150;
-
-    private Body body;
-
     private State state = State.idleR;
-    private boolean alive = true;
 
-    public Witch(final World world, final float px, final float py,final boolean justShow)
+    public Witch(final World world, final GroupLayer layer, final float x, final float y)
     {
-        String spritePath = justShow ? "images/Model/witch.json" : "images/CharSprite/witch.json";
-        sprite = SpriteLoader.getSprite(spritePath);
+        sprite = SpriteLoader.getSprite("images/CharSprite/witch.json");
         sprite.addCallback(new Callback<Sprite>() {
             @Override
             public void onSuccess(Sprite result) {
                 sprite.setSprite(spriteIndex);
-                sprite.layer().setOrigin(sprite.width()/2f,sprite.height()/2f);
-                sprite.layer().setTranslation(px,py);
+                sprite.layer().setOrigin(75f / 2f, 84f / 2f);
+                initPhysicsBody(world,x,y,75f - 40f,84f - 10f,false);
 
-                hashLoaded = true;
+                AllLayer.add(sprite.layer());
+                createHPbar(sprite.layer().tx(),sprite.layer().ty() - 50f,70f);
 
-                if(!justShow)
-                    body = initPhysicsBody(world,px * Game2D.M_PER_PIXEL,py * Game2D.M_PER_PIXEL);
+                layer.add(AllLayer);
+
+                ready = true;
             }
 
             @Override
             public void onFailure(Throwable cause) {
-                PlayN.log().error("Error loading image!", cause);
+
             }
         });
+        owner = Owner.Ally;
     }
 
-    public void update(int delta)
-    {
-        if (!hashLoaded || !alive) return;
+    @Override
+    public void update(int delta) {
+        super.update(delta);
+
+        if (!ready || !alive) return;
 
         e+= delta;
 
@@ -72,11 +62,11 @@ public class Witch implements WorldObject {
                     break;
                 case runR:
                     offset = 8;
-                    if(body.getLinearVelocity().x < 7) body.applyForce(new Vec2(40f,0),body.getPosition());
+                    if(body.getLinearVelocity().x < 10) body.applyForce(new Vec2(40f,0),body.getPosition());
                     break;
                 case  runL:
                     offset = 12;
-                    if(body.getLinearVelocity().x > -7) body.applyForce(new Vec2(-40f, 0), body.getPosition());
+                    if(body.getLinearVelocity().x > -10) body.applyForce(new Vec2(-40f, 0), body.getPosition());
                     break;
                 case dead:
                     offset = 16;
@@ -98,36 +88,12 @@ public class Witch implements WorldObject {
         }
     }
 
-    public void paint()
-    {
-        if (!hashLoaded) return;
-        sprite.layer().setTranslation(body.getPosition().x / Game2D.M_PER_PIXEL,body.getPosition().y / Game2D.M_PER_PIXEL);
-    }
-
-    public Layer layer()
-    {
-        return this.sprite.layer();
-    }
-
-    public void jump()
-    {
-        if(body.getLinearVelocity().y == 0)
-            body.applyLinearImpulse(new Vec2(0f,-45f),body.getPosition());
-    }
-
     @Override
-    public boolean Alive() {
-        return alive;
-    }
+    public void paint() {
+        super.paint();
 
-    @Override
-    public Body getBody() {
-        return body;
-    }
-
-    @Override
-    public void contact(WorldObject A, WorldObject B) {
-
+        if (!ready) return;
+            AllLayer.setTranslation(body.getPosition().x / Stage1.M_PER_PIXEL, body.getPosition().y / Stage1.M_PER_PIXEL);
     }
 
     public void setState (State state)
@@ -154,35 +120,11 @@ public class Witch implements WorldObject {
         spriteIndex = -1;
     }
 
-    private Body initPhysicsBody(World world, float x, float y)
+    public State getState(){ return state;}
+
+    public void jump()
     {
-        BodyDef bodyDef = new BodyDef();
-        bodyDef.type = BodyType.DYNAMIC;
-        bodyDef.position = new Vec2(0,0);
-
-        Body body = world.createBody(bodyDef);
-        body.setFixedRotation(true);
-
-        PolygonShape shape = new PolygonShape();
-        shape.setAsBox((sprite.layer().width()-40f) * Game2D.M_PER_PIXEL / 2, (sprite.layer().height()-10f) * Game2D.M_PER_PIXEL / 2);
-        FixtureDef fixtureDef = new FixtureDef();
-        fixtureDef.shape = shape;
-        fixtureDef.density = 0.4f;
-        fixtureDef.friction = 0.05f;
-        fixtureDef.restitution = 0f;
-        body.createFixture(fixtureDef);
-        body.setLinearDamping(0.2f); // 0.2f
-        body.setTransform(new Vec2(x,y), 0f);
-        return body;
-    }
-
-    public boolean isHashLoaded()
-    {
-        return hashLoaded;
-    }
-
-    public State getState()
-    {
-        return state;
+        if(body.getLinearVelocity().y == 0)
+            body.applyLinearImpulse(new Vec2(0f,-45f),body.getPosition());
     }
 }

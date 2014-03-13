@@ -3,13 +3,9 @@ package sut.game01.core.screen;
 import playn.core.ImageLayer;
 import playn.core.PlayN;
 import playn.core.Pointer;
-import sut.game01.core.character.Witch;
-import sut.game01.core.all_etc.WorldObject;
+import sut.game01.core.ModelShow.WitchModel;
 import tripleplay.game.ScreenStack;
 import tripleplay.game.UIScreen;
-
-import java.util.ArrayList;
-import java.util.List;
 
 /**
  * Created by PSG on 3/2/14.
@@ -17,8 +13,7 @@ import java.util.List;
 public class CharacterScreen extends UIScreen {
 
     private final ScreenStack ss;
-
-    List<WorldObject> objColl = new ArrayList<WorldObject>();
+    private WitchModel model;
 
     public CharacterScreen(ScreenStack ss)
     {
@@ -65,16 +60,13 @@ public class CharacterScreen extends UIScreen {
 
 
         // Add model for show
-        Witch model = new Witch(null,125f,150f,true);
-        layer.add(model.layer());
-        objColl.add(model);
+        model = new WitchModel(layer,125f,150f);
     }
 
     @Override
     public void update(int delta) {
         super.update(delta);
 
-        for(WorldObject x : objColl)
-            x.update(delta);
+        model.update(delta);
     }
 }

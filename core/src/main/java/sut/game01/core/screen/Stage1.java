@@ -11,16 +11,15 @@ import playn.core.*;
 import playn.core.util.Clock;
 import sut.game01.core.Environment.EdgeLine;
 import sut.game01.core.Skill.Fireball;
-import sut.game01.core.all_etc.FloatLabel;
-import sut.game01.core.character.MiniGhost;
-import sut.game01.core.all_etc.WorldObject;
-import sut.game01.core.character.Witch;
-import sut.game01.core.all_etc.Skills;
+import sut.game01.core.all_etc.*;
+import sut.game01.core.character.*;
+import sut.game01.core.character.Character;
 import tripleplay.game.Screen;
 import tripleplay.game.ScreenStack;
 import java.util.ArrayList;
+import java.util.List;
 
-public class Game2D extends Screen {
+public class Stage1 extends Screen {
     // world variable
     public static float M_PER_PIXEL = 1 / 26.666667f;
     private  static int width = 48;
@@ -38,14 +37,16 @@ public class Game2D extends Screen {
     private FloatLabel fLabel = new FloatLabel(layer);
 
     // list collection
-    private ArrayList<WorldObject> objCollection = new ArrayList<WorldObject>();
-    private ArrayList<WorldObject> trash = new ArrayList<WorldObject>();
+    private List<DynamicObject> objDynamic = new ArrayList<DynamicObject>();
+    private ArrayList<DynamicObject> trash = new ArrayList<DynamicObject>();
     private Witch main;
+
+    public static ImageStore imageStore = new ImageStore();
 
     //UIGroup
     private GroupLayer UIGroup = PlayN.graphics().createGroupLayer();
 
-    public Game2D(ScreenStack ss)
+    public Stage1(ScreenStack ss)
     {
         this.ss = ss;
     }
@@ -73,7 +74,7 @@ public class Game2D extends Screen {
             debugDraw.setStrokeAlpha(150);
             debugDraw.setFillAlpha(75);
             debugDraw.setFlags(DebugDraw.e_shapeBit | DebugDraw.e_jointBit | DebugDraw.e_aabbBit);
-            debugDraw.setCamera(0,0,1f / Game2D.M_PER_PIXEL);
+            debugDraw.setCamera(0,0,1f / Stage1.M_PER_PIXEL);
             world.setDebugDraw(debugDraw);
         }
 
@@ -81,10 +82,10 @@ public class Game2D extends Screen {
             @Override
             public void beginContact(Contact contact) {
 
-                WorldObject A = null;
-                WorldObject B = null;
+                DynamicObject A = null;
+                DynamicObject B = null;
 
-                for(WorldObject x : objCollection)
+                for(DynamicObject x : objDynamic)
                 {
                     if (x.getBody() == contact.getFixtureA().getBody())
                         A = x;
@@ -119,21 +120,21 @@ public class Game2D extends Screen {
 
         //Environment
 
-        objCollection.add(new EdgeLine(world,new Vec2(0,height-2.5f),new Vec2(width,height-2.5f)));
-        objCollection.add(new EdgeLine(world,new Vec2(0,0),new Vec2(0,height)));
-        objCollection.add(new EdgeLine(world,new Vec2(width,0),new Vec2(width,height)));
+        new EdgeLine(world,new Vec2(0,height-2.5f),new Vec2(width,height-2.5f));
+        new EdgeLine(world,new Vec2(0,0),new Vec2(0,height));
+        new EdgeLine(world,new Vec2(width,0),new Vec2(width,height));
 
 //      CubeBox box1 = new CubeBox(world,20,height-8,100,20);
 
         //character
 
-        main = new Witch(world, 320,400, false);
-        layer.add(main.layer());
-        objCollection.add(main);
+        main = new Witch(world,layer, 320,0);
+        objDynamic.add(main);
 
-        objCollection.add(new MiniGhost(world,layer,400f,350f, Skills.SkillOwner.Enemy,fLabel));
-        objCollection.add(new MiniGhost(world, layer, 500f, 350f, Skills.SkillOwner.Ally, fLabel));
-        objCollection.add(new MiniGhost(world,layer,400f,250f, Skills.SkillOwner.Enemy,fLabel));
+        objDynamic.add(new MiniGhost(world,layer,600f,350f, Character.Owner.Enemy,fLabel));
+        objDynamic.add(new MiniGhost(world,layer,500f,350f, Character.Owner.Enemy,fLabel));
+        objDynamic.add(new MiniGhost(world,layer,550f,300f, Character.Owner.Enemy,fLabel));
+        objDynamic.add(new MiniGhost(world,layer,600f,275f, Character.Owner.Enemy,fLabel));
 
 
         //UI
@@ -167,13 +168,13 @@ public class Game2D extends Screen {
                             case idleL:
                             case runL:
                             case atkL:
-                                objCollection.add(new Fireball(world, layer, main.layer().tx() - 25f, main.layer().ty(),true, Skills.SkillOwner.Ally, 0));
+                                objDynamic.add(new Fireball(world,layer,(main.getBody().getPosition().x / M_PER_PIXEL) - 25f,(main.getBody().getPosition().y / M_PER_PIXEL), DynamicObject.Owner.Ally,true,main.getAttack()));
                                 main.setState(Witch.State.atkL);
                                 break;
                             case idleR:
                             case runR:
                             case atkR:
-                                objCollection.add(new Fireball(world, layer, main.layer().tx() + 25f, main.layer().ty(),false, Skills.SkillOwner.Ally, 0));
+                                objDynamic.add(new Fireball(world,layer,(main.getBody().getPosition().x / M_PER_PIXEL) + 25f,(main.getBody().getPosition().y / M_PER_PIXEL), DynamicObject.Owner.Ally,false,main.getAttack()));
                                 main.setState(Witch.State.atkR);
                                 break;
                         }
@@ -195,7 +196,7 @@ public class Game2D extends Screen {
                         main.setState(Witch.State.idleR);
                         break;
                     case ESCAPE:
-                        ss.remove(Game2D.this);
+                        ss.remove(Stage1.this);
                         break;
                 }
             }
@@ -206,17 +207,18 @@ public class Game2D extends Screen {
     public void update(int delta) {
         super.update(delta);
 
+        if(!imageStore.isReady()) return;
+
         world.step(0.033f,10,10);
 
-        for(WorldObject cm : objCollection)
-        {
-            if (cm.Alive())
-                cm.update(delta);
+        for(DynamicObject x : objDynamic){
+            if(x.isAlive())
+                x.update(delta);
             else
-                trash.add(cm);
+                trash.add(x);
         }
 
-        if(main.isHashLoaded())
+        if(main.isReady())
         {
             if( main.getBody().getWorldCenter().x < 12 || main.getBody().getWorldCenter().x > width - 12)
             {
@@ -233,9 +235,11 @@ public class Game2D extends Screen {
         fLabel.update(delta);
 
         //Clear all trash
-        for (WorldObject x : trash)
-            objCollection.remove(x);
+        for (DynamicObject x : trash)
+            objDynamic.remove(x);
         trash.clear();
+
+
     }
 
     @Override
@@ -247,6 +251,6 @@ public class Game2D extends Screen {
             world.drawDebugData();
         }
 
-        for(WorldObject cm : objCollection) cm.paint();
+        for(DynamicObject x : objDynamic) x.paint();
     }
 }
