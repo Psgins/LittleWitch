@@ -72,11 +72,11 @@ public class Witch implements WorldObject {
                     break;
                 case runR:
                     offset = 8;
-                    body.applyForce(new Vec2(50f,0),body.getPosition());
+                    if(body.getLinearVelocity().x < 7) body.applyForce(new Vec2(40f,0),body.getPosition());
                     break;
                 case  runL:
                     offset = 12;
-                    body.applyForce(new Vec2(-50f, 0), body.getPosition());
+                    if(body.getLinearVelocity().x > -7) body.applyForce(new Vec2(-40f, 0), body.getPosition());
                     break;
                 case dead:
                     offset = 16;
@@ -111,7 +111,8 @@ public class Witch implements WorldObject {
 
     public void jump()
     {
-        body.applyLinearImpulse(new Vec2(0f,-35f),body.getPosition());
+        if(body.getLinearVelocity().y == 0)
+            body.applyLinearImpulse(new Vec2(0f,-45f),body.getPosition());
     }
 
     @Override
