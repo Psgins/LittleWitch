@@ -180,6 +180,8 @@ public class MiniGhost extends CharacterObject implements WorldObject {
                     renderspeed = 50;
                     state = State.die;
                 }
+
+                skillObject.Destroy();
             }
         }
 

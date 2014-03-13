@@ -6,4 +6,5 @@ package sut.game01.core.all_etc;
 public interface Skill {
     public float getDmg();
     public Skills.SkillOwner getOwner();
+    public void Destroy();
 }

@@ -153,10 +153,10 @@ public class Fireball extends Skills implements WorldObject,Skill {
         else
             other = A;
 
-        if (other.getClass() != Witch.class)
-        {
-            timelife = 0;
-        }
+//        if (other.getClass() != Witch.class)
+//        {
+//            timelife = 0;
+//        }
 
     }
 
@@ -170,5 +170,10 @@ public class Fireball extends Skills implements WorldObject,Skill {
     @Override
     public SkillOwner getOwner() {
         return owner;
+    }
+
+    @Override
+    public void Destroy() {
+        timelife = 0;
     }
 }
