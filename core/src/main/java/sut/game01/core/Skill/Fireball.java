@@ -46,7 +46,7 @@ public class Fireball extends Skills implements WorldObject,Skill {
     List<Fireball_eff> coll = new ArrayList<Fireball_eff>();
     List<Fireball_eff> tmp = new ArrayList<Fireball_eff>();
 
-    public Fireball(final World world,GroupLayer layer,final float x,final float y,SkillOwner owner, float dmgAddition)
+    public Fireball(final World world,GroupLayer layer,final float x,final float y,final boolean sideLeft,SkillOwner owner, float dmgAddition)
     {
         this.world = world;
         this.y = y;
@@ -62,7 +62,10 @@ public class Fireball extends Skills implements WorldObject,Skill {
                 body.setFixedRotation(true);
                 body.setBullet(true);
 
-                body.applyLinearImpulse(new Vec2(4.7f,0f),body.getPosition());
+                if(sideLeft)
+                    body.applyLinearImpulse(new Vec2(-4.7f,0f),body.getPosition());
+                else
+                    body.applyLinearImpulse(new Vec2(4.7f,0f),body.getPosition());
 
                 hasLoaded = true;
             }
