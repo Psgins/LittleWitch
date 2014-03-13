@@ -9,11 +9,14 @@ import sut.game01.core.screen.Game2D;
  * Created by PSG on 3/13/14.
  */
 public class DynamicObject {
+
+    public enum Owner {Enemy,Ally}
+
     protected boolean alive = true;
     protected boolean ready = false;
     protected Body body = null;
 
-    public void initPhysicsBody(World world,float pX,float pY,float width, float height)
+    public void initPhysicsBody(World world,float pX,float pY,float width, float height,boolean sensor)
     {
         BodyDef bodyDef = new BodyDef();
         bodyDef.type = BodyType.DYNAMIC;
@@ -29,7 +32,7 @@ public class DynamicObject {
         fixtureDef.density = 0.4f;
         fixtureDef.friction = 0.05f;
         fixtureDef.restitution = 0f;
-        fixtureDef.isSensor = true; // make body can overlap
+        fixtureDef.isSensor = sensor;
         body.createFixture(fixtureDef);
 
         body.setLinearDamping(0.2f); // 0.2f
@@ -57,5 +60,5 @@ public class DynamicObject {
 
     public void destroy(){}
 
-    public void contact(){}
+    public void contact(DynamicObject A, DynamicObject B){}
 }

@@ -52,6 +52,8 @@ public class Witch implements WorldObject {
                 PlayN.log().error("Error loading image!", cause);
             }
         });
+
+
     }
 
     public void update(int delta)
