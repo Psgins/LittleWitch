@@ -132,7 +132,7 @@ public class Game2D extends Screen {
         objCollection.add(main);
 
         objCollection.add(new MiniGhost(world,layer,400f,350f, Skills.SkillOwner.Enemy,fLabel));
-        objCollection.add(new MiniGhost(world, layer, 500f, 350f, Skills.SkillOwner.Enemy, fLabel));
+        objCollection.add(new MiniGhost(world, layer, 500f, 350f, Skills.SkillOwner.Ally, fLabel));
         objCollection.add(new MiniGhost(world,layer,400f,250f, Skills.SkillOwner.Enemy,fLabel));
 
 

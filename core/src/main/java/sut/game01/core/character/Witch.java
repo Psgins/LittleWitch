@@ -171,7 +171,6 @@ public class Witch implements WorldObject {
         fixtureDef.friction = 0.05f;
         fixtureDef.restitution = 0f;
         body.createFixture(fixtureDef);
-
         body.setLinearDamping(0.2f); // 0.2f
         body.setTransform(new Vec2(x,y), 0f);
         return body;
