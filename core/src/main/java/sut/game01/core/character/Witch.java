@@ -18,6 +18,9 @@ public class Witch extends Character {
 
     public Witch(final World world, final GroupLayer layer, final float x, final float y)
     {
+        maxHP = 60;
+        hp = 60;
+
         sprite = SpriteLoader.getSprite("images/CharSprite/witch.json");
         sprite.addCallback(new Callback<Sprite>() {
             @Override

@@ -79,6 +79,9 @@ public class MiniGhost extends Character {
 
             spriteIndex = offset + ((spriteIndex + 1)%4);
             sprite.setSprite(spriteIndex);
+
+            seekMain(Stage1.main);
+
             e= 0;
         }
 
