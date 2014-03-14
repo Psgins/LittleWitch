@@ -1,5 +1,6 @@
 package sut.game01.core.character;
 
+import org.jbox2d.common.Vec2;
 import playn.core.GroupLayer;
 import playn.core.ImageLayer;
 import static playn.core.PlayN.*;
@@ -43,6 +44,8 @@ public class Character extends DynamicObject {
 
     public float getHp() { return hp;}
 
+    public float getMaxHp() { return maxHP;}
+
     public Owner getOwner() {return owner;}
 
     public void createHPbar(float x, float y,float width)
@@ -56,5 +59,19 @@ public class Character extends DynamicObject {
         hasHPBar = true;
         HPBarWidth = width;
         this.HPBar = HPBar;
+    }
+
+    public void seekMain(Character focus)
+    {
+        Vec2 distance = body.getLocalPoint(focus.body.getPosition());
+
+        if (distance.x < -7)
+        {
+            body.applyForce(new Vec2(-5, 0), body.getPosition());
+        }
+        else if (distance.x > 7)
+        {
+            body.applyForce(new Vec2(5,0), body.getPosition());
+        }
     }
 }

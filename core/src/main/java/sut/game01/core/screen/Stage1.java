@@ -39,7 +39,8 @@ public class Stage1 extends Screen {
     // list collection
     private List<DynamicObject> objDynamic = new ArrayList<DynamicObject>();
     private ArrayList<DynamicObject> trash = new ArrayList<DynamicObject>();
-    private Witch main;
+    public static Witch main;
+    private HPBarUI hpBarUI;
 
     public static ImageStore imageStore = new ImageStore();
 
@@ -138,8 +139,7 @@ public class Stage1 extends Screen {
 
 
         //UI
-        ImageLayer HPBarUI = PlayN.graphics().createImageLayer(PlayN.assets().getImage("images/UI/hpbar.png"));
-        UIGroup.add(HPBarUI);
+        hpBarUI = new HPBarUI(main,UIGroup);
 
         layer.add(UIGroup);
 
@@ -231,15 +231,14 @@ public class Stage1 extends Screen {
             }
         }
 
-        //Update float label
+        //Update Component
         fLabel.update(delta);
+        hpBarUI.update();
 
         //Clear all trash
         for (DynamicObject x : trash)
             objDynamic.remove(x);
         trash.clear();
-
-
     }
 
     @Override
