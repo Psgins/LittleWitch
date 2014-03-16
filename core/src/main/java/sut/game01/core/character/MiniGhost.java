@@ -4,6 +4,7 @@ import org.jbox2d.common.Vec2;
 import org.jbox2d.dynamics.World;
 import playn.core.GroupLayer;
 import playn.core.util.Callback;
+import sut.game01.core.Skill.Fireball;
 import sut.game01.core.Skill.Skill;
 import sut.game01.core.all_etc.DynamicObject;
 import sut.game01.core.all_etc.FloatLabel;
@@ -19,6 +20,8 @@ public class MiniGhost extends Character {
     public enum State {idle,die}
     private float y;
 
+    private int DelayCount = 0;
+    private int AttackDelay = 2000;
     private State state = State.idle;
 
     public MiniGhost(final World world, final GroupLayer layer, final float x, final float y, Owner own, FloatLabel fLabel)
@@ -90,7 +93,12 @@ public class MiniGhost extends Character {
         }
         else
         {
-
+            DelayCount += delta;
+            if (DelayCount >= AttackDelay)
+            {
+                AttackMain(Stage1.main,tmpSeek);
+                DelayCount = 0;
+            }
         }
 
         // Keep floating
@@ -144,5 +152,22 @@ public class MiniGhost extends Character {
                 skillObject.destroy();
             }
         }
+    }
+
+    @Override
+    protected void AttackMain(Character focus, Vec2 distance) {
+
+        if(focus.getBody() == null) return;
+
+        boolean isLeft = distance.x > 0 ? false:true;
+
+        Stage1.tmpDynamic.add(new Fireball(
+                body.getWorld(),
+                AllLayer.parent(),
+                body.getPosition().x / Stage1.M_PER_PIXEL,
+                body.getPosition().y / Stage1.M_PER_PIXEL,
+                owner,
+                isLeft,
+                0));
     }
 }

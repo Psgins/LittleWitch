@@ -48,6 +48,8 @@ public class Character extends DynamicObject {
 
     public Owner getOwner() {return owner;}
 
+    protected void AttackMain(Character focus, Vec2 distance){}
+
     public void createHPbar(float x, float y,float width)
     {
         ImageLayer HPBar = graphics().createImageLayer(Stage1.imageStore.HPBar);
@@ -69,7 +71,8 @@ public class Character extends DynamicObject {
 
     protected void  Move2Main(Character focus,Vec2 distance,float moveSpeed)
     {
-        if(focus.getBody() != null)
+        if(focus.getBody() == null) return;
+
         if(body.getLinearVelocity().x > -moveSpeed && body.getLinearVelocity().x < moveSpeed )
 
             if (distance.x > 0)
@@ -77,5 +80,4 @@ public class Character extends DynamicObject {
             else
                 body.applyForce(new Vec2(-moveSpeed,0f),body.getPosition());
     }
-
 }
