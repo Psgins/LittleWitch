@@ -10,6 +10,7 @@ import org.jbox2d.dynamics.contacts.Contact;
 import playn.core.*;
 import playn.core.util.Clock;
 import sut.game01.core.Environment.EdgeLine;
+import sut.game01.core.Pet.MiniSpirit;
 import sut.game01.core.Skill.Fireball;
 import sut.game01.core.all_etc.*;
 import sut.game01.core.character.*;
@@ -27,7 +28,7 @@ public class Stage1 extends Screen {
     private World world;
 
     // showdebug
-    private boolean ShowDebugDraw = true;
+    private boolean ShowDebugDraw = false;
     private DebugDrawBox2D debugDraw;
 
     //Screen
@@ -129,10 +130,14 @@ public class Stage1 extends Screen {
 //      CubeBox box1 = new CubeBox(world,20,height-8,100,20);
 
         //character
-
-        main = new Witch(world,layer, 320,0,fLabel);
+        // - Main
+        main = new Witch(world,layer, 320,312,fLabel);
         objDynamic.add(main);
 
+        // - Pet
+        objDynamic.add(new MiniSpirit(world,layer,main));
+
+        // - Monster
         objDynamic.add(new MiniGhost(world,layer,600f,350f, Character.Owner.Enemy,fLabel));
         objDynamic.add(new MiniGhost(world,layer,500f,350f, Character.Owner.Enemy,fLabel));
         objDynamic.add(new MiniGhost(world,layer,550f,300f, Character.Owner.Enemy,fLabel));
