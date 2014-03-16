@@ -21,8 +21,8 @@ public class Witch extends Character {
 
     public Witch(final World world, final GroupLayer layer, final float x, final float y, FloatLabel fLabel)
     {
-        maxHP = 500;
-        hp = 500;
+        maxHP = 100;
+        hp = 100;
 
         floatLabel = fLabel;
 

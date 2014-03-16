@@ -65,8 +65,15 @@ public class Character extends DynamicObject {
 
     protected Vec2 seekMain(Character focus)
     {
-        Vec2 distance = body.getLocalPoint(focus.getBody().getPosition());
-        return distance;
+        if(focus.getBody() != null)
+        {
+            Vec2 distance = body.getLocalPoint(focus.getBody().getPosition());
+            return distance;
+        }
+        else
+        {
+            return new Vec2(999f,0f);
+        }
     }
 
     protected void  Move2Main(Character focus,Vec2 distance,float moveSpeed)

@@ -87,7 +87,7 @@ public class MiniGhost extends Character {
 
         // SeekMain
         Vec2 tmpSeek = seekMain(Stage1.main);
-        if(tmpSeek.x > 7 || tmpSeek.x < -7)
+        if((tmpSeek.x > 7 || tmpSeek.x < -7) && tmpSeek.x != 999f)
         {
             Move2Main(Stage1.main,tmpSeek,1);
         }
