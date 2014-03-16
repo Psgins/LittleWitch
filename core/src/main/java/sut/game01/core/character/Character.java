@@ -61,17 +61,21 @@ public class Character extends DynamicObject {
         this.HPBar = HPBar;
     }
 
-    public void seekMain(Character focus)
+    protected Vec2 seekMain(Character focus)
     {
-        Vec2 distance = body.getLocalPoint(focus.body.getPosition());
-
-        if (distance.x < -7)
-        {
-            body.applyForce(new Vec2(-5, 0), body.getPosition());
-        }
-        else if (distance.x > 7)
-        {
-            body.applyForce(new Vec2(5,0), body.getPosition());
-        }
+        Vec2 distance = body.getLocalPoint(focus.getBody().getPosition());
+        return distance;
     }
+
+    protected void  Move2Main(Character focus,Vec2 distance,float moveSpeed)
+    {
+        if(focus.getBody() != null)
+        if(body.getLinearVelocity().x > -moveSpeed && body.getLinearVelocity().x < moveSpeed )
+
+            if (distance.x > 0)
+                body.applyForce(new Vec2(moveSpeed,0f),body.getPosition());
+            else
+                body.applyForce(new Vec2(-moveSpeed,0f),body.getPosition());
+    }
+
 }

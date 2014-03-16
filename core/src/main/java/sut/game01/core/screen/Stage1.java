@@ -37,6 +37,7 @@ public class Stage1 extends Screen {
     private FloatLabel fLabel = new FloatLabel(layer);
 
     // list collection
+    public static List<DynamicObject> tmp = new ArrayList<DynamicObject>();
     private List<DynamicObject> objDynamic = new ArrayList<DynamicObject>();
     private ArrayList<DynamicObject> trash = new ArrayList<DynamicObject>();
     public static Witch main;

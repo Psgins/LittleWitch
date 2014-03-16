@@ -79,12 +79,21 @@ public class MiniGhost extends Character {
 
             spriteIndex = offset + ((spriteIndex + 1)%4);
             sprite.setSprite(spriteIndex);
-
-            seekMain(Stage1.main);
-
             e= 0;
         }
 
+        // SeekMain
+        Vec2 tmpSeek = seekMain(Stage1.main);
+        if(tmpSeek.x > 7 || tmpSeek.x < -7)
+        {
+            Move2Main(Stage1.main,tmpSeek,1);
+        }
+        else
+        {
+
+        }
+
+        // Keep floating
         if(body.getPosition().y / Stage1.M_PER_PIXEL > y + 10) body.applyForce(new Vec2(0,-40f),body.getPosition());
     }
 
