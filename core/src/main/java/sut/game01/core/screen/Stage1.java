@@ -37,8 +37,9 @@ public class Stage1 extends Screen {
     private FloatLabel fLabel = new FloatLabel(layer);
 
     // list collection
+    public static List<DynamicObject> tmpDynamic = new ArrayList<DynamicObject>();
     private List<DynamicObject> objDynamic = new ArrayList<DynamicObject>();
-    private ArrayList<DynamicObject> trash = new ArrayList<DynamicObject>();
+    private List<DynamicObject> trash = new ArrayList<DynamicObject>();
     public static Witch main;
     private HPBarUI hpBarUI;
 
@@ -129,7 +130,7 @@ public class Stage1 extends Screen {
 
         //character
 
-        main = new Witch(world,layer, 320,0);
+        main = new Witch(world,layer, 320,0,fLabel);
         objDynamic.add(main);
 
         objDynamic.add(new MiniGhost(world,layer,600f,350f, Character.Owner.Enemy,fLabel));
@@ -211,12 +212,8 @@ public class Stage1 extends Screen {
 
         world.step(0.033f,10,10);
 
-        for(DynamicObject x : objDynamic){
-            if(x.isAlive())
-                x.update(delta);
-            else
-                trash.add(x);
-        }
+        // Update all object in list
+        updateColection(delta);
 
         if(main.isReady())
         {
@@ -234,11 +231,6 @@ public class Stage1 extends Screen {
         //Update Component
         fLabel.update(delta);
         hpBarUI.update();
-
-        //Clear all trash
-        for (DynamicObject x : trash)
-            objDynamic.remove(x);
-        trash.clear();
     }
 
     @Override
@@ -251,5 +243,26 @@ public class Stage1 extends Screen {
         }
 
         for(DynamicObject x : objDynamic) x.paint();
+    }
+
+    public void updateColection(int delta)
+    {
+        // Move object from temp to Collection
+        for(DynamicObject x : tmpDynamic)
+            objDynamic.add(x);
+        tmpDynamic.clear();
+
+        // Update All object in Collection and clear trash
+        for(DynamicObject x : objDynamic){
+            if(x.isAlive())
+                x.update(delta);
+            else
+                trash.add(x);
+        }
+
+        //Clear all trash
+        for (DynamicObject x : trash)
+            objDynamic.remove(x);
+        trash.clear();
     }
 }

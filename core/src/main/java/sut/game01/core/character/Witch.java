@@ -4,6 +4,9 @@ import org.jbox2d.common.Vec2;
 import org.jbox2d.dynamics.World;
 import playn.core.GroupLayer;
 import playn.core.util.Callback;
+import sut.game01.core.Skill.Skill;
+import sut.game01.core.all_etc.DynamicObject;
+import sut.game01.core.all_etc.FloatLabel;
 import sut.game01.core.screen.Stage1;
 import sut.game01.core.sprite.Sprite;
 import sut.game01.core.sprite.SpriteLoader;
@@ -16,10 +19,12 @@ public class Witch extends Character {
     public enum State {idleL,idleR,runL,runR,dead,atkR,atkL}
     private State state = State.idleR;
 
-    public Witch(final World world, final GroupLayer layer, final float x, final float y)
+    public Witch(final World world, final GroupLayer layer, final float x, final float y, FloatLabel fLabel)
     {
-        maxHP = 60;
-        hp = 60;
+        maxHP = 100;
+        hp = 100;
+
+        floatLabel = fLabel;
 
         sprite = SpriteLoader.getSprite("images/CharSprite/witch.json");
         sprite.addCallback(new Callback<Sprite>() {
@@ -97,6 +102,41 @@ public class Witch extends Character {
 
         if (!ready) return;
             AllLayer.setTranslation(body.getPosition().x / Stage1.M_PER_PIXEL, body.getPosition().y / Stage1.M_PER_PIXEL);
+    }
+
+    @Override
+    public void contact(DynamicObject A, DynamicObject B) {
+        super.contact(A, B);
+
+
+        if (!alive) return;
+
+        DynamicObject other;
+
+        if(A.getClass() == this.getClass())
+            other = B;
+        else
+            other = A;
+
+        if(other.getBody().isBullet())
+        {
+            Skill skillObject = (Skill)other;
+            if(skillObject.getOwner() != owner)
+            {
+                float dmg = skillObject.getDamage();
+                hp = (hp - dmg) < 0 ? 0 : (hp - dmg);
+                HPBar.setWidth(HPBarWidth * (hp/maxHP));
+
+                floatLabel.CreateText((int)dmg,body.getPosition().x / Stage1.M_PER_PIXEL,(body.getPosition().y / Stage1.M_PER_PIXEL)-15f);
+
+                if (hp <= 0)
+                {
+                    renderSpeed = 150;
+                    state = State.dead;
+                }
+                skillObject.destroy();
+            }
+        }
     }
 
     public void setState (State state)
