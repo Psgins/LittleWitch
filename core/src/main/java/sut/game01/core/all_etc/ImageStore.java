@@ -9,15 +9,16 @@ import playn.core.util.Callback;
  */
 public class ImageStore {
 
-    private int count = 2;
+    private int count = 3;
 
     public final Image HPBar;
     public final Image Fireball;
+    public final Image WhiteCircle;
 
     public ImageStore()
     {
-        HPBar = PlayN.assets().getImage("images/etc/hpbar.png");
-        HPBar.addCallback(new Callback<Image>() {
+        this.HPBar = PlayN.assets().getImage("images/etc/hpbar.png");
+        this.HPBar.addCallback(new Callback<Image>() {
             @Override
             public void onSuccess(Image result) {
                 count--;
@@ -41,6 +42,20 @@ public class ImageStore {
 
             }
         });
+
+        this.WhiteCircle = PlayN.assets().getImage("images/Skill/light.png");
+        this.WhiteCircle.addCallback(new Callback<Image>() {
+            @Override
+            public void onSuccess(Image result) {
+                count--;
+            }
+
+            @Override
+            public void onFailure(Throwable cause) {
+
+            }
+        });
+
     }
 
     public boolean isReady()
