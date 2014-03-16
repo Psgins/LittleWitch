@@ -130,7 +130,7 @@ public class Stage1 extends Screen {
 
         //character
 
-        main = new Witch(world,layer, 320,0);
+        main = new Witch(world,layer, 320,0,fLabel);
         objDynamic.add(main);
 
         objDynamic.add(new MiniGhost(world,layer,600f,350f, Character.Owner.Enemy,fLabel));
