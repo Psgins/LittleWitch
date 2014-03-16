@@ -87,4 +87,13 @@ public class Character extends DynamicObject {
             else
                 body.applyForce(new Vec2(-moveSpeed,0f),body.getPosition());
     }
+
+    protected boolean inScreen(Character focus)
+    {
+        Vec2 tmp = seekMain(focus);
+        if(tmp.x > 25 || tmp.x < -25 || focus.getBody() == null)
+            return false;
+        else
+            return true;
+    }
 }

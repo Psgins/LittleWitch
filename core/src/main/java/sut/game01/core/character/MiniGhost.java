@@ -60,7 +60,7 @@ public class MiniGhost extends Character {
     public void update(int delta) {
         super.update(delta);
 
-        if (!alive || !ready) return;
+        if (!alive || !ready || !inScreen(Stage1.main)) return;
 
         e+= delta;
 
