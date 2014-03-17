@@ -50,8 +50,14 @@ public class SkillCardUI {
         }
     }
 
-    public void ShootA(boolean isLeft)
+    public boolean ShootA(boolean isLeft)
     {
-        skill[0].Shoot(focus,isLeft,objTemp);
+        return skill[0].Shoot(focus,isLeft,objTemp);
+    }
+
+    public void update(int delta)
+    {
+        for(SkillCard x : skill)
+            x.update(delta);
     }
 }

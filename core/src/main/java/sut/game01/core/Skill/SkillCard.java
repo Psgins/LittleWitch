@@ -10,6 +10,7 @@ import java.util.List;
  * Created by PSG on 3/17/14.
  */
 public interface SkillCard {
-    public void Shoot(Character caster,boolean isLeft,List<DynamicObject> objTemp);
+    public boolean Shoot(Character caster,boolean isLeft,List<DynamicObject> objTemp);
     public ImageLayer getIcon();
+    public void update(int delta);
 }

@@ -15,6 +15,7 @@ import java.util.List;
 public class Screeming_Card implements SkillCard {
 
     private ImageLayer Icon;
+    private int cooldown = 0;
 
     public Screeming_Card()
     {
@@ -23,16 +24,32 @@ public class Screeming_Card implements SkillCard {
     }
 
     @Override
-    public void Shoot(Character caster,boolean isLeft,List<DynamicObject> objTemp)
+    public boolean Shoot(Character caster,boolean isLeft,List<DynamicObject> objTemp)
     {
-        objTemp.add(new Screeming(
-                caster.getBody().getWorld(),
-                caster.layer().parent(),
-                caster.getBody().getPosition().x / Stage1.M_PER_PIXEL,
-                caster.getBody().getPosition().y / Stage1.M_PER_PIXEL,
-                caster.getOwner(),
-                isLeft,
-                caster.getAttack()));
+        if(cooldown > 0)
+        {
+            return false;
+        }
+        else
+        {
+            objTemp.add(new Screeming(
+                    caster.getBody().getWorld(),
+                    caster.layer().parent(),
+                    caster.getBody().getPosition().x / Stage1.M_PER_PIXEL,
+                    caster.getBody().getPosition().y / Stage1.M_PER_PIXEL,
+                    caster.getOwner(),
+                    isLeft,
+                    caster.getAttack()));
+
+            cooldown = 2000;
+            return true;
+        }
+    }
+
+    @Override
+    public void update(int delta) {
+        if (cooldown <= 0) return;
+        cooldown -= delta;
     }
 
     @Override

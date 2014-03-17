@@ -205,14 +205,14 @@ public class Stage1 extends Screen {
                             case idleL:
                             case runL:
                             case atkL:
-                                SkillUI.ShootA(true);
-                                main.setState(Witch.State.atkL);
+                                if(SkillUI.ShootA(true))
+                                    main.setState(Witch.State.atkL);
                                 break;
                             case idleR:
                             case runR:
                             case atkR:
-                                SkillUI.ShootA(false);
-                                main.setState(Witch.State.atkR);
+                                if(SkillUI.ShootA(false))
+                                    main.setState(Witch.State.atkR);
                                 break;
                         }
                         break;
@@ -267,7 +267,9 @@ public class Stage1 extends Screen {
 
         //Update Component
         fLabel.update(delta);
+        SkillUI.update(delta);
         hpBarUI.update();
+
     }
 
     @Override
