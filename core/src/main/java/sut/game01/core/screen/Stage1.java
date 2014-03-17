@@ -199,24 +199,73 @@ public class Stage1 extends Screen {
                         break;
 
                     case K1:
-
                         switch (main.getState())
                         {
                             case idleL:
                             case runL:
                             case atkL:
-                                if(SkillUI.ShootA(true))
+                                if(SkillUI.Shoot(true, 0))
                                     main.setState(Witch.State.atkL);
                                 break;
                             case idleR:
                             case runR:
                             case atkR:
-                                if(SkillUI.ShootA(false))
+                                if(SkillUI.Shoot(false, 0))
                                     main.setState(Witch.State.atkR);
                                 break;
                         }
                         break;
-
+                    case K2:
+                        switch (main.getState())
+                        {
+                            case idleL:
+                            case runL:
+                            case atkL:
+                                if(SkillUI.Shoot(true, 1))
+                                    main.setState(Witch.State.atkL);
+                                break;
+                            case idleR:
+                            case runR:
+                            case atkR:
+                                if(SkillUI.Shoot(false, 1))
+                                    main.setState(Witch.State.atkR);
+                                break;
+                        }
+                        break;
+                    case K3:
+                        switch (main.getState())
+                        {
+                            case idleL:
+                            case runL:
+                            case atkL:
+                                if(SkillUI.Shoot(true, 2))
+                                    main.setState(Witch.State.atkL);
+                                break;
+                            case idleR:
+                            case runR:
+                            case atkR:
+                                if(SkillUI.Shoot(false, 2))
+                                    main.setState(Witch.State.atkR);
+                                break;
+                        }
+                        break;
+                    case K4:
+                        switch (main.getState())
+                        {
+                            case idleL:
+                            case runL:
+                            case atkL:
+                                if(SkillUI.Shoot(true, 3))
+                                    main.setState(Witch.State.atkL);
+                                break;
+                            case idleR:
+                            case runR:
+                            case atkR:
+                                if(SkillUI.Shoot(false, 3))
+                                    main.setState(Witch.State.atkR);
+                                break;
+                        }
+                        break;
                 }
             }
 

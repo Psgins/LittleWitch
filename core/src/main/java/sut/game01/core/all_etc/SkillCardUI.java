@@ -5,6 +5,7 @@ import sut.game01.core.Skill.Screeming_Card;
 import sut.game01.core.Skill.SkillCard;
 import static playn.core.PlayN.*;
 import sut.game01.core.character.Character;
+import sut.game01.core.screen.Stage1;
 
 import java.util.List;
 
@@ -19,21 +20,38 @@ public class SkillCardUI {
 
     private GroupLayer SkillUI = graphics().createGroupLayer();
     private GroupLayer[] SkillSlot = new GroupLayer[4];
+    private GroupLayer[] CooldownSlot = new GroupLayer[4];
 
     public SkillCardUI(Character focus,GroupLayer layer,List<DynamicObject> objTemp,SkillCard[] skill)
     {
         this.focus = focus;
         this.objTemp = objTemp;
 
-        for(int i =0;i<4;i++)
-        {
-            this.skill[i] = skill[i];
-        }
-
-
         for(int i=0;i<4;i++)
         {
+
+            // Create GroupLayer
             SkillSlot[i] = graphics().createGroupLayer();
+            CooldownSlot[i] = graphics().createGroupLayer();
+
+            if(skill[i]==null)
+            {
+                SkillSlot[i].add(graphics().createImageLayer(Stage1.imageStore.NullSkill));
+            }
+            else
+            {
+                // set up skill variable
+                this.skill[i] = skill[i];
+
+                // Add Skill ICON to SkillSlot
+                SkillSlot[i].add(skill[i].getIcon());
+
+                // Add Cooldown Position to SkillSlot
+                this.skill[i].setCover(CooldownSlot[i]);
+                SkillSlot[i].add(CooldownSlot[i]);
+            }
+
+            // Add SkillSlot to SkillUI
             SkillUI.add(SkillSlot[i]);
         }
 
@@ -43,21 +61,22 @@ public class SkillCardUI {
         SkillSlot[3].setTranslation(450, 420);
 
         layer.add(SkillUI);
-
-        for(int i=0;i<4;i++)
-        {
-            SkillSlot[i].add(skill[i].getIcon());
-        }
     }
 
-    public boolean ShootA(boolean isLeft)
+    public boolean Shoot(boolean isLeft,int index)
     {
-        return skill[0].Shoot(focus,isLeft,objTemp);
+        if(skill[index] != null)
+            return skill[index].Shoot(focus,isLeft,objTemp);
+        else
+            return false;
     }
 
     public void update(int delta)
     {
-        for(SkillCard x : skill)
-            x.update(delta);
+        for(int i =0;i<4;i++)
+        {
+            if(skill[i] != null)
+                skill[i].update(delta);
+        }
     }
 }

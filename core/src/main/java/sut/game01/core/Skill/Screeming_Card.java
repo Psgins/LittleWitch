@@ -1,8 +1,11 @@
 package sut.game01.core.Skill;
 
 import static playn.core.PlayN.*;
+
+import playn.core.GroupLayer;
 import playn.core.ImageLayer;
 import playn.core.PlayN;
+import sut.game01.core.all_etc.Countdown;
 import sut.game01.core.all_etc.DynamicObject;
 import sut.game01.core.character.Character;
 import sut.game01.core.screen.Stage1;
@@ -15,18 +18,21 @@ import java.util.List;
 public class Screeming_Card implements SkillCard {
 
     private ImageLayer Icon;
-    private int cooldown = 0;
+    private ImageLayer Cover = graphics().createImageLayer(Stage1.imageStore.Cover);
+    private int cooldown = 20000;
+    private int e = 0;
 
     public Screeming_Card()
     {
         this.Icon = graphics().createImageLayer(assets().getImage("images/Skill/ScreemingIcon.png"));
         this.Icon.setSize(50,50);
+        Cover.setHeight(0);
     }
 
     @Override
     public boolean Shoot(Character caster,boolean isLeft,List<DynamicObject> objTemp)
     {
-        if(cooldown > 0)
+        if(e > 0)
         {
             return false;
         }
@@ -41,19 +47,33 @@ public class Screeming_Card implements SkillCard {
                     isLeft,
                     caster.getAttack()));
 
-            cooldown = 2000;
+            e = cooldown;
+            Cover.setHeight(50f);
             return true;
         }
     }
 
     @Override
     public void update(int delta) {
-        if (cooldown <= 0) return;
-        cooldown -= delta;
+
+        if (e <= 0){
+            return;
+        }
+
+        e -= delta;
+
+        float percent = (float)e/(float)cooldown;
+        Cover.setHeight(50f*percent);
     }
 
     @Override
     public ImageLayer getIcon() {
         return this.Icon;
+    }
+
+    @Override
+    public void setCover(GroupLayer layer)
+    {
+        layer.add(Cover);
     }
 }

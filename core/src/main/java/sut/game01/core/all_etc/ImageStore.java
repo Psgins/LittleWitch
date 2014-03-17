@@ -4,21 +4,26 @@ import playn.core.Image;
 import playn.core.PlayN;
 import playn.core.util.Callback;
 
+import static playn.core.PlayN.assets;
+
 /**
  * Created by PSG on 3/13/14.
  */
 public class ImageStore {
 
-    private int count = 3;
+    private int count = 15;
 
     public final Image HPBar;
     public final Image Fireball;
     public final Image WhiteCircle;
+    public final Image[] number = new Image[10];
+    public final Image Cover;
+    public final Image NullSkill;
 
     public ImageStore()
     {
-        this.HPBar = PlayN.assets().getImage("images/etc/hpbar.png");
-        this.HPBar.addCallback(new Callback<Image>() {
+        HPBar = PlayN.assets().getImage("images/etc/hpbar.png");
+        HPBar.addCallback(new Callback<Image>() {
             @Override
             public void onSuccess(Image result) {
                 count--;
@@ -43,8 +48,50 @@ public class ImageStore {
             }
         });
 
-        this.WhiteCircle = PlayN.assets().getImage("images/Skill/light.png");
-        this.WhiteCircle.addCallback(new Callback<Image>() {
+        WhiteCircle = PlayN.assets().getImage("images/Skill/light.png");
+        WhiteCircle.addCallback(new Callback<Image>() {
+            @Override
+            public void onSuccess(Image result) {
+                count--;
+            }
+
+            @Override
+            public void onFailure(Throwable cause) {
+
+            }
+        });
+
+        for(int i=0;i<10;i++)
+        {
+            number[i] = assets().getImage("images/Number/"+i+".png");
+            number[i].addCallback(new Callback<Image>() {
+                @Override
+                public void onSuccess(Image result) {
+                    count--;
+                }
+
+                @Override
+                public void onFailure(Throwable cause) {
+
+                }
+            });
+        }
+
+        Cover = PlayN.assets().getImage("images/UI/CooldownCover.png");
+        Cover.addCallback(new Callback<Image>() {
+            @Override
+            public void onSuccess(Image result) {
+                count--;
+            }
+
+            @Override
+            public void onFailure(Throwable cause) {
+
+            }
+        });
+
+        NullSkill = PlayN.assets().getImage("images/UI/nullSkill.png");
+        NullSkill.addCallback(new Callback<Image>() {
             @Override
             public void onSuccess(Image result) {
                 count--;
