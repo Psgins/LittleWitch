@@ -11,10 +11,7 @@ import playn.core.*;
 import playn.core.util.Clock;
 import sut.game01.core.Environment.EdgeLine;
 import sut.game01.core.Pet.MiniSpirit;
-import sut.game01.core.Skill.Bubble_Card;
-import sut.game01.core.Skill.Fireball;
-import sut.game01.core.Skill.Screeming_Card;
-import sut.game01.core.Skill.SkillCard;
+import sut.game01.core.Skill.*;
 import sut.game01.core.all_etc.*;
 import sut.game01.core.character.*;
 import sut.game01.core.character.Character;
@@ -31,7 +28,7 @@ public class Stage1 extends Screen {
     private World world;
 
     // showdebug
-    private boolean ShowDebugDraw = true;
+    private boolean ShowDebugDraw = false;
     private DebugDrawBox2D debugDraw;
 
     //Screen
@@ -152,7 +149,7 @@ public class Stage1 extends Screen {
         //UI
         hpBarUI = new HPBarUI(main,UIGroup);
 
-        skill[0] = new Bubble_Card();
+        skill[0] = new Balloon_Card();
         skill[1] = new Screeming_Card();
         skill[2] = null;
         skill[3] = null;
