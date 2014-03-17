@@ -13,6 +13,7 @@ import sut.game01.core.Environment.EdgeLine;
 import sut.game01.core.Pet.MiniSpirit;
 import sut.game01.core.Skill.Bubble_Card;
 import sut.game01.core.Skill.Fireball;
+import sut.game01.core.Skill.Screeming_Card;
 import sut.game01.core.Skill.SkillCard;
 import sut.game01.core.all_etc.*;
 import sut.game01.core.character.*;
@@ -152,9 +153,9 @@ public class Stage1 extends Screen {
         hpBarUI = new HPBarUI(main,UIGroup);
 
         skill[0] = new Bubble_Card();
-        skill[1] = new Bubble_Card();
-        skill[2] = new Bubble_Card();
-        skill[3] = new Bubble_Card();
+        skill[1] = new Screeming_Card();
+        skill[2] = null;
+        skill[3] = null;
 
         SkillUI = new SkillCardUI(main,UIGroup,tmpDynamic,skill);
 
