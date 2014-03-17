@@ -9,7 +9,7 @@ import static playn.core.PlayN.graphics;
 /**
  * Created by PSG on 3/16/14.
  */
-public class Screeming_eff {
+public class Bubble_eff {
 
     private boolean alive = true;
     private int e = 0;
@@ -18,7 +18,7 @@ public class Screeming_eff {
 
     private float scale = 0.5f;
 
-    public Screeming_eff(Image img,GroupLayer layer,float x,float y)
+    public Bubble_eff(Image img, GroupLayer layer, float x, float y)
     {
         this.layer = layer;
 

@@ -11,15 +11,15 @@ import java.util.List;
 /**
  * Created by PSG on 3/16/14.
  */
-public class Screeming extends Skill {
+public class Bubble extends Skill {
 
     private float y;
     private int timelife = 0;
 
-    List<Screeming_eff> coll = new ArrayList<Screeming_eff>();
-    List<Screeming_eff> tmp = new ArrayList<Screeming_eff>();
+    List<Bubble_eff> coll = new ArrayList<Bubble_eff>();
+    List<Bubble_eff> tmp = new ArrayList<Bubble_eff>();
 
-    public Screeming(World world, GroupLayer layer, float x, float y, Owner own, boolean isLeft, float moreDMG)
+    public Bubble(World world, GroupLayer layer, float x, float y, Owner own, boolean isLeft, float moreDMG)
     {
         owner = own;
         AdditionDamage = moreDMG;
@@ -54,12 +54,12 @@ public class Screeming extends Skill {
         // create effect if still alive
         if(e >= 25 && timelife > 0)
         {
-            coll.add(new Screeming_eff(Stage1.imageStore.WhiteCircle,AllLayer,body.getPosition().x / Stage1.M_PER_PIXEL,body.getPosition().y / Stage1.M_PER_PIXEL));
+            coll.add(new Bubble_eff(Stage1.imageStore.WhiteCircle,AllLayer,body.getPosition().x / Stage1.M_PER_PIXEL,body.getPosition().y / Stage1.M_PER_PIXEL));
             e = 0;
         }
 
         // update and make effect to trash
-        for(Screeming_eff x : coll)
+        for(Bubble_eff x : coll)
         {
             if(x.Alive())
                 x.update(delta);
@@ -68,7 +68,7 @@ public class Screeming extends Skill {
         }
 
         // clear trash
-        for(Screeming_eff x : tmp)
+        for(Bubble_eff x : tmp)
             coll.remove(x);
         tmp.clear();
 

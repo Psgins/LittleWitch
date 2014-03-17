@@ -4,8 +4,6 @@ import static playn.core.PlayN.*;
 
 import playn.core.GroupLayer;
 import playn.core.ImageLayer;
-import playn.core.PlayN;
-import sut.game01.core.all_etc.Countdown;
 import sut.game01.core.all_etc.DynamicObject;
 import sut.game01.core.character.Character;
 import sut.game01.core.screen.Stage1;
@@ -15,14 +13,14 @@ import java.util.List;
 /**
  * Created by PSG on 3/17/14.
  */
-public class Screeming_Card implements SkillCard {
+public class Bubble_Card implements SkillCard {
 
     private ImageLayer Icon;
     private ImageLayer Cover = graphics().createImageLayer(Stage1.imageStore.Cover);
     private int cooldown = 20000;
     private int e = 0;
 
-    public Screeming_Card()
+    public Bubble_Card()
     {
         this.Icon = graphics().createImageLayer(assets().getImage("images/Skill/ScreemingIcon.png"));
         this.Icon.setSize(50,50);
@@ -38,7 +36,7 @@ public class Screeming_Card implements SkillCard {
         }
         else
         {
-            objTemp.add(new Screeming(
+            objTemp.add(new Bubble(
                     caster.getBody().getWorld(),
                     caster.layer().parent(),
                     caster.getBody().getPosition().x / Stage1.M_PER_PIXEL,

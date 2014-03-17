@@ -4,8 +4,7 @@ import org.jbox2d.common.Vec2;
 import org.jbox2d.dynamics.World;
 import playn.core.GroupLayer;
 import playn.core.util.Callback;
-import sut.game01.core.Skill.Fireball;
-import sut.game01.core.Skill.Screeming;
+import sut.game01.core.Skill.Bubble;
 import sut.game01.core.Skill.Skill;
 import sut.game01.core.all_etc.DynamicObject;
 import sut.game01.core.all_etc.FloatLabel;
@@ -162,7 +161,7 @@ public class MiniGhost extends Character {
 
         boolean isLeft = distance.x > 0 ? false:true;
 
-        Stage1.tmpDynamic.add(new Screeming(
+        Stage1.tmpDynamic.add(new Bubble(
                 body.getWorld(),
                 AllLayer.parent(),
                 body.getPosition().x / Stage1.M_PER_PIXEL,

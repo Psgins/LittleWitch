@@ -1,7 +1,6 @@
 package sut.game01.core.all_etc;
 
 import playn.core.GroupLayer;
-import sut.game01.core.Skill.Screeming_Card;
 import sut.game01.core.Skill.SkillCard;
 import static playn.core.PlayN.*;
 import sut.game01.core.character.Character;
