@@ -48,6 +48,8 @@ public class Character extends DynamicObject {
 
     public Owner getOwner() {return owner;}
 
+    public GroupLayer layer() {return AllLayer;}
+
     protected void AttackMain(Character focus, Vec2 distance){}
 
     public void createHPbar(float x, float y,float width)

@@ -12,6 +12,9 @@ import playn.core.util.Clock;
 import sut.game01.core.Environment.EdgeLine;
 import sut.game01.core.Pet.MiniSpirit;
 import sut.game01.core.Skill.Fireball;
+import sut.game01.core.Skill.Screeming_Card;
+import sut.game01.core.Skill.Skill;
+import sut.game01.core.Skill.SkillCard;
 import sut.game01.core.all_etc.*;
 import sut.game01.core.character.*;
 import sut.game01.core.character.Character;
@@ -28,7 +31,7 @@ public class Stage1 extends Screen {
     private World world;
 
     // showdebug
-    private boolean ShowDebugDraw = false;
+    private boolean ShowDebugDraw = true;
     private DebugDrawBox2D debugDraw;
 
     //Screen
@@ -43,6 +46,9 @@ public class Stage1 extends Screen {
     private List<DynamicObject> trash = new ArrayList<DynamicObject>();
     public static Witch main;
     private HPBarUI hpBarUI;
+
+    private SkillCardUI SkillUI;
+    private SkillCard[] skill = new SkillCard[4];
 
     public static ImageStore imageStore = new ImageStore();
 
@@ -123,7 +129,7 @@ public class Stage1 extends Screen {
 
         //Environment
 
-        new EdgeLine(world,new Vec2(0,height-2.5f),new Vec2(width,height-2.5f));
+        new EdgeLine(world,new Vec2(0,height-3f),new Vec2(width,height-3f));
         new EdgeLine(world,new Vec2(0,0),new Vec2(0,height));
         new EdgeLine(world,new Vec2(width,0),new Vec2(width,height));
 
@@ -138,14 +144,20 @@ public class Stage1 extends Screen {
         objDynamic.add(new MiniSpirit(world,layer,main));
 
         // - Monster
+        objDynamic.add(new MiniGhost(world,layer,700f,350f, Character.Owner.Enemy,fLabel));
         objDynamic.add(new MiniGhost(world,layer,600f,350f, Character.Owner.Enemy,fLabel));
-        objDynamic.add(new MiniGhost(world,layer,500f,350f, Character.Owner.Enemy,fLabel));
         objDynamic.add(new MiniGhost(world,layer,550f,300f, Character.Owner.Enemy,fLabel));
-        objDynamic.add(new MiniGhost(world,layer,600f,275f, Character.Owner.Enemy,fLabel));
-
+        objDynamic.add(new MiniGhost(world,layer,800f,275f, Character.Owner.Enemy,fLabel));
 
         //UI
         hpBarUI = new HPBarUI(main,UIGroup);
+
+        skill[0] = new Screeming_Card();
+        skill[1] = new Screeming_Card();
+        skill[2] = new Screeming_Card();
+        skill[3] = new Screeming_Card();
+
+        SkillUI = new SkillCardUI(main,UIGroup,tmpDynamic,skill);
 
         layer.add(UIGroup);
 
@@ -182,6 +194,75 @@ public class Stage1 extends Screen {
                             case atkR:
                                 objDynamic.add(new Fireball(world,layer,(main.getBody().getPosition().x / M_PER_PIXEL) + 25f,(main.getBody().getPosition().y / M_PER_PIXEL), DynamicObject.Owner.Ally,false,main.getAttack()));
                                 main.setState(Witch.State.atkR);
+                                break;
+                        }
+                        break;
+
+                    case K1:
+                        switch (main.getState())
+                        {
+                            case idleL:
+                            case runL:
+                            case atkL:
+                                if(SkillUI.Shoot(true, 0))
+                                    main.setState(Witch.State.atkL);
+                                break;
+                            case idleR:
+                            case runR:
+                            case atkR:
+                                if(SkillUI.Shoot(false, 0))
+                                    main.setState(Witch.State.atkR);
+                                break;
+                        }
+                        break;
+                    case K2:
+                        switch (main.getState())
+                        {
+                            case idleL:
+                            case runL:
+                            case atkL:
+                                if(SkillUI.Shoot(true, 1))
+                                    main.setState(Witch.State.atkL);
+                                break;
+                            case idleR:
+                            case runR:
+                            case atkR:
+                                if(SkillUI.Shoot(false, 1))
+                                    main.setState(Witch.State.atkR);
+                                break;
+                        }
+                        break;
+                    case K3:
+                        switch (main.getState())
+                        {
+                            case idleL:
+                            case runL:
+                            case atkL:
+                                if(SkillUI.Shoot(true, 2))
+                                    main.setState(Witch.State.atkL);
+                                break;
+                            case idleR:
+                            case runR:
+                            case atkR:
+                                if(SkillUI.Shoot(false, 2))
+                                    main.setState(Witch.State.atkR);
+                                break;
+                        }
+                        break;
+                    case K4:
+                        switch (main.getState())
+                        {
+                            case idleL:
+                            case runL:
+                            case atkL:
+                                if(SkillUI.Shoot(true, 3))
+                                    main.setState(Witch.State.atkL);
+                                break;
+                            case idleR:
+                            case runR:
+                            case atkR:
+                                if(SkillUI.Shoot(false, 3))
+                                    main.setState(Witch.State.atkR);
                                 break;
                         }
                         break;
@@ -235,7 +316,9 @@ public class Stage1 extends Screen {
 
         //Update Component
         fLabel.update(delta);
+        SkillUI.update(delta);
         hpBarUI.update();
+
     }
 
     @Override
