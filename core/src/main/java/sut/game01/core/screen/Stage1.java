@@ -197,6 +197,26 @@ public class Stage1 extends Screen {
                                 break;
                         }
                         break;
+
+                    case K1:
+
+                        switch (main.getState())
+                        {
+                            case idleL:
+                            case runL:
+                            case atkL:
+                                SkillUI.ShootA(true);
+                                main.setState(Witch.State.atkL);
+                                break;
+                            case idleR:
+                            case runR:
+                            case atkR:
+                                SkillUI.ShootA(false);
+                                main.setState(Witch.State.atkR);
+                                break;
+                        }
+                        break;
+
                 }
             }
 

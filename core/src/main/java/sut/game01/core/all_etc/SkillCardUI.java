@@ -49,4 +49,9 @@ public class SkillCardUI {
             SkillSlot[i].add(skill[i].getIcon());
         }
     }
+
+    public void ShootA(boolean isLeft)
+    {
+        skill[0].Shoot(focus,isLeft,objTemp);
+    }
 }

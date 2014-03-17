@@ -5,6 +5,7 @@ import playn.core.ImageLayer;
 import playn.core.PlayN;
 import sut.game01.core.all_etc.DynamicObject;
 import sut.game01.core.character.Character;
+import sut.game01.core.screen.Stage1;
 
 import java.util.List;
 
@@ -27,8 +28,8 @@ public class Screeming_Card implements SkillCard {
         objTemp.add(new Screeming(
                 caster.getBody().getWorld(),
                 caster.layer().parent(),
-                caster.getBody().getPosition().x,
-                caster.getBody().getPosition().y,
+                caster.getBody().getPosition().x / Stage1.M_PER_PIXEL,
+                caster.getBody().getPosition().y / Stage1.M_PER_PIXEL,
                 caster.getOwner(),
                 isLeft,
                 caster.getAttack()));
