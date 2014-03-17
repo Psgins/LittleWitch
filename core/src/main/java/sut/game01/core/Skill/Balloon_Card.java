@@ -12,17 +12,17 @@ import static playn.core.PlayN.assets;
 import static playn.core.PlayN.graphics;
 
 /**
- * Created by PSG on 3/17/14.
+ * Created by PSG on 3/18/14.
  */
-public class Screeming_Card implements SkillCard {
+public class Balloon_Card implements SkillCard {
     private ImageLayer Icon;
     private ImageLayer Cover = graphics().createImageLayer(Stage1.imageStore.Cover);
-    private int cooldown = 20000;
+    private int cooldown = 2000;
     private int e = 0;
 
-    public Screeming_Card()
+    public Balloon_Card()
     {
-        this.Icon = graphics().createImageLayer(assets().getImage("images/Skill/ScreemingIcon.png"));
+        this.Icon = graphics().createImageLayer(assets().getImage("images/Skill/BalloonIcon.png"));
         this.Icon.setSize(50,50);
         Cover.setHeight(0);
     }
@@ -36,7 +36,7 @@ public class Screeming_Card implements SkillCard {
         }
         else
         {
-            objTemp.add(new Screeming(
+            objTemp.add(new Balloon(
                     caster.getBody().getWorld(),
                     caster.layer().parent(),
                     caster.getBody().getPosition().x / Stage1.M_PER_PIXEL,

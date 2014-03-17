@@ -7,17 +7,18 @@ import playn.core.ImageLayer;
 import static playn.core.PlayN.graphics;
 
 /**
- * Created by PSG on 3/17/14.
+ * Created by PSG on 3/16/14.
  */
-public class Screeming_eff {
+public class Bubble_eff {
+
     private boolean alive = true;
     private int e = 0;
     private ImageLayer L;
     private GroupLayer layer;
 
-    private float scale = 1f;
+    private float scale = 0.5f;
 
-    public Screeming_eff(Image img, GroupLayer layer, float x, float y)
+    public Bubble_eff(Image img, GroupLayer layer, float x, float y)
     {
         this.layer = layer;
 
@@ -36,10 +37,10 @@ public class Screeming_eff {
 
         if(e > 25)
         {
-            this.L.setScale(scale /= 1.2);
+            this.L.setScale(scale /= 1.5);
         }
 
-        if (e >= 300)
+        if (e >= 200)
         {
             this.destroy();
         }
@@ -55,4 +56,5 @@ public class Screeming_eff {
         alive = false;
         this.layer.remove(L);
     }
+
 }

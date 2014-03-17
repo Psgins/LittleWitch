@@ -3,44 +3,41 @@ package sut.game01.core.Skill;
 import org.jbox2d.common.Vec2;
 import org.jbox2d.dynamics.World;
 import playn.core.GroupLayer;
+import sut.game01.core.all_etc.DynamicObject;
 import sut.game01.core.screen.Stage1;
 
 import java.util.ArrayList;
 import java.util.List;
 
 /**
- * Created by PSG on 3/17/14.
+ * Created by PSG on 3/18/14.
  */
-public class Screeming extends Skill {
-
+public class Balloon extends Skill {
     private float y;
     private int timelife = 0;
 
-    List<Screeming_eff> coll = new ArrayList<Screeming_eff>();
-    List<Screeming_eff> tmp = new ArrayList<Screeming_eff>();
+    List<Balloon_eff> coll = new ArrayList<Balloon_eff>();
+    List<Balloon_eff> tmp = new ArrayList<Balloon_eff>();
 
-    private int Pass = 99;
-
-    public Screeming(World world, GroupLayer layer, float x, float y, Owner own, boolean isLeft, float moreDMG)
+    public Balloon(World world, GroupLayer layer, float x, float y, DynamicObject.Owner own, boolean isLeft, float moreDMG)
     {
         owner = own;
         AdditionDamage = moreDMG;
         layer.add(AllLayer);
         this.y = y;
-        timelife = 1000;
+        timelife = 500;
 
-        BaseDamage = 70;
+        BaseDamage = 15;
         RangeDamage = 10;
 
-        initPhysicsBody(world,x,y,100,100,true);
-        body.getFixtureList().setDensity(0.03f);
+        initPhysicsBody(world,x,y,20,20,true);
         body.setBullet(true);
         body.setFixedRotation(true);
 
         if(isLeft)
-            body.applyLinearImpulse(new Vec2(-8.5f,0f),body.getPosition());
+            body.applyLinearImpulse(new Vec2(-5.7f,0f),body.getPosition());
         else
-            body.applyLinearImpulse(new Vec2(8.5f,0f),body.getPosition());
+            body.applyLinearImpulse(new Vec2(5.7f,0f),body.getPosition());
 
         ready = true;
     }
@@ -57,12 +54,12 @@ public class Screeming extends Skill {
         // create effect if still alive
         if(e >= 25 && timelife > 0)
         {
-            coll.add(new Screeming_eff(Stage1.imageStore.WhiteCircle,AllLayer,body.getPosition().x / Stage1.M_PER_PIXEL,body.getPosition().y / Stage1.M_PER_PIXEL));
+            coll.add(new Balloon_eff(Stage1.imageStore.WhiteCircle,AllLayer,body.getPosition().x / Stage1.M_PER_PIXEL,body.getPosition().y / Stage1.M_PER_PIXEL));
             e = 0;
         }
 
         // update and make effect to trash
-        for(Screeming_eff x : coll)
+        for(Balloon_eff x : coll)
         {
             if(x.Alive())
                 x.update(delta);
@@ -71,7 +68,7 @@ public class Screeming extends Skill {
         }
 
         // clear trash
-        for(Screeming_eff x : tmp)
+        for(Balloon_eff x : tmp)
             coll.remove(x);
         tmp.clear();
 
@@ -94,15 +91,13 @@ public class Screeming extends Skill {
 
         // keep fireball floating
         if (body != null)
-            if(body.getPosition().y / Stage1.M_PER_PIXEL > y + 5f) body.applyForce(new Vec2(0f,-40f),body.getPosition());
+            body.applyForce(new Vec2(0f,-30f),body.getPosition());
     }
 
     @Override
     public void destroy() {
         super.destroy();
 
-        if(--Pass <= 0)
-            timelife = 0;
+        timelife = 0;
     }
-
 }
