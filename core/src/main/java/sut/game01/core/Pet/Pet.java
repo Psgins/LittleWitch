@@ -19,9 +19,12 @@ public class Pet extends DynamicObject {
     protected Sprite sprite = null;
     protected int spriteIndex = -1;
     protected int e = 0;
+    protected int delay = 0;
     protected int offset = 0;
     protected int renderSpeed = 150;
     protected GroupLayer AllLayer = graphics().createGroupLayer();
+    protected enum State {idle,buff}
+    protected State state = State.idle;
 
     protected Vec2 seekMain(Character focus)
     {
@@ -46,5 +49,17 @@ public class Pet extends DynamicObject {
                 body.applyForce(new Vec2(moveSpeed,0f),body.getPosition());
             else
                 body.applyForce(new Vec2(-moveSpeed,0f),body.getPosition());
+    }
+
+    protected void AutoBuff(int delta)
+    {
+        delay += delta;
+
+        if(delay >= 10000)
+        {
+            state = State.buff;
+            spriteIndex = -1;
+            delay = 0;
+        }
     }
 }

@@ -14,10 +14,6 @@ import sut.game01.core.sprite.SpriteLoader;
  */
 public class MiniSpirit extends Pet {
 
-    public enum State {idle,buff}
-
-    private State state = State.idle;
-
     public MiniSpirit(final World world,final GroupLayer layer,final Character focus)
     {
         main = focus;
@@ -59,12 +55,18 @@ public class MiniSpirit extends Pet {
 
         e += delta;
 
+        AutoBuff(delta);
+
         if(e >= renderSpeed)
         {
             switch (state)
             {
                 case idle:
                     offset = 0;
+                    break;
+                case buff:
+                    offset = 4;
+                    if(spriteIndex == 6) state = State.idle;
                     break;
             }
 
