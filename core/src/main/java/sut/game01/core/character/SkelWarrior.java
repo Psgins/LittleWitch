@@ -6,6 +6,7 @@ import playn.core.GroupLayer;
 import playn.core.util.Callback;
 import sut.game01.core.Skill.Bubble;
 import sut.game01.core.Skill.Skill;
+import sut.game01.core.Skill.SwordAttack;
 import sut.game01.core.all_etc.DynamicObject;
 import sut.game01.core.all_etc.FloatLabel;
 import sut.game01.core.screen.Stage1;
@@ -13,35 +14,36 @@ import sut.game01.core.sprite.Sprite;
 import sut.game01.core.sprite.SpriteLoader;
 
 /**
- * Created by PSG on 3/13/14.
+ * Created by PSG on 3/18/14.
  */
-public class MiniGhost extends Character {
+public class SkelWarrior extends Character {
+    public enum State {idleL,idleR,RunL,RunR,AtkL,AtkR,dead}
 
-    public enum State {idle,die}
-    private float y;
+    private State state = State.RunL;
 
     private int DelayCount = 0;
-    private int AttackDelay = 2000;
-    private State state = State.idle;
+    private int AttackDelay = 1000;
 
-    public MiniGhost(final World world, final GroupLayer layer, final float x, final float y, Owner own, FloatLabel fLabel)
+    public SkelWarrior(final World world, final GroupLayer layer, final float x, final float y, Owner own, FloatLabel fLabel)
     {
-        this.y = y;
+        renderSpeed = 100;
         floatLabel = fLabel;
 
         hp = 200;
         maxHP = 200;
+        attack = 30;
+        defend = 10;
 
-        sprite = SpriteLoader.getSprite("images/CharSprite/MiniGhost.json");
+        sprite = SpriteLoader.getSprite("images/CharSprite/SkelSprite.json");
         sprite.addCallback(new Callback<Sprite>() {
             @Override
             public void onSuccess(Sprite result) {
                 sprite.setSprite(spriteIndex);
-                sprite.layer().setOrigin(80f /2f, 48f /2f);
+                sprite.layer().setOrigin(70f, 75f);
 
-                initPhysicsBody(world, x, y, 30f, 35f,true);
+                initPhysicsBody(world, x, y, 50f, 80f,false);
 
-                createHPbar(sprite.layer().tx(),sprite.layer().ty()- 25,45);
+                createHPbar(sprite.layer().tx(),sprite.layer().ty()- 55f,60);
 
                 AllLayer.add(sprite.layer());
                 layer.add(AllLayer);
@@ -68,12 +70,30 @@ public class MiniGhost extends Character {
         {
             switch (state)
             {
-                case idle:
+                case idleR:
                     offset = 0;
                     break;
-                case die:
+                case idleL:
                     offset = 4;
-                    if (spriteIndex == 7) {
+                    break;
+                case RunR:
+                    offset = 8;
+                    break;
+                case RunL:
+                    offset = 12;
+                    break;
+                case AtkL:
+                    offset = 16;
+                    if(spriteIndex == 18) setState(State.idleL);
+                    break;
+                case AtkR:
+                    offset = 20;
+                    if(spriteIndex == 22) setState(State.idleR);
+                    break;
+                case dead:
+                    offset = 24;
+                    if (spriteIndex == 27 )
+                    {
                         AllLayer.parent().remove(AllLayer);
                         body.getWorld().destroyBody(body);
                         alive = false;
@@ -87,13 +107,21 @@ public class MiniGhost extends Character {
         }
 
         // reject statements below when dead
-        if(state == State.die) return;
+        if(state == State.dead) return;
 
         // SeekMain
         Vec2 tmpSeek = seekMain(Stage1.main);
-        if((tmpSeek.x > 7 || tmpSeek.x < -7) && tmpSeek.x != 999f)
+        if((tmpSeek.x > 3 || tmpSeek.x < -3) && tmpSeek.x != 999f)
         {
-            Move2Main(Stage1.main,tmpSeek,1);
+            Move2Main(Stage1.main,tmpSeek,13f);
+            if(body.getLinearVelocity().x < 0)
+            {
+                if(state != State.RunL) setState(State.RunL);
+            }
+            else
+            {
+                if(state != State.RunR) setState(State.RunR);
+            }
         }
         else
         {
@@ -104,9 +132,6 @@ public class MiniGhost extends Character {
                 DelayCount = 0;
             }
         }
-
-        // Keep floating
-        if(body.getPosition().y / Stage1.M_PER_PIXEL > y + 10) body.applyForce(new Vec2(0,-40f),body.getPosition());
     }
 
     @Override
@@ -120,7 +145,7 @@ public class MiniGhost extends Character {
     @Override
     public void contact(DynamicObject A, DynamicObject B) {
 
-        if (!alive || state == State.die) return;
+        if (!alive || state == State.dead) return;
 
         DynamicObject other;
 
@@ -143,8 +168,7 @@ public class MiniGhost extends Character {
 
                 if (hp <= 0)
                 {
-                    renderSpeed = 50;
-                    state = State.die;
+                    setState(State.dead);
                 }
                 skillObject.destroy();
             }
@@ -156,15 +180,50 @@ public class MiniGhost extends Character {
 
         if(focus.getBody() == null) return;
 
-        boolean isLeft = distance.x > 0 ? false:true;
+        if(distance.x > 0 )
+        {
+            Stage1.tmpDynamic.add(new SwordAttack(
+                    body.getWorld(),
+                    body.getPosition().x / Stage1.M_PER_PIXEL,
+                    body.getPosition().y / Stage1.M_PER_PIXEL,
+                    owner,
+                    false,
+                    getAttack()));
+            setState(State.AtkR);
+        }
+        else
+        {
+            Stage1.tmpDynamic.add(new SwordAttack(
+                    body.getWorld(),
+                    body.getPosition().x / Stage1.M_PER_PIXEL,
+                    body.getPosition().y / Stage1.M_PER_PIXEL,
+                    owner,
+                    true,
+                    getAttack()));
+            setState(State.AtkL);
+        }
+    }
 
-        Stage1.tmpDynamic.add(new Bubble(
-                body.getWorld(),
-                AllLayer.parent(),
-                body.getPosition().x / Stage1.M_PER_PIXEL,
-                body.getPosition().y / Stage1.M_PER_PIXEL,
-                owner,
-                isLeft,
-                0));
+    private void setState(State state)
+    {
+        switch (state)
+        {
+            case idleR:
+            case idleL:
+            case RunL:
+            case RunR:
+                renderSpeed = 200;
+                break;
+            case AtkL:
+            case AtkR:
+                renderSpeed = 100;
+                break;
+            case dead:
+                renderSpeed = 50;
+                break;
+        }
+
+        this.state = state;
+        spriteIndex = -1;
     }
 }

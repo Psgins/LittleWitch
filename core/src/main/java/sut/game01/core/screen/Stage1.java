@@ -148,6 +148,7 @@ public class Stage1 extends Screen {
         objDynamic.add(new MiniGhost(world,layer,600f,350f, Character.Owner.Enemy,fLabel));
         objDynamic.add(new MiniGhost(world,layer,550f,300f, Character.Owner.Enemy,fLabel));
         objDynamic.add(new MiniGhost(world,layer,800f,275f, Character.Owner.Enemy,fLabel));
+        objDynamic.add(new SkelWarrior(world,layer,500f,312f, Character.Owner.Enemy,fLabel));
 
         //UI
         hpBarUI = new HPBarUI(main,UIGroup);

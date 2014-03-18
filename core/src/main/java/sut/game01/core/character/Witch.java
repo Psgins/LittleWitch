@@ -111,7 +111,7 @@ public class Witch extends Character {
         super.contact(A, B);
 
 
-        if (!alive) return;
+        if (!alive || state == State.dead) return;
 
         DynamicObject other;
 
@@ -125,8 +125,11 @@ public class Witch extends Character {
             Skill skillObject = (Skill)other;
             if(skillObject.getOwner() != owner)
             {
-                float dmg = skillObject.getDamage();
+                float dmg = skillObject.getDamage() - defend;
+                if (dmg < 0) dmg = 1;
+
                 hp = (hp - dmg) < 0 ? 0 : (hp - dmg);
+
                 HPBar.setWidth(HPBarWidth * (hp/maxHP));
 
                 floatLabel.CreateText((int)dmg,body.getPosition().x / Stage1.M_PER_PIXEL,(body.getPosition().y / Stage1.M_PER_PIXEL)-15f);
@@ -143,6 +146,8 @@ public class Witch extends Character {
 
     public void setState (State state)
     {
+        if(state == State.dead) return;
+
         this.state = state;
 
         switch (state)
@@ -169,7 +174,7 @@ public class Witch extends Character {
 
     public void jump()
     {
-        if(body.getLinearVelocity().y == 0)
+        if(body.getLinearVelocity().y == 0 || state != State.dead)
             body.applyLinearImpulse(new Vec2(0f,-45f),body.getPosition());
     }
 }
