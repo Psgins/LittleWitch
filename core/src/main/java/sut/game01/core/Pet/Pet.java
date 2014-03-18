@@ -2,6 +2,7 @@ package sut.game01.core.Pet;
 
 import org.jbox2d.common.Vec2;
 import playn.core.GroupLayer;
+import sut.game01.core.Rune.Rune;
 import sut.game01.core.all_etc.DynamicObject;
 import sut.game01.core.character.Character;
 import sut.game01.core.sprite.Sprite;
@@ -19,9 +20,13 @@ public class Pet extends DynamicObject {
     protected Sprite sprite = null;
     protected int spriteIndex = -1;
     protected int e = 0;
+    protected int delay = 0;
     protected int offset = 0;
     protected int renderSpeed = 150;
     protected GroupLayer AllLayer = graphics().createGroupLayer();
+    protected enum State {idle,buff}
+    protected State state = State.idle;
+    protected Rune rune = null;
 
     protected Vec2 seekMain(Character focus)
     {
@@ -46,5 +51,19 @@ public class Pet extends DynamicObject {
                 body.applyForce(new Vec2(moveSpeed,0f),body.getPosition());
             else
                 body.applyForce(new Vec2(-moveSpeed,0f),body.getPosition());
+    }
+
+    protected void AutoBuff(int delta)
+    {
+        if(rune == null) return;
+        delay += delta;
+
+        if(delay >= 10000)
+        {
+            rune.Buff(main);
+            state = State.buff;
+            spriteIndex = -1;
+            delay = 0;
+        }
     }
 }

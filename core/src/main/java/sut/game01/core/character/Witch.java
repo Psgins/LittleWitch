@@ -94,6 +94,8 @@ public class Witch extends Character {
             sprite.setSprite(spriteIndex);
             e = 0;
         }
+
+        HPBar.setWidth(HPBarWidth * (hp/maxHP));
     }
 
     @Override

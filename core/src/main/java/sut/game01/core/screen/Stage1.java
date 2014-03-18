@@ -11,6 +11,8 @@ import playn.core.*;
 import playn.core.util.Clock;
 import sut.game01.core.Environment.EdgeLine;
 import sut.game01.core.Pet.MiniSpirit;
+import sut.game01.core.Rune.HPRegenSmall;
+import sut.game01.core.Rune.Rune;
 import sut.game01.core.Skill.*;
 import sut.game01.core.all_etc.*;
 import sut.game01.core.character.*;
@@ -28,7 +30,7 @@ public class Stage1 extends Screen {
     private World world;
 
     // showdebug
-    private boolean ShowDebugDraw = false;
+    private boolean ShowDebugDraw = true;
     private DebugDrawBox2D debugDraw;
 
     //Screen
@@ -138,7 +140,8 @@ public class Stage1 extends Screen {
         objDynamic.add(main);
 
         // - Pet
-        objDynamic.add(new MiniSpirit(world,layer,main));
+        Rune rune = new HPRegenSmall();
+        objDynamic.add(new MiniSpirit(world,layer,main,rune));
 
         // - Monster
         objDynamic.add(new MiniGhost(world,layer,700f,350f, Character.Owner.Enemy,fLabel));

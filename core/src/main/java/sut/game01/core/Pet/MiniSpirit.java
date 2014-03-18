@@ -4,6 +4,7 @@ import org.jbox2d.common.Vec2;
 import org.jbox2d.dynamics.World;
 import playn.core.GroupLayer;
 import playn.core.util.Callback;
+import sut.game01.core.Rune.Rune;
 import sut.game01.core.character.Character;
 import sut.game01.core.screen.Stage1;
 import sut.game01.core.sprite.Sprite;
@@ -14,13 +15,10 @@ import sut.game01.core.sprite.SpriteLoader;
  */
 public class MiniSpirit extends Pet {
 
-    public enum State {idle,buff}
-
-    private State state = State.idle;
-
-    public MiniSpirit(final World world,final GroupLayer layer,final Character focus)
+    public MiniSpirit(final World world,final GroupLayer layer,final Character focus,Rune cRune)
     {
         main = focus;
+        rune = cRune;
 
         sprite = SpriteLoader.getSprite("images/pet/MiniSpirit.json");
         sprite.addCallback(new Callback<Sprite>() {
@@ -59,12 +57,18 @@ public class MiniSpirit extends Pet {
 
         e += delta;
 
+        AutoBuff(delta);
+
         if(e >= renderSpeed)
         {
             switch (state)
             {
                 case idle:
                     offset = 0;
+                    break;
+                case buff:
+                    offset = 4;
+                    if(spriteIndex == 6) state = State.idle;
                     break;
             }
 
