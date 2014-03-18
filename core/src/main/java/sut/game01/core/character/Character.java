@@ -98,4 +98,9 @@ public class Character extends DynamicObject {
         else
             return true;
     }
+
+    public void setHp(float hp)
+    {
+       this.hp = hp;
+    }
 }
