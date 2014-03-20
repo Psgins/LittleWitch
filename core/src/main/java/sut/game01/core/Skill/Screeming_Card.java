@@ -22,7 +22,7 @@ public class Screeming_Card implements SkillCard {
 
     public Screeming_Card()
     {
-        this.Icon = graphics().createImageLayer(assets().getImage("images/Skill/ScreemingIcon.png"));
+        this.Icon = graphics().createImageLayer(Stage1.imageStore.itemIcon[0]);
         this.Icon.setSize(50,50);
         Cover.setHeight(0);
     }

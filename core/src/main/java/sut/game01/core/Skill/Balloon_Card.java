@@ -22,7 +22,7 @@ public class Balloon_Card implements SkillCard {
 
     public Balloon_Card()
     {
-        this.Icon = graphics().createImageLayer(assets().getImage("images/Skill/BalloonIcon.png"));
+        this.Icon = graphics().createImageLayer(Stage1.imageStore.itemIcon[1]);
         this.Icon.setSize(50,50);
         Cover.setHeight(0);
     }
