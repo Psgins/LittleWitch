@@ -85,6 +85,7 @@ public class ItemCard extends DynamicObject {
 
         if(other.getClass() == Witch.class)
         {
+            Stage1.itemList.add(itemId);
             hasKept = true;
         }
     }

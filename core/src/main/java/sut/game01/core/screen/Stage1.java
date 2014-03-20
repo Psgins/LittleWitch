@@ -48,6 +48,7 @@ public class Stage1 extends Screen {
     public static Witch main;
     private HPBarUI hpBarUI;
     private GameContent gContent;
+    public static List<Integer> itemList;
 
     private SkillCardUI SkillUI;
     private SkillCard[] skill = new SkillCard[4];
@@ -154,10 +155,9 @@ public class Stage1 extends Screen {
 
         //UI
         hpBarUI = new HPBarUI(main,UIGroup);
-
         skill = ContentLoader.SkillCardLoader(gContent.getSkill());
         SkillUI = new SkillCardUI(main,UIGroup,tmpDynamic,skill);
-
+        itemList = gContent.getItem();
         layer.add(UIGroup);
 
         // controller

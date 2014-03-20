@@ -120,8 +120,8 @@ public class CharacterScreen extends UIScreen {
     @Override
     public void update(int delta) {
         super.update(delta);
-        model.update(delta);
 
+        model.update(delta);
         updateSkillSlot();
         updateItemSlot();
     }
