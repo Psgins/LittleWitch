@@ -21,6 +21,7 @@ public class ItemCard extends DynamicObject {
     private int itemId = -1;
     private ImageLayer itemImage;
     private boolean hasKept = false;
+    private int TimeOut = 10000;
 
     public ItemCard (World world,GroupLayer layer, Vec2 Position, int itemId)
     {
@@ -29,12 +30,14 @@ public class ItemCard extends DynamicObject {
 
         itemImage = PlayN.graphics().createImageLayer(ImageStore.itemIcon[itemId]);
         itemImage.setOrigin(15,15);
-        itemImage.setSize(30,30);
-        layer.add(itemImage);
+        itemImage.setSize(30, 30);
 
         initPhysicsBody(world, Position.x / VariableConstant.worldScale, Position.y / VariableConstant.worldScale, 20, 20, true);
         body.getFixtureList().setDensity(0.1f);
-        body.applyLinearImpulse(new Vec2(0,-1),body.getPosition());
+        body.applyLinearImpulse(new Vec2(0,-1),body.getPosition()); 
+        itemImage.setTranslation(body.getPosition().x / VariableConstant.worldScale, body.getPosition().y / VariableConstant.worldScale);
+        layer.add(itemImage);
+
         ready = true;
     }
 
@@ -43,14 +46,18 @@ public class ItemCard extends DynamicObject {
         super.update(delta);
 
         if(!alive || !ready) return;
+
+        if((TimeOut-= delta) <= 0)
+            hasKept = true;
+
         if(hasKept)
         {
             body.applyForce(new Vec2(0,-5),body.getPosition());
             if(itemImage.alpha() <= 0)
             {
-                alive = false;
                 itemImage.parent().remove(itemImage);
                 body.getWorld().destroyBody(body);
+                alive = false;
             }
             else
             {
