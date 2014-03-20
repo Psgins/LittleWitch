@@ -6,7 +6,7 @@ import playn.core.ImageLayer;
 import static playn.core.PlayN.*;
 
 import sut.game01.core.all_etc.DynamicObject;
-import sut.game01.core.all_etc.FloatLabel;
+import sut.game01.core.UI.FloatLabel;
 import sut.game01.core.screen.Stage1;
 import sut.game01.core.sprite.Sprite;
 

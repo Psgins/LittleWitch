@@ -1,4 +1,4 @@
-package sut.game01.core.all_etc;
+package sut.game01.core.UI;
 
 import playn.core.GroupLayer;
 import playn.core.Image;
