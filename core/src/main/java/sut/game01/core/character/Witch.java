@@ -7,6 +7,7 @@ import playn.core.util.Callback;
 import sut.game01.core.Skill.Skill;
 import sut.game01.core.all_etc.DynamicObject;
 import sut.game01.core.UI.FloatLabel;
+import sut.game01.core.all_etc.GameContent;
 import sut.game01.core.all_etc.VariableConstant;
 import sut.game01.core.screen.Stage1;
 import sut.game01.core.sprite.Sprite;
@@ -24,10 +25,12 @@ public class Witch extends Character {
 
     private State state = State.idleR;
 
-    public Witch(final World world, final GroupLayer layer, final float x, final float y, FloatLabel fLabel)
+    public Witch(final World world, final GroupLayer layer, final float x, final float y, FloatLabel fLabel,GameContent gContent)
     {
         maxHP = 100;
         hp = 100;
+        level = gContent.getLevel();
+        exp = gContent.getExp();
 
         floatLabel = fLabel;
 

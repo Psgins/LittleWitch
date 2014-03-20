@@ -139,7 +139,7 @@ public class Stage1 extends Screen {
 
         //character
         // - Main
-        main = new Witch(world,layer, 320,312,fLabel);
+        main = new Witch(world,layer, 320,312,fLabel,gContent);
         objDynamic.add(main);
 
         // - Pet
@@ -282,6 +282,8 @@ public class Stage1 extends Screen {
                         main.setState(Witch.State.idleR);
                         break;
                     case ESCAPE:
+                        gContent.setLevel(main.getLevel());
+                        gContent.setExp(main.getExp());
                         ss.remove(Stage1.this);
                         break;
                 }
