@@ -108,7 +108,7 @@ public class Witch extends Character {
         super.paint();
 
         if (!ready) return;
-            AllLayer.setTranslation(body.getPosition().x / Stage1.M_PER_PIXEL, body.getPosition().y / Stage1.M_PER_PIXEL);
+            AllLayer.setTranslation(body.getPosition().x / VariableConstant.worldScale, body.getPosition().y / VariableConstant.worldScale);
     }
 
     @Override
@@ -137,7 +137,7 @@ public class Witch extends Character {
 
                 HPBar.setWidth(HPBarWidth * (hp/maxHP));
 
-                floatLabel.CreateText((int)dmg,body.getPosition().x / Stage1.M_PER_PIXEL,(body.getPosition().y / Stage1.M_PER_PIXEL)-15f);
+                floatLabel.CreateText((int)dmg,body.getPosition().x / VariableConstant.worldScale,(body.getPosition().y / VariableConstant.worldScale)-15f);
 
                 if (hp <= 0)
                 {

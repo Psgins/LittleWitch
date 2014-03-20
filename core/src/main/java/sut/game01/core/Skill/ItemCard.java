@@ -6,6 +6,7 @@ import playn.core.GroupLayer;
 import playn.core.ImageLayer;
 import playn.core.PlayN;
 import sut.game01.core.all_etc.DynamicObject;
+import sut.game01.core.all_etc.ImageStore;
 import sut.game01.core.all_etc.VariableConstant;
 import sut.game01.core.character.Witch;
 import sut.game01.core.screen.Stage1;
@@ -26,7 +27,7 @@ public class ItemCard extends DynamicObject {
         this.itemId = itemId;
         this.Position = Position;
 
-        itemImage = PlayN.graphics().createImageLayer(Stage1.imageStore.itemIcon[itemId]);
+        itemImage = PlayN.graphics().createImageLayer(ImageStore.itemIcon[itemId]);
         itemImage.setOrigin(15,15);
         itemImage.setSize(30,30);
         layer.add(itemImage);

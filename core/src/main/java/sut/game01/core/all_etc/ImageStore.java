@@ -11,8 +11,6 @@ import static playn.core.PlayN.assets;
  */
 public class ImageStore {
 
-    private int count = 0;
-
     public static final Image HPBar = PlayN.assets().getImage("images/etc/hpbar.png");;
     public static final Image Fireball = PlayN.assets().getImage("images/Skill/fireball.png");
     public static final Image WhiteCircle = PlayN.assets().getImage("images/Skill/light.png");
@@ -35,12 +33,4 @@ public class ImageStore {
             PlayN.assets().getImage("images/Skill/ScreemingIcon.png"),
             PlayN.assets().getImage("images/Skill/BalloonIcon.png")
     };
-
-    public boolean isReady()
-    {
-        if(count <= 0)
-            return true;
-        else
-            return false;
-    }
 }

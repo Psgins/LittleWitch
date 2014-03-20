@@ -8,6 +8,7 @@ import sut.game01.core.Skill.Skill;
 import sut.game01.core.Skill.SwordAttack;
 import sut.game01.core.all_etc.DynamicObject;
 import sut.game01.core.UI.FloatLabel;
+import sut.game01.core.all_etc.VariableConstant;
 import sut.game01.core.screen.Stage1;
 import sut.game01.core.sprite.Sprite;
 import sut.game01.core.sprite.SpriteLoader;
@@ -138,7 +139,7 @@ public class SkelWarrior extends Character {
         super.paint();
 
         if(!alive || !ready) return;
-        AllLayer.setTranslation(body.getPosition().x / Stage1.M_PER_PIXEL, body.getPosition().y / Stage1.M_PER_PIXEL);
+        AllLayer.setTranslation(body.getPosition().x / VariableConstant.worldScale, body.getPosition().y / VariableConstant.worldScale);
     }
 
     @Override
@@ -163,7 +164,7 @@ public class SkelWarrior extends Character {
                 hp = (hp - dmg) < 0 ? 0 : (hp - dmg);
                 HPBar.setWidth(HPBarWidth * (hp/maxHP));
 
-                floatLabel.CreateText((int)dmg,body.getPosition().x / Stage1.M_PER_PIXEL,(body.getPosition().y / Stage1.M_PER_PIXEL)-15f);
+                floatLabel.CreateText((int)dmg,body.getPosition().x / VariableConstant.worldScale,(body.getPosition().y / VariableConstant.worldScale)-15f);
 
                 if (hp <= 0)
                 {
@@ -184,8 +185,8 @@ public class SkelWarrior extends Character {
         {
             Stage1.tmpDynamic.add(new SwordAttack(
                     body.getWorld(),
-                    body.getPosition().x / Stage1.M_PER_PIXEL,
-                    body.getPosition().y / Stage1.M_PER_PIXEL,
+                    body.getPosition().x / VariableConstant.worldScale,
+                    body.getPosition().y / VariableConstant.worldScale,
                     owner,
                     false,
                     getAttack()));
@@ -195,8 +196,8 @@ public class SkelWarrior extends Character {
         {
             Stage1.tmpDynamic.add(new SwordAttack(
                     body.getWorld(),
-                    body.getPosition().x / Stage1.M_PER_PIXEL,
-                    body.getPosition().y / Stage1.M_PER_PIXEL,
+                    body.getPosition().x / VariableConstant.worldScale,
+                    body.getPosition().y / VariableConstant.worldScale,
                     owner,
                     true,
                     getAttack()));

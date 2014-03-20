@@ -26,7 +26,7 @@ public class DynamicObject {
         body.setFixedRotation(true);
 
         PolygonShape shape = new PolygonShape();
-        shape.setAsBox(width * Stage1.M_PER_PIXEL / 2, height * Stage1.M_PER_PIXEL / 2);
+        shape.setAsBox(width * VariableConstant.worldScale / 2, height * VariableConstant.worldScale / 2);
         FixtureDef fixtureDef = new FixtureDef();
         fixtureDef.shape = shape;
         fixtureDef.density = 0.4f;
@@ -36,7 +36,7 @@ public class DynamicObject {
         body.createFixture(fixtureDef);
 
         body.setLinearDamping(0.2f); // 0.2f
-        body.setTransform(new Vec2(pX * Stage1.M_PER_PIXEL, pY * Stage1.M_PER_PIXEL), 0f);
+        body.setTransform(new Vec2(pX * VariableConstant.worldScale, pY * VariableConstant.worldScale), 0f);
     }
 
     public Body getBody()

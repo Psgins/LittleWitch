@@ -27,7 +27,6 @@ import java.util.List;
 
 public class Stage1 extends Screen {
     // world variable
-    public static float M_PER_PIXEL = 1 / 26.666667f;
     private  static int width = 48;
     private  static int height = 18;
     private World world;
@@ -53,8 +52,6 @@ public class Stage1 extends Screen {
     private SkillCardUI SkillUI;
     private SkillCard[] skill = new SkillCard[4];
 
-    public static ImageStore imageStore = new ImageStore();
-
     //UIGroup
     private GroupLayer UIGroup = PlayN.graphics().createGroupLayer();
 
@@ -79,7 +76,7 @@ public class Stage1 extends Screen {
 
         if(ShowDebugDraw)
         {
-            CanvasImage image = PlayN.graphics().createImage(width / M_PER_PIXEL,480);
+            CanvasImage image = PlayN.graphics().createImage(width / VariableConstant.worldScale,480);
             layer.add(PlayN.graphics().createImageLayer(image));
             debugDraw = new DebugDrawBox2D();
             debugDraw.setCanvas(image);
@@ -87,7 +84,7 @@ public class Stage1 extends Screen {
             debugDraw.setStrokeAlpha(150);
             debugDraw.setFillAlpha(75);
             debugDraw.setFlags(DebugDraw.e_shapeBit | DebugDraw.e_jointBit | DebugDraw.e_aabbBit);
-            debugDraw.setCamera(0,0,1f / Stage1.M_PER_PIXEL);
+            debugDraw.setCamera(0,0,1f / VariableConstant.worldScale);
             world.setDebugDraw(debugDraw);
         }
 
@@ -188,13 +185,13 @@ public class Stage1 extends Screen {
                             case idleL:
                             case runL:
                             case atkL:
-                                objDynamic.add(new Fireball(world,layer,(main.getBody().getPosition().x / M_PER_PIXEL) - 25f,(main.getBody().getPosition().y / M_PER_PIXEL), DynamicObject.Owner.Ally,true,main.getAttack()));
+                                objDynamic.add(new Fireball(world,layer,(main.getBody().getPosition().x / VariableConstant.worldScale) - 25f,(main.getBody().getPosition().y / VariableConstant.worldScale), DynamicObject.Owner.Ally,true,main.getAttack()));
                                 main.setState(Witch.State.atkL);
                                 break;
                             case idleR:
                             case runR:
                             case atkR:
-                                objDynamic.add(new Fireball(world,layer,(main.getBody().getPosition().x / M_PER_PIXEL) + 25f,(main.getBody().getPosition().y / M_PER_PIXEL), DynamicObject.Owner.Ally,false,main.getAttack()));
+                                objDynamic.add(new Fireball(world,layer,(main.getBody().getPosition().x / VariableConstant.worldScale) + 25f,(main.getBody().getPosition().y / VariableConstant.worldScale), DynamicObject.Owner.Ally,false,main.getAttack()));
                                 main.setState(Witch.State.atkR);
                                 break;
                         }
@@ -296,8 +293,6 @@ public class Stage1 extends Screen {
     public void update(int delta) {
         super.update(delta);
 
-        if(!imageStore.isReady()) return;
-
         world.step(0.033f,10,10);
 
         // Update all object in list
@@ -311,7 +306,7 @@ public class Stage1 extends Screen {
             }
             else
             {
-                layer.setTranslation(320 - main.getBody().getWorldCenter().x / M_PER_PIXEL,0);
+                layer.setTranslation(320 - main.getBody().getWorldCenter().x / VariableConstant.worldScale,0);
                 UIGroup.setTranslation(0 - layer.tx(),0);
             }
         }

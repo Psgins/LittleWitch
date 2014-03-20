@@ -111,7 +111,7 @@ public class MiniGhost extends Character {
         }
 
         // Keep floating
-        if(body.getPosition().y / Stage1.M_PER_PIXEL > y + 10) body.applyForce(new Vec2(0,-40f),body.getPosition());
+        if(body.getPosition().y / VariableConstant.worldScale > y + 10) body.applyForce(new Vec2(0,-40f),body.getPosition());
     }
 
     @Override
@@ -119,7 +119,7 @@ public class MiniGhost extends Character {
         super.paint();
 
         if(!alive || !ready) return;
-        AllLayer.setTranslation(body.getPosition().x / Stage1.M_PER_PIXEL, body.getPosition().y / Stage1.M_PER_PIXEL);
+        AllLayer.setTranslation(body.getPosition().x / VariableConstant.worldScale, body.getPosition().y / VariableConstant.worldScale);
     }
 
     @Override
@@ -144,7 +144,7 @@ public class MiniGhost extends Character {
                 hp = (hp - dmg) < 0 ? 0 : (hp - dmg);
                 HPBar.setWidth(HPBarWidth * (hp/maxHP));
 
-                floatLabel.CreateText((int)dmg,body.getPosition().x / Stage1.M_PER_PIXEL,(body.getPosition().y / Stage1.M_PER_PIXEL)-15f);
+                floatLabel.CreateText((int)dmg,body.getPosition().x / VariableConstant.worldScale,(body.getPosition().y / VariableConstant.worldScale)-15f);
 
                 if (hp <= 0)
                 {
@@ -169,8 +169,8 @@ public class MiniGhost extends Character {
         Stage1.tmpDynamic.add(new Bubble(
                 body.getWorld(),
                 AllLayer.parent(),
-                body.getPosition().x / Stage1.M_PER_PIXEL,
-                body.getPosition().y / Stage1.M_PER_PIXEL,
+                body.getPosition().x / VariableConstant.worldScale,
+                body.getPosition().y / VariableConstant.worldScale,
                 owner,
                 isLeft,
                 0));
