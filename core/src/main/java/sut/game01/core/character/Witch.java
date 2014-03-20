@@ -111,7 +111,7 @@ public class Witch extends Character {
         super.contact(A, B);
 
 
-        if (!alive || state == State.dead) return;
+        if (!alive && state != State.dead) return;
 
         DynamicObject other;
 
@@ -174,7 +174,7 @@ public class Witch extends Character {
 
     public void jump()
     {
-        if(body.getLinearVelocity().y == 0 || state != State.dead)
+        if(body.getLinearVelocity().y == 0 && state != State.dead)
             body.applyLinearImpulse(new Vec2(0f,-45f),body.getPosition());
     }
 }
