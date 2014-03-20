@@ -1,6 +1,7 @@
 package sut.game01.core.all_etc;
 
 import java.util.ArrayList;
+import java.util.HashSet;
 import java.util.List;
 
 /**
@@ -25,11 +26,27 @@ public class GameContent {
     public int getExp(){return exp;}
 
     public void save(){}
+
     public void load(){}
+
     public void create(){
         skill = new int[]{-1,-1,-1,-1};
         itemList = new ArrayList<Integer>();
         level = 1;
         exp = 0;
+    }
+
+    public void Refresh()
+    {
+        for(int i=0;i<4;i++)
+        {
+            itemList.add(skill[i]);
+            skill[i] = -1;
+        }
+
+        HashSet<Integer> tmp = new HashSet<Integer>();
+        tmp.addAll(itemList);
+        itemList.clear();
+        itemList.addAll(tmp);
     }
 }

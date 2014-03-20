@@ -12,6 +12,7 @@ import tripleplay.game.ScreenStack;
 import tripleplay.game.UIScreen;
 
 import java.util.ArrayList;
+import java.util.HashSet;
 import java.util.List;
 
 import static playn.core.PlayN.*;
@@ -95,8 +96,6 @@ public class CharacterScreen extends UIScreen {
                 layer.add(positionItemSlot[i][j]);
             }
         }
-        itemList.add(0);
-        itemList.add(1);
 
         gContent.create();
 
@@ -115,6 +114,11 @@ public class CharacterScreen extends UIScreen {
             }
         });
         layer.add(startLayer);
+    }
+
+    @Override
+    public void wasShown() {
+        gContent.Refresh();
     }
 
     @Override

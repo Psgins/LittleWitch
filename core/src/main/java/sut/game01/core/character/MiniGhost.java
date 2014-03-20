@@ -150,8 +150,6 @@ public class MiniGhost extends Character {
                 {
                     renderSpeed = 50;
                     state = State.die;
-
-
                     Stage1.main.gainEXP(15);
                 }
                 skillObject.destroy();
