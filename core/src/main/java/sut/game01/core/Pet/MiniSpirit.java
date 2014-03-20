@@ -5,6 +5,7 @@ import org.jbox2d.dynamics.World;
 import playn.core.GroupLayer;
 import playn.core.util.Callback;
 import sut.game01.core.Rune.Rune;
+import sut.game01.core.all_etc.VariableConstant;
 import sut.game01.core.character.Character;
 import sut.game01.core.screen.Stage1;
 import sut.game01.core.sprite.Sprite;
@@ -91,6 +92,6 @@ public class MiniSpirit extends Pet {
     @Override
     public void paint() {
         if(!alive || !ready) return;
-        sprite.layer().setTranslation(body.getPosition().x / Stage1.M_PER_PIXEL,body.getPosition().y / Stage1.M_PER_PIXEL);
+        sprite.layer().setTranslation(body.getPosition().x / VariableConstant.worldScale,body.getPosition().y / VariableConstant.worldScale);
     }
 }

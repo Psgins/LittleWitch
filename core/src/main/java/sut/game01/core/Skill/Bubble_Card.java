@@ -5,6 +5,8 @@ import static playn.core.PlayN.*;
 import playn.core.GroupLayer;
 import playn.core.ImageLayer;
 import sut.game01.core.all_etc.DynamicObject;
+import sut.game01.core.all_etc.ImageStore;
+import sut.game01.core.all_etc.VariableConstant;
 import sut.game01.core.character.Character;
 import sut.game01.core.screen.Stage1;
 
@@ -16,7 +18,7 @@ import java.util.List;
 public class Bubble_Card implements SkillCard {
 
     private ImageLayer Icon;
-    private ImageLayer Cover = graphics().createImageLayer(Stage1.imageStore.Cover);
+    private ImageLayer Cover = graphics().createImageLayer(ImageStore.Cover);
     private int cooldown = 200;
     private int e = 0;
 
@@ -39,8 +41,8 @@ public class Bubble_Card implements SkillCard {
             objTemp.add(new Bubble(
                     caster.getBody().getWorld(),
                     caster.layer().parent(),
-                    caster.getBody().getPosition().x / Stage1.M_PER_PIXEL,
-                    caster.getBody().getPosition().y / Stage1.M_PER_PIXEL,
+                    caster.getBody().getPosition().x / VariableConstant.worldScale,
+                    caster.getBody().getPosition().y / VariableConstant.worldScale,
                     caster.getOwner(),
                     isLeft,
                     caster.getAttack()));

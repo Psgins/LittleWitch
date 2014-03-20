@@ -30,7 +30,7 @@ public class Countdown {
         float space = 0;
         for(int i = 1;i < txtTime.length;i++)
         {
-            Image tmp = Stage1.imageStore.number[Integer.valueOf(txtTime[i])];
+            Image tmp = ImageStore.number[Integer.valueOf(txtTime[i])];
             ImageLayer numImg = graphics().createImageLayer(tmp);
             numImg.setOrigin(tmp.width()/2f,tmp.width()/2f);
             numImg.setTranslation((space += 10),0);

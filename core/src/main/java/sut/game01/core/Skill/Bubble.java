@@ -4,6 +4,7 @@ import org.jbox2d.common.Vec2;
 import org.jbox2d.dynamics.World;
 import playn.core.GroupLayer;
 import sut.game01.core.all_etc.ImageStore;
+import sut.game01.core.all_etc.VariableConstant;
 import sut.game01.core.screen.Stage1;
 
 import java.util.ArrayList;
@@ -55,7 +56,7 @@ public class Bubble extends Skill {
         // create effect if still alive
         if(e >= 25 && timelife > 0)
         {
-            coll.add(new Bubble_eff(ImageStore.WhiteCircle,AllLayer,body.getPosition().x / Stage1.M_PER_PIXEL,body.getPosition().y / Stage1.M_PER_PIXEL));
+            coll.add(new Bubble_eff(ImageStore.WhiteCircle,AllLayer,body.getPosition().x / VariableConstant.worldScale,body.getPosition().y / VariableConstant.worldScale));
             e = 0;
         }
 
@@ -92,7 +93,7 @@ public class Bubble extends Skill {
 
         // keep fireball floating
         if (body != null)
-            if(body.getPosition().y / Stage1.M_PER_PIXEL > y + 10f) body.applyForce(new Vec2(0f,-30f),body.getPosition());
+            if(body.getPosition().y / VariableConstant.worldScale > y + 10f) body.applyForce(new Vec2(0f,-30f),body.getPosition());
     }
 
     @Override

@@ -99,9 +99,15 @@ public class Character extends DynamicObject {
     {
         Vec2 tmp = seekMain(focus);
         if(tmp.x > 25 || tmp.x < -25 || focus.getBody() == null)
+        {
+            body.setActive(false);
             return false;
+        }
         else
+        {
+            body.setActive(true);
             return true;
+        }
     }
 
     public void setHp(float hp)

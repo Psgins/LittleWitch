@@ -3,6 +3,8 @@ package sut.game01.core.Skill;
 import org.jbox2d.common.Vec2;
 import org.jbox2d.dynamics.World;
 import playn.core.GroupLayer;
+import sut.game01.core.all_etc.ImageStore;
+import sut.game01.core.all_etc.VariableConstant;
 import sut.game01.core.screen.Stage1;
 
 import java.util.ArrayList;
@@ -57,7 +59,7 @@ public class Screeming extends Skill {
         // create effect if still alive
         if(e >= 25 && timelife > 0)
         {
-            coll.add(new Screeming_eff(Stage1.imageStore.WhiteCircle,AllLayer,body.getPosition().x / Stage1.M_PER_PIXEL,body.getPosition().y / Stage1.M_PER_PIXEL));
+            coll.add(new Screeming_eff(ImageStore.WhiteCircle,AllLayer,body.getPosition().x / VariableConstant.worldScale,body.getPosition().y / VariableConstant.worldScale));
             e = 0;
         }
 
@@ -94,7 +96,7 @@ public class Screeming extends Skill {
 
         // keep fireball floating
         if (body != null)
-            if(body.getPosition().y / Stage1.M_PER_PIXEL > y + 5f) body.applyForce(new Vec2(0f,-40f),body.getPosition());
+            if(body.getPosition().y / VariableConstant.worldScale > y + 5f) body.applyForce(new Vec2(0f,-40f),body.getPosition());
     }
 
     @Override

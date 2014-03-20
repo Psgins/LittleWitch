@@ -4,6 +4,7 @@ import playn.core.GroupLayer;
 import playn.core.ImageLayer;
 import sut.game01.core.all_etc.DynamicObject;
 import sut.game01.core.all_etc.ImageStore;
+import sut.game01.core.all_etc.VariableConstant;
 import sut.game01.core.character.*;
 import sut.game01.core.screen.Stage1;
 
@@ -40,8 +41,8 @@ public class Balloon_Card implements SkillCard {
             objTemp.add(new Balloon(
                     caster.getBody().getWorld(),
                     caster.layer().parent(),
-                    caster.getBody().getPosition().x / Stage1.M_PER_PIXEL,
-                    caster.getBody().getPosition().y / Stage1.M_PER_PIXEL,
+                    caster.getBody().getPosition().x / VariableConstant.worldScale,
+                    caster.getBody().getPosition().y / VariableConstant.worldScale,
                     caster.getOwner(),
                     isLeft,
                     caster.getAttack()));

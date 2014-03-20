@@ -7,6 +7,7 @@ import playn.core.util.Callback;
 import sut.game01.core.Skill.Skill;
 import sut.game01.core.all_etc.DynamicObject;
 import sut.game01.core.UI.FloatLabel;
+import sut.game01.core.all_etc.GameContent;
 import sut.game01.core.all_etc.VariableConstant;
 import sut.game01.core.screen.Stage1;
 import sut.game01.core.sprite.Sprite;
@@ -24,10 +25,12 @@ public class Witch extends Character {
 
     private State state = State.idleR;
 
-    public Witch(final World world, final GroupLayer layer, final float x, final float y, FloatLabel fLabel)
+    public Witch(final World world, final GroupLayer layer, final float x, final float y, FloatLabel fLabel,GameContent gContent)
     {
         maxHP = 100;
         hp = 100;
+        level = gContent.getLevel();
+        exp = gContent.getExp();
 
         floatLabel = fLabel;
 
@@ -108,7 +111,7 @@ public class Witch extends Character {
         super.paint();
 
         if (!ready) return;
-            AllLayer.setTranslation(body.getPosition().x / Stage1.M_PER_PIXEL, body.getPosition().y / Stage1.M_PER_PIXEL);
+            AllLayer.setTranslation(body.getPosition().x / VariableConstant.worldScale, body.getPosition().y / VariableConstant.worldScale);
     }
 
     @Override
@@ -137,7 +140,7 @@ public class Witch extends Character {
 
                 HPBar.setWidth(HPBarWidth * (hp/maxHP));
 
-                floatLabel.CreateText((int)dmg,body.getPosition().x / Stage1.M_PER_PIXEL,(body.getPosition().y / Stage1.M_PER_PIXEL)-15f);
+                floatLabel.CreateText((int)dmg,body.getPosition().x / VariableConstant.worldScale,(body.getPosition().y / VariableConstant.worldScale)-15f);
 
                 if (hp <= 0)
                 {
