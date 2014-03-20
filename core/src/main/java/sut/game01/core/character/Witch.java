@@ -6,7 +6,8 @@ import playn.core.GroupLayer;
 import playn.core.util.Callback;
 import sut.game01.core.Skill.Skill;
 import sut.game01.core.all_etc.DynamicObject;
-import sut.game01.core.all_etc.FloatLabel;
+import sut.game01.core.UI.FloatLabel;
+import sut.game01.core.all_etc.VariableConstant;
 import sut.game01.core.screen.Stage1;
 import sut.game01.core.sprite.Sprite;
 import sut.game01.core.sprite.SpriteLoader;
@@ -17,6 +18,10 @@ import sut.game01.core.sprite.SpriteLoader;
 public class Witch extends Character {
 
     public enum State {idleL,idleR,runL,runR,dead,atkR,atkL}
+
+    private int level = 1;
+    private int exp = 0;
+
     private State state = State.idleR;
 
     public Witch(final World world, final GroupLayer layer, final float x, final float y, FloatLabel fLabel)
@@ -111,7 +116,7 @@ public class Witch extends Character {
         super.contact(A, B);
 
 
-        if (!alive || state == State.dead) return;
+        if (!alive && state != State.dead) return;
 
         DynamicObject other;
 
@@ -174,7 +179,39 @@ public class Witch extends Character {
 
     public void jump()
     {
-        if(body.getLinearVelocity().y == 0 || state != State.dead)
+        if(body.getLinearVelocity().y == 0 && state != State.dead)
             body.applyLinearImpulse(new Vec2(0f,-45f),body.getPosition());
+    }
+
+    public int getLevel()
+    {
+        return level;
+    }
+
+    public int getExp()
+    {
+        return exp;
+    }
+
+    public void gainEXP(int Exp)
+    {
+        exp += Exp;
+        if(exp > VariableConstant.expBound[level-1])
+        {
+            if(level+1 <= 9)
+            {
+                exp = 0;
+                level++;
+            }
+            else
+            {
+                exp = VariableConstant.expBound[level-1];
+            }
+        }
+    }
+
+    @Override
+    public float getAttack() {
+        return attack + VariableConstant.dmgLVL[level-1];
     }
 }

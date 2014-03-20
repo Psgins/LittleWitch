@@ -7,7 +7,7 @@ import playn.core.util.Callback;
 import sut.game01.core.Skill.Bubble;
 import sut.game01.core.Skill.Skill;
 import sut.game01.core.all_etc.DynamicObject;
-import sut.game01.core.all_etc.FloatLabel;
+import sut.game01.core.UI.FloatLabel;
 import sut.game01.core.screen.Stage1;
 import sut.game01.core.sprite.Sprite;
 import sut.game01.core.sprite.SpriteLoader;
@@ -145,6 +145,7 @@ public class MiniGhost extends Character {
                 {
                     renderSpeed = 50;
                     state = State.die;
+                    Stage1.main.gainEXP(15);
                 }
                 skillObject.destroy();
             }

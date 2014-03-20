@@ -1,8 +1,10 @@
-package sut.game01.core.all_etc;
+package sut.game01.core.UI;
 
 import playn.core.GroupLayer;
 import sut.game01.core.Skill.SkillCard;
 import static playn.core.PlayN.*;
+
+import sut.game01.core.all_etc.DynamicObject;
 import sut.game01.core.character.Character;
 import sut.game01.core.screen.Stage1;
 

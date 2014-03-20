@@ -4,11 +4,10 @@ import org.jbox2d.common.Vec2;
 import org.jbox2d.dynamics.World;
 import playn.core.GroupLayer;
 import playn.core.util.Callback;
-import sut.game01.core.Skill.Bubble;
 import sut.game01.core.Skill.Skill;
 import sut.game01.core.Skill.SwordAttack;
 import sut.game01.core.all_etc.DynamicObject;
-import sut.game01.core.all_etc.FloatLabel;
+import sut.game01.core.UI.FloatLabel;
 import sut.game01.core.screen.Stage1;
 import sut.game01.core.sprite.Sprite;
 import sut.game01.core.sprite.SpriteLoader;
@@ -169,6 +168,7 @@ public class SkelWarrior extends Character {
                 if (hp <= 0)
                 {
                     setState(State.dead);
+                    Stage1.main.gainEXP(30);
                 }
                 skillObject.destroy();
             }
