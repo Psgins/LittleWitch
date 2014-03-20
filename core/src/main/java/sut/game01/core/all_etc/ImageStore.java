@@ -11,7 +11,7 @@ import static playn.core.PlayN.assets;
  */
 public class ImageStore {
 
-    private int count = 15;
+    private int count = 17;
 
     public final Image HPBar;
     public final Image Fireball;
@@ -19,6 +19,7 @@ public class ImageStore {
     public final Image[] number = new Image[10];
     public final Image Cover;
     public final Image NullSkill;
+    public final Image[] itemIcon = new Image[2];
 
     public ImageStore()
     {
@@ -102,6 +103,33 @@ public class ImageStore {
 
             }
         });
+
+        itemIcon[0] = PlayN.assets().getImage("images/Skill/ScreemingIcon.png");
+        itemIcon[0].addCallback(new Callback<Image>() {
+            @Override
+            public void onSuccess(Image result) {
+                count--;
+            }
+
+            @Override
+            public void onFailure(Throwable cause) {
+
+            }
+        });
+
+        itemIcon[1] = PlayN.assets().getImage("images/Skill/BalloonIcon.png");
+        itemIcon[1].addCallback(new Callback<Image>() {
+            @Override
+            public void onSuccess(Image result) {
+                count--;
+            }
+
+            @Override
+            public void onFailure(Throwable cause) {
+
+            }
+        });
+
 
     }
 

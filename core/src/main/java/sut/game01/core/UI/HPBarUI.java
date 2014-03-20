@@ -52,7 +52,7 @@ public class HPBarUI {
         float hpPercent = focus.getHp() / focus.getMaxHp();
         imgHPBar.setWidth(HPBarWidth * hpPercent);
 
-        float expPercent = (float)focus.getExp() / (float)VariableConstant.expBound[focus.getLevel()-1];
+        float expPercent = (float)focus.getExp() / (float)VariableConstant.expRange[focus.getLevel()-1];
         imgExpBar.setWidth(ExpBarWidth * expPercent);
 
         lvlPosition.removeAll();

@@ -196,7 +196,7 @@ public class Witch extends Character {
     public void gainEXP(int Exp)
     {
         exp += Exp;
-        if(exp > VariableConstant.expBound[level-1])
+        if(exp > VariableConstant.expRange[level-1])
         {
             if(level+1 <= 9)
             {
@@ -205,7 +205,7 @@ public class Witch extends Character {
             }
             else
             {
-                exp = VariableConstant.expBound[level-1];
+                exp = VariableConstant.expRange[level-1];
             }
         }
     }

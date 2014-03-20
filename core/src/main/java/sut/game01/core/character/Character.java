@@ -5,10 +5,14 @@ import playn.core.GroupLayer;
 import playn.core.ImageLayer;
 import static playn.core.PlayN.*;
 
+import sut.game01.core.Skill.ItemCard;
 import sut.game01.core.all_etc.DynamicObject;
 import sut.game01.core.UI.FloatLabel;
+import sut.game01.core.all_etc.VariableConstant;
 import sut.game01.core.screen.Stage1;
 import sut.game01.core.sprite.Sprite;
+
+import java.util.Random;
 
 /**
  * Created by PSG on 3/13/14.
@@ -102,5 +106,15 @@ public class Character extends DynamicObject {
     public void setHp(float hp)
     {
        this.hp = hp;
+    }
+
+    public void dropItem()
+    {
+        int chance = (new Random()).nextInt() % 100;
+        if(chance < 10)
+        {
+            int itemID = Math.abs((new Random()).nextInt()) % VariableConstant.itemIDRange;
+            Stage1.tmpDynamic.add(new ItemCard(body.getWorld(),AllLayer.parent(),new Vec2(body.getPosition().x, VariableConstant.worldGround - 2),itemID));
+        }
     }
 }

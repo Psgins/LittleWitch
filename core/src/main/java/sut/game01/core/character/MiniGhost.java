@@ -5,12 +5,16 @@ import org.jbox2d.dynamics.World;
 import playn.core.GroupLayer;
 import playn.core.util.Callback;
 import sut.game01.core.Skill.Bubble;
+import sut.game01.core.Skill.ItemCard;
 import sut.game01.core.Skill.Skill;
 import sut.game01.core.all_etc.DynamicObject;
 import sut.game01.core.UI.FloatLabel;
+import sut.game01.core.all_etc.VariableConstant;
 import sut.game01.core.screen.Stage1;
 import sut.game01.core.sprite.Sprite;
 import sut.game01.core.sprite.SpriteLoader;
+
+import java.util.Random;
 
 /**
  * Created by PSG on 3/13/14.
@@ -74,6 +78,7 @@ public class MiniGhost extends Character {
                 case die:
                     offset = 4;
                     if (spriteIndex == 7) {
+                        dropItem();
                         AllLayer.parent().remove(AllLayer);
                         body.getWorld().destroyBody(body);
                         alive = false;
@@ -145,6 +150,8 @@ public class MiniGhost extends Character {
                 {
                     renderSpeed = 50;
                     state = State.die;
+
+
                     Stage1.main.gainEXP(15);
                 }
                 skillObject.destroy();
