@@ -3,6 +3,7 @@ package sut.game01.core.Skill;
 import playn.core.GroupLayer;
 import playn.core.ImageLayer;
 import sut.game01.core.all_etc.DynamicObject;
+import sut.game01.core.all_etc.ImageStore;
 import sut.game01.core.character.*;
 import sut.game01.core.screen.Stage1;
 
@@ -16,13 +17,13 @@ import static playn.core.PlayN.graphics;
  */
 public class Balloon_Card implements SkillCard {
     private ImageLayer Icon;
-    private ImageLayer Cover = graphics().createImageLayer(Stage1.imageStore.Cover);
+    private ImageLayer Cover = graphics().createImageLayer(ImageStore.Cover);
     private int cooldown = 2000;
     private int e = 0;
 
     public Balloon_Card()
     {
-        this.Icon = graphics().createImageLayer(Stage1.imageStore.itemIcon[1]);
+        this.Icon = graphics().createImageLayer(ImageStore.itemIcon[1]);
         this.Icon.setSize(50,50);
         Cover.setHeight(0);
     }

@@ -3,6 +3,7 @@ package sut.game01.core.UI;
 import playn.core.GroupLayer;
 import playn.core.Image;
 import playn.core.ImageLayer;
+import sut.game01.core.all_etc.ImageStore;
 import sut.game01.core.screen.Stage1;
 
 import java.util.ArrayList;
@@ -55,11 +56,12 @@ public class FloatLabel {
         float space = 0;
         for(int i = txtNumber.length -1;i > 0;i--)
         {
-            Image tmp = Stage1.imageStore.number[Integer.valueOf(txtNumber[i])];
+            Image tmp = ImageStore.number[Integer.valueOf(txtNumber[i])];
             ImageLayer numImg = graphics().createImageLayer(tmp);
             numImg.setOrigin(tmp.width()/2f,tmp.width()/2f);
             numImg.setTranslation(x-(space += 10),y);
             LabelSet.add(numImg);
+
         }
 
         collection.add(LabelSet);

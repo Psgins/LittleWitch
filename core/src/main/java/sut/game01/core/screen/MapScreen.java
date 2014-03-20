@@ -3,6 +3,7 @@ package sut.game01.core.screen;
 import playn.core.ImageLayer;
 import playn.core.PlayN;
 import playn.core.Pointer;
+import sut.game01.core.all_etc.GameContent;
 import tripleplay.game.ScreenStack;
 import tripleplay.game.UIScreen;
 
@@ -11,11 +12,13 @@ import tripleplay.game.UIScreen;
  */
 public class MapScreen extends UIScreen {
 
-    final ScreenStack ss;
+    private final ScreenStack ss;
+    private GameContent gContent;
 
-    public MapScreen(ScreenStack ss)
+    public MapScreen(ScreenStack ss,GameContent gContent)
     {
         this.ss = ss;
+        this.gContent = gContent;
     }
 
     @Override
@@ -43,7 +46,7 @@ public class MapScreen extends UIScreen {
             @Override
             public void onPointerEnd(Pointer.Event event) {
                 super.onPointerEnd(event);
-                ss.push(new Stage1(ss));
+                ss.push(new Stage1(ss,gContent));
             }
         });
         layer.add(btnStage1);
