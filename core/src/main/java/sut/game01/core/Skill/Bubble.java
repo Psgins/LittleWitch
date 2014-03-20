@@ -3,6 +3,7 @@ package sut.game01.core.Skill;
 import org.jbox2d.common.Vec2;
 import org.jbox2d.dynamics.World;
 import playn.core.GroupLayer;
+import sut.game01.core.all_etc.ImageStore;
 import sut.game01.core.screen.Stage1;
 
 import java.util.ArrayList;
@@ -54,7 +55,7 @@ public class Bubble extends Skill {
         // create effect if still alive
         if(e >= 25 && timelife > 0)
         {
-            coll.add(new Bubble_eff(Stage1.imageStore.WhiteCircle,AllLayer,body.getPosition().x / Stage1.M_PER_PIXEL,body.getPosition().y / Stage1.M_PER_PIXEL));
+            coll.add(new Bubble_eff(ImageStore.WhiteCircle,AllLayer,body.getPosition().x / Stage1.M_PER_PIXEL,body.getPosition().y / Stage1.M_PER_PIXEL));
             e = 0;
         }
 

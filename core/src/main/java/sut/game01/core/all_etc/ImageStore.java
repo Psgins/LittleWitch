@@ -11,127 +11,30 @@ import static playn.core.PlayN.assets;
  */
 public class ImageStore {
 
-    private int count = 17;
+    private int count = 0;
 
-    public final Image HPBar;
-    public final Image Fireball;
-    public final Image WhiteCircle;
-    public final Image[] number = new Image[10];
-    public final Image Cover;
-    public final Image NullSkill;
-    public final Image[] itemIcon = new Image[2];
-
-    public ImageStore()
+    public static final Image HPBar = PlayN.assets().getImage("images/etc/hpbar.png");;
+    public static final Image Fireball = PlayN.assets().getImage("images/Skill/fireball.png");
+    public static final Image WhiteCircle = PlayN.assets().getImage("images/Skill/light.png");
+    public static final Image[] number = new Image[]{
+        assets().getImage("images/Number/0.png"),
+        assets().getImage("images/Number/1.png"),
+        assets().getImage("images/Number/2.png"),
+        assets().getImage("images/Number/3.png"),
+        assets().getImage("images/Number/4.png"),
+        assets().getImage("images/Number/5.png"),
+        assets().getImage("images/Number/6.png"),
+        assets().getImage("images/Number/7.png"),
+        assets().getImage("images/Number/8.png"),
+        assets().getImage("images/Number/9.png")
+    };
+    public static final Image Cover = PlayN.assets().getImage("images/UI/CooldownCover.png");
+    public static final Image NullSkill = PlayN.assets().getImage("images/UI/nullSkill.png");
+    public static final Image[] itemIcon = new Image[]
     {
-        HPBar = PlayN.assets().getImage("images/etc/hpbar.png");
-        HPBar.addCallback(new Callback<Image>() {
-            @Override
-            public void onSuccess(Image result) {
-                count--;
-            }
-
-            @Override
-            public void onFailure(Throwable cause) {
-
-            }
-        });
-
-        this.Fireball = PlayN.assets().getImage("images/Skill/fireball.png");
-        this.Fireball.addCallback(new Callback<Image>() {
-            @Override
-            public void onSuccess(Image result) {
-                count--;
-            }
-
-            @Override
-            public void onFailure(Throwable cause) {
-
-            }
-        });
-
-        WhiteCircle = PlayN.assets().getImage("images/Skill/light.png");
-        WhiteCircle.addCallback(new Callback<Image>() {
-            @Override
-            public void onSuccess(Image result) {
-                count--;
-            }
-
-            @Override
-            public void onFailure(Throwable cause) {
-
-            }
-        });
-
-        for(int i=0;i<10;i++)
-        {
-            number[i] = assets().getImage("images/Number/"+i+".png");
-            number[i].addCallback(new Callback<Image>() {
-                @Override
-                public void onSuccess(Image result) {
-                    count--;
-                }
-
-                @Override
-                public void onFailure(Throwable cause) {
-
-                }
-            });
-        }
-
-        Cover = PlayN.assets().getImage("images/UI/CooldownCover.png");
-        Cover.addCallback(new Callback<Image>() {
-            @Override
-            public void onSuccess(Image result) {
-                count--;
-            }
-
-            @Override
-            public void onFailure(Throwable cause) {
-
-            }
-        });
-
-        NullSkill = PlayN.assets().getImage("images/UI/nullSkill.png");
-        NullSkill.addCallback(new Callback<Image>() {
-            @Override
-            public void onSuccess(Image result) {
-                count--;
-            }
-
-            @Override
-            public void onFailure(Throwable cause) {
-
-            }
-        });
-
-        itemIcon[0] = PlayN.assets().getImage("images/Skill/ScreemingIcon.png");
-        itemIcon[0].addCallback(new Callback<Image>() {
-            @Override
-            public void onSuccess(Image result) {
-                count--;
-            }
-
-            @Override
-            public void onFailure(Throwable cause) {
-
-            }
-        });
-
-        itemIcon[1] = PlayN.assets().getImage("images/Skill/BalloonIcon.png");
-        itemIcon[1].addCallback(new Callback<Image>() {
-            @Override
-            public void onSuccess(Image result) {
-                count--;
-            }
-
-            @Override
-            public void onFailure(Throwable cause) {
-
-            }
-        });
-
-
-    }
+            PlayN.assets().getImage("images/Skill/ScreemingIcon.png"),
+            PlayN.assets().getImage("images/Skill/BalloonIcon.png")
+    };
 
     public boolean isReady()
     {

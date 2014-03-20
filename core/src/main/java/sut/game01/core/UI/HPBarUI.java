@@ -4,6 +4,7 @@ import playn.core.GroupLayer;
 import playn.core.ImageLayer;
 import static playn.core.PlayN.*;
 
+import sut.game01.core.all_etc.ImageStore;
 import sut.game01.core.all_etc.VariableConstant;
 import sut.game01.core.character.Character;
 import sut.game01.core.character.Witch;
@@ -67,7 +68,7 @@ public class HPBarUI {
 
         for(int i=1;i < strLVL.length;i++)
         {
-            ImageLayer number = graphics().createImageLayer(Stage1.imageStore.number[Integer.valueOf(strLVL[i])]);
+            ImageLayer number = graphics().createImageLayer(ImageStore.number[Integer.valueOf(strLVL[i])]);
             number.setScale(2);
             number.setTranslation(space+=10,0);
             group.add(number);

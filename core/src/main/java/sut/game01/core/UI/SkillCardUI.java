@@ -5,6 +5,7 @@ import sut.game01.core.Skill.SkillCard;
 import static playn.core.PlayN.*;
 
 import sut.game01.core.all_etc.DynamicObject;
+import sut.game01.core.all_etc.ImageStore;
 import sut.game01.core.character.Character;
 import sut.game01.core.screen.Stage1;
 
@@ -37,7 +38,7 @@ public class SkillCardUI {
 
             if(skill[i]==null)
             {
-                SkillSlot[i].add(graphics().createImageLayer(Stage1.imageStore.NullSkill));
+                SkillSlot[i].add(graphics().createImageLayer(ImageStore.NullSkill));
             }
             else
             {

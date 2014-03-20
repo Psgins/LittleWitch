@@ -48,6 +48,7 @@ public class Stage1 extends Screen {
     private List<DynamicObject> trash = new ArrayList<DynamicObject>();
     public static Witch main;
     private HPBarUI hpBarUI;
+    private GameContent gContent;
 
     private SkillCardUI SkillUI;
     private SkillCard[] skill = new SkillCard[4];
@@ -57,9 +58,10 @@ public class Stage1 extends Screen {
     //UIGroup
     private GroupLayer UIGroup = PlayN.graphics().createGroupLayer();
 
-    public Stage1(ScreenStack ss)
+    public Stage1(ScreenStack ss,GameContent gContent)
     {
         this.ss = ss;
+        this.gContent = gContent;
     }
 
     @Override
@@ -156,11 +158,7 @@ public class Stage1 extends Screen {
         //UI
         hpBarUI = new HPBarUI(main,UIGroup);
 
-        skill[0] = new Balloon_Card();
-        skill[1] = new Screeming_Card();
-        skill[2] = null;
-        skill[3] = null;
-
+        skill = ContentLoader.SkillCardLoader(gContent.getSkill());
         SkillUI = new SkillCardUI(main,UIGroup,tmpDynamic,skill);
 
         layer.add(UIGroup);
