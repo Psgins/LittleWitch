@@ -78,7 +78,7 @@ public class CharacterScreen extends UIScreen {
         pet.layer().addListener(new Pointer.Adapter(){
             @Override
             public void onPointerEnd(Pointer.Event event) {
-                ss.push(new PetScreen(ss));
+                ss.push(new PetScreen(ss,gContent));
             }
         });
 
@@ -133,7 +133,19 @@ public class CharacterScreen extends UIScreen {
     @Override
     public void wasShown() {
         positionRune.removeAll();
-        positionRune.add(graphics().createImageLayer(ImageStore.RuneIcon[RuneSelected]));
+
+        if(gContent.getRune() > -1)
+        {
+            ImageLayer runeIcon = graphics().createImageLayer(ImageStore.RuneIcon[gContent.getRune()]);
+            runeIcon.addListener(new Pointer.Adapter(){
+                @Override
+                public void onPointerEnd(Pointer.Event event) {
+                    ss.push(new PetScreen(ss,gContent));
+                }
+            });
+            positionRune.add(runeIcon);
+        }
+
         gContent.Refresh();
     }
 
@@ -179,7 +191,7 @@ public class CharacterScreen extends UIScreen {
                 positionItemSlot[i][j].removeAll();
                 final int index = (i*6) + j;
 
-                if (index > itemList.size()-1) continue;
+                if (index > itemList.size()-1) return;
 
                 int itemID = itemList.get(index);
 

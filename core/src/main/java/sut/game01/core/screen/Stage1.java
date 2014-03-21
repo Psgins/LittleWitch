@@ -146,7 +146,17 @@ public class Stage1 extends Screen {
 
         // - Pet
         Rune rune = ContentLoader.RuneLoader(gContent.getRune());
-        UIGroup.add(rune.getIcon().setTranslation(565,15));
+        if(rune == null)
+        {
+            ImageLayer runeIcon = PlayN.graphics().createImageLayer(ImageStore.NullSkill);
+            runeIcon.setTranslation(565,15);
+            UIGroup.add(runeIcon);
+        }
+        else
+        {
+            UIGroup.add(rune.getIcon().setTranslation(565,15));
+        }
+
         objDynamic.add(new MiniSpirit(world,layer,main,rune));
 
         // - Monster
