@@ -48,7 +48,9 @@ public class Stage1 extends Screen {
     public static Witch main;
     private HPBarUI hpBarUI;
     private GameContent gContent;
+
     public static List<Integer> itemList;
+    public static List<Integer> runeList;
 
     private SkillCardUI SkillUI;
     private SkillCard[] skill = new SkillCard[4];
@@ -143,7 +145,18 @@ public class Stage1 extends Screen {
         objDynamic.add(main);
 
         // - Pet
-        Rune rune = new HPRegenSmall();
+        Rune rune = ContentLoader.RuneLoader(gContent.getRune());
+        if(rune == null)
+        {
+            ImageLayer runeIcon = PlayN.graphics().createImageLayer(ImageStore.NullSkill);
+            runeIcon.setTranslation(565,15);
+            UIGroup.add(runeIcon);
+        }
+        else
+        {
+            UIGroup.add(rune.getIcon().setTranslation(565,15));
+        }
+
         objDynamic.add(new MiniSpirit(world,layer,main,rune));
 
         // - Monster
@@ -158,6 +171,7 @@ public class Stage1 extends Screen {
         skill = ContentLoader.SkillCardLoader(gContent.getSkill());
         SkillUI = new SkillCardUI(main,UIGroup,tmpDynamic,skill);
         itemList = gContent.getItem();
+        runeList = gContent.getRuneList();
         layer.add(UIGroup);
 
         // controller

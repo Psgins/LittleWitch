@@ -5,6 +5,7 @@ import playn.core.GroupLayer;
 import playn.core.ImageLayer;
 import static playn.core.PlayN.*;
 
+import sut.game01.core.Rune.ItemRune;
 import sut.game01.core.Skill.ItemCard;
 import sut.game01.core.all_etc.DynamicObject;
 import sut.game01.core.UI.FloatLabel;
@@ -117,11 +118,21 @@ public class Character extends DynamicObject {
 
     public void dropItem()
     {
-        int chance = (new Random()).nextInt() % 100;
+        int chance = Math.abs((new Random()).nextInt()) % 100;
         if(chance < 10)
         {
-            int itemID = Math.abs((new Random()).nextInt()) % VariableConstant.itemIDRange;
-            Stage1.tmpDynamic.add(new ItemCard(body.getWorld(),AllLayer.parent(),new Vec2(body.getPosition().x, VariableConstant.worldGround - 2),itemID));
+            int RuneChance = Math.abs((new Random()).nextInt())  % 100;
+
+            if(RuneChance < 10)
+            {
+                int runeID = Math.abs((new Random()).nextInt()) % VariableConstant.runeIDRange;
+                Stage1.tmpDynamic.add(new ItemRune(body.getWorld(),AllLayer.parent(),new Vec2(body.getPosition().x, VariableConstant.worldGround - 2),runeID));
+            }
+            else
+            {
+                int itemID = Math.abs((new Random()).nextInt()) % VariableConstant.itemIDRange;
+                Stage1.tmpDynamic.add(new ItemCard(body.getWorld(),AllLayer.parent(),new Vec2(body.getPosition().x, VariableConstant.worldGround - 2),itemID));
+            }
         }
     }
 }

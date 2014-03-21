@@ -10,6 +10,7 @@ public class VariableConstant {
     public static final int worldGround = 15;
 
     public static final int itemIDRange = 2;
+    public static final int runeIDRange = 1;
 
     public static final float[] dmgLVL = new float[]{
             2,
