@@ -26,11 +26,27 @@ public class ImageStore {
         assets().getImage("images/Number/8.png"),
         assets().getImage("images/Number/9.png")
     };
+    public static final  Image[] numberO = new Image[]{
+            assets().getImage("images/Number/O0.png"),
+            assets().getImage("images/Number/O1.png"),
+            assets().getImage("images/Number/O2.png"),
+            assets().getImage("images/Number/O3.png"),
+            assets().getImage("images/Number/O4.png"),
+            assets().getImage("images/Number/O5.png"),
+            assets().getImage("images/Number/O6.png"),
+            assets().getImage("images/Number/O7.png"),
+            assets().getImage("images/Number/O8.png"),
+            assets().getImage("images/Number/O9.png")
+    };
     public static final Image Cover = PlayN.assets().getImage("images/UI/CooldownCover.png");
     public static final Image NullSkill = PlayN.assets().getImage("images/UI/nullSkill.png");
     public static final Image[] itemIcon = new Image[]
     {
             PlayN.assets().getImage("images/Skill/ScreemingIcon.png"),
             PlayN.assets().getImage("images/Skill/BalloonIcon.png")
+    };
+    public static final Image[] RuneIcon = new Image[]
+    {
+            PlayN.assets().getImage("images/Rune/psHPSmallIcon.png")
     };
 }

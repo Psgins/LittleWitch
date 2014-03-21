@@ -68,8 +68,8 @@ public class HPBarUI {
 
         for(int i=1;i < strLVL.length;i++)
         {
-            ImageLayer number = graphics().createImageLayer(ImageStore.number[Integer.valueOf(strLVL[i])]);
-            number.setScale(2);
+            ImageLayer number = graphics().createImageLayer(ImageStore.numberO[Integer.valueOf(strLVL[i])]);
+            number.setScale(0.7f);
             number.setTranslation(space+=10,0);
             group.add(number);
         }

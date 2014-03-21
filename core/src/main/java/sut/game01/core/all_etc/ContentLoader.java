@@ -1,5 +1,7 @@
 package sut.game01.core.all_etc;
 
+import sut.game01.core.Rune.HPRegenSmall;
+import sut.game01.core.Rune.Rune;
 import sut.game01.core.Skill.Balloon_Card;
 import sut.game01.core.Skill.Screeming_Card;
 import sut.game01.core.Skill.Skill;
@@ -34,5 +36,16 @@ public class ContentLoader {
         }
 
         return sCard;
+    }
+
+    public static Rune RuneLoader(int RuneID)
+    {
+        switch (RuneID)
+        {
+            case 0:
+                return new HPRegenSmall();
+            default:
+                return null;
+        }
     }
 }

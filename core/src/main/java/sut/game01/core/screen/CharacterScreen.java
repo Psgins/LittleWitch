@@ -27,11 +27,15 @@ public class CharacterScreen extends UIScreen {
 
     GameContent gContent = new GameContent();
 
-    private int[] SkillSelected = new int[4];
+    private int[] SkillSelected = new int[]{-1,-1,-1,-1};
     private GroupLayer[] positionSkillSlot = new GroupLayer[4];
 
     private List<Integer> itemList = new ArrayList<Integer>();
     private GroupLayer[][] positionItemSlot = new GroupLayer[3][8];
+
+    private int RuneSelected = 0;
+    private List<Integer> runeList = new ArrayList<Integer>();
+    private GroupLayer positionRune  = PlayN.graphics().createGroupLayer();
 
     public CharacterScreen(ScreenStack ss)
     {
@@ -79,11 +83,6 @@ public class CharacterScreen extends UIScreen {
         positionSkillSlot[2].setTranslation(228, 244);
         positionSkillSlot[3].setTranslation(307, 244);
 
-        SkillSelected[0] = -1;
-        SkillSelected[1] = -1;
-        SkillSelected[2] = -1;
-        SkillSelected[3] = -1;
-
         int base_height = 311;
         int base_width = 58;
 
@@ -97,10 +96,14 @@ public class CharacterScreen extends UIScreen {
             }
         }
 
+        positionRune.setTranslation(488,245);
+        layer.add(positionRune);
+
         gContent.create();
 
         gContent.setSkill(SkillSelected);
         gContent.setItem(itemList);
+        gContent.setRuneList(runeList);
 
         // start button
         ImageLayer startLayer = PlayN.graphics().createImageLayer(PlayN.assets().getImage("images/CharacterScreen/MapButton.png"));
@@ -118,6 +121,8 @@ public class CharacterScreen extends UIScreen {
 
     @Override
     public void wasShown() {
+        positionRune.removeAll();
+        positionRune.add(graphics().createImageLayer(ImageStore.RuneIcon[RuneSelected]));
         gContent.Refresh();
     }
 

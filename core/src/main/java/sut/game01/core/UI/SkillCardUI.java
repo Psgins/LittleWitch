@@ -1,6 +1,7 @@
 package sut.game01.core.UI;
 
 import playn.core.GroupLayer;
+import sut.game01.core.Rune.Rune;
 import sut.game01.core.Skill.SkillCard;
 import static playn.core.PlayN.*;
 
@@ -18,7 +19,9 @@ public class SkillCardUI {
 
     private Character focus;
     private List<DynamicObject> objTemp;
+
     private SkillCard[] skill = new SkillCard[4];
+    private Rune rune;
 
     private GroupLayer SkillUI = graphics().createGroupLayer();
     private GroupLayer[] SkillSlot = new GroupLayer[4];

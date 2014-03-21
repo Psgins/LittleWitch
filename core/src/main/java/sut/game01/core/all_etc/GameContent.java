@@ -13,6 +13,9 @@ public class GameContent {
     private int level;
     private int exp;
 
+    private int rune;
+    private List<Integer> runeList;
+
     public void setSkill(int[] skill){this.skill = skill;}
     public int[] getSkill(){return skill;}
 
@@ -25,6 +28,12 @@ public class GameContent {
     public void setExp(int exp){this.exp = exp;}
     public int getExp(){return exp;}
 
+    public void setRune(int rune) { this.rune = rune;}
+    public int getRune(){return rune;}
+
+    public void setRuneList(List<Integer> runeList){this.runeList = runeList;}
+    public List<Integer> getRuneList() {return runeList;}
+
     public void save(){}
 
     public void load(){}
@@ -34,19 +43,40 @@ public class GameContent {
         itemList = new ArrayList<Integer>();
         level = 1;
         exp = 0;
+        rune = 0;
     }
 
     public void Refresh()
     {
+        // ITEM UNIQUE
         for(int i=0;i<4;i++)
         {
-            itemList.add(skill[i]);
-            skill[i] = -1;
+            if(skill[i] > -1)
+            {
+                itemList.add(skill[i]);
+            }
         }
 
         HashSet<Integer> tmp = new HashSet<Integer>();
         tmp.addAll(itemList);
         itemList.clear();
         itemList.addAll(tmp);
+
+        for(int i=0;i<4;i++)
+        {
+            if(skill[i] > -1)
+            {
+                itemList.remove((Object)skill[i]);
+            }
+        }
+
+        //RUNE UNIQUE
+        runeList.add(rune);
+        tmp.clear();
+        tmp.addAll(runeList);
+        runeList.clear();
+        runeList.addAll(tmp);
+        runeList.remove((Object)rune);
+
     }
 }
