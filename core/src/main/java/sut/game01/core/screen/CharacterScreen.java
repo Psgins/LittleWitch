@@ -4,6 +4,7 @@ import playn.core.GroupLayer;
 import playn.core.ImageLayer;
 import playn.core.PlayN;
 import playn.core.Pointer;
+import sut.game01.core.ModelShow.MiniSpiritModel;
 import sut.game01.core.ModelShow.WitchModel;
 import sut.game01.core.Skill.SkillCard;
 import sut.game01.core.all_etc.GameContent;
@@ -24,6 +25,7 @@ public class CharacterScreen extends UIScreen {
 
     private final ScreenStack ss;
     private WitchModel model;
+    private MiniSpiritModel pet;
 
     GameContent gContent = new GameContent();
 
@@ -70,6 +72,15 @@ public class CharacterScreen extends UIScreen {
 
         // Add model for show
         model = new WitchModel(layer,125f,150f);
+
+        // Add pet Model
+        pet = new MiniSpiritModel(layer,540f,180f);
+        pet.layer().addListener(new Pointer.Adapter(){
+            @Override
+            public void onPointerEnd(Pointer.Event event) {
+                ss.push(new PetScreen(ss));
+            }
+        });
 
         // Skill Selected
         for(int i = 0;i< 4;i++)
@@ -131,6 +142,8 @@ public class CharacterScreen extends UIScreen {
         super.update(delta);
 
         model.update(delta);
+        pet.update(delta);
+
         updateSkillSlot();
         updateItemSlot();
     }
