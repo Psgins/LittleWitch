@@ -160,11 +160,14 @@ public class Stage1 extends Screen {
         objDynamic.add(new MiniSpirit(world,layer,main,rune));
 
         // - Monster
-        objDynamic.add(new MiniGhost(world,layer,700f,325f, Character.Owner.Enemy,fLabel));
-        objDynamic.add(new MiniGhost(world,layer,600f,325f, Character.Owner.Enemy,fLabel));
-        objDynamic.add(new MiniGhost(world,layer,550f,325f, Character.Owner.Enemy,fLabel));
-        objDynamic.add(new MiniGhost(world,layer,800f,275f, Character.Owner.Enemy,fLabel));
-        objDynamic.add(new SkelWarrior(world,layer,500f,325f, Character.Owner.Enemy,fLabel));
+//        objDynamic.add(new MiniGhost(world,layer,700f,325f, Character.Owner.Enemy,fLabel));
+//        objDynamic.add(new MiniGhost(world,layer,600f,325f, Character.Owner.Enemy,fLabel));
+//        objDynamic.add(new MiniGhost(world,layer,550f,325f, Character.Owner.Enemy,fLabel));
+//        objDynamic.add(new MiniGhost(world,layer,800f,275f, Character.Owner.Enemy,fLabel));
+//        objDynamic.add(new SkelWarrior(world,layer,500f,325f, Character.Owner.Enemy,fLabel));
+
+        // - Boss
+        objDynamic.add(new Crytal1(world,layer,(width-12) / VariableConstant.worldScale,325,Character.Owner.Enemy,fLabel));
 
         //UI
         hpBarUI = new HPBarUI(main,UIGroup);
@@ -349,8 +352,7 @@ public class Stage1 extends Screen {
     public void updateColection(int delta)
     {
         // Move object from temp to Collection
-        for(DynamicObject x : tmpDynamic)
-            objDynamic.add(x);
+        objDynamic.addAll(tmpDynamic);
         tmpDynamic.clear();
 
         // Update All object in Collection and clear trash
@@ -362,8 +364,7 @@ public class Stage1 extends Screen {
         }
 
         //Clear all trash
-        for (DynamicObject x : trash)
-            objDynamic.remove(x);
+        objDynamic.removeAll(trash);
         trash.clear();
     }
 }
