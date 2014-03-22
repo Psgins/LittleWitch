@@ -34,6 +34,8 @@ public class Crytal1 extends Character {
     List<Character> monsterGen = new ArrayList<Character>();
     List<Character> trash = new ArrayList<Character>();
 
+    private boolean dead = false;
+
     private Vec2 position;
     private State state = State.Idle;
 
@@ -41,8 +43,8 @@ public class Crytal1 extends Character {
     {
         floatLabel = fLabel;
 
-        hp = 5000;
-        maxHP = 5000;
+        hp = 2000;
+        maxHP = 2000;
         defend = 10;
 
         position = new Vec2(x * VariableConstant.worldScale, y * VariableConstant.worldScale);
@@ -66,7 +68,7 @@ public class Crytal1 extends Character {
     @Override
     public void update(int delta) {
 
-        if(!alive || !ready || !inScreen(Stage1.main)) return;
+        if(!alive || !ready || !inScreen(Stage1.main) || dead) return;
 
         e += delta;
 
@@ -79,7 +81,7 @@ public class Crytal1 extends Character {
             body.setLinearVelocity(new Vec2(0,-1.2f));
         }
 
-        if(e >= 5000)
+        if(e >= 4000)
         {
             if(monsterGen.size() < 4)
                 AutoGenerate();
@@ -100,7 +102,7 @@ public class Crytal1 extends Character {
     @Override
     public void paint() {
 
-        if(!alive || !ready || !inScreen(Stage1.main)) return;
+        if(!alive || !ready || !inScreen(Stage1.main) || dead) return;
         AllLayer.setTranslation(body.getPosition().x / VariableConstant.worldScale, body.getPosition().y / VariableConstant.worldScale);
     }
 
@@ -131,7 +133,7 @@ public class Crytal1 extends Character {
     @Override
     public void contact(DynamicObject A, DynamicObject B) {
 
-        if (!alive) return;
+        if (!alive || dead) return;
 
         DynamicObject other;
 
@@ -154,6 +156,7 @@ public class Crytal1 extends Character {
 
                 if (hp <= 0)
                 {
+                    dead = true;
                     Stage1.main.gainEXP(80);
                 }
                 skillObject.destroy();
@@ -179,7 +182,11 @@ public class Crytal1 extends Character {
                 Stage1.tmpDynamic.add(monster = new SkelWarrior(body.getWorld(),AllLayer.parent(),body.getPosition().x / VariableConstant.worldScale, body.getPosition().y / VariableConstant.worldScale,owner,floatLabel));
                 monsterGen.add(monster);
                 break;
-
         }
+    }
+
+    public boolean isDead()
+    {
+        return dead;
     }
 }

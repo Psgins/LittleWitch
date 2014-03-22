@@ -26,6 +26,8 @@ import java.util.ArrayList;
 import java.util.List;
 
 public class Stage1 extends Screen {
+    public enum GameState {load,run,end}
+
     // world variable
     private  static int width = 48;
     private  static int height = 18;
@@ -46,6 +48,7 @@ public class Stage1 extends Screen {
     private List<DynamicObject> objDynamic = new ArrayList<DynamicObject>();
     private List<DynamicObject> trash = new ArrayList<DynamicObject>();
     public static Witch main;
+    private Crytal1 boss;
     private HPBarUI hpBarUI;
     private GameContent gContent;
 
@@ -54,6 +57,9 @@ public class Stage1 extends Screen {
 
     private SkillCardUI SkillUI;
     private SkillCard[] skill = new SkillCard[4];
+
+    //Game State
+    private GameState gameState = GameState.run;
 
     //UIGroup
     private GroupLayer UIGroup = PlayN.graphics().createGroupLayer();
@@ -164,10 +170,11 @@ public class Stage1 extends Screen {
 //        objDynamic.add(new MiniGhost(world,layer,600f,325f, Character.Owner.Enemy,fLabel));
 //        objDynamic.add(new MiniGhost(world,layer,550f,325f, Character.Owner.Enemy,fLabel));
 //        objDynamic.add(new MiniGhost(world,layer,800f,275f, Character.Owner.Enemy,fLabel));
-//        objDynamic.add(new SkelWarrior(world,layer,500f,325f, Character.Owner.Enemy,fLabel));
+          objDynamic.add(new SkelWarrior(world,layer,500f,325f, Character.Owner.Enemy,fLabel));
 
         // - Boss
-        objDynamic.add(new Crytal1(world,layer,(width-12) / VariableConstant.worldScale,325,Character.Owner.Enemy,fLabel));
+        boss = new Crytal1(world,layer,(width-12) / VariableConstant.worldScale,325,Character.Owner.Enemy,fLabel);
+        objDynamic.add(boss);
 
         //UI
         hpBarUI = new HPBarUI(main,UIGroup);
@@ -312,6 +319,8 @@ public class Stage1 extends Screen {
     public void update(int delta) {
         super.update(delta);
 
+        if(gameState != GameState.run) return;
+
         world.step(0.033f,10,10);
 
         // Update all object in list
@@ -330,6 +339,10 @@ public class Stage1 extends Screen {
             }
         }
 
+        // Check Game Condition
+        if(main.isDead()) GameOver();
+        if(boss.isDead()) GameClear();
+
         //Update Component
         fLabel.update(delta);
         SkillUI.update(delta);
@@ -340,6 +353,9 @@ public class Stage1 extends Screen {
     @Override
     public void paint(Clock clock) {
         super.paint(clock);
+
+        if(gameState != GameState.run) return;
+
         if(ShowDebugDraw)
         {
             debugDraw.getCanvas().clear();
@@ -366,5 +382,59 @@ public class Stage1 extends Screen {
         //Clear all trash
         objDynamic.removeAll(trash);
         trash.clear();
+    }
+
+    public void GameOver()
+    {
+        gameState = GameState.end;
+
+        GroupLayer overGroup = PlayN.graphics().createGroupLayer();
+        overGroup.setTranslation(320,200);
+        UIGroup.add(overGroup);
+
+        ImageLayer overIMG = PlayN.graphics().createImageLayer(PlayN.assets().getImage("images/ui/gameover.png"));
+        overIMG.setOrigin(180,50);
+        overGroup.add(overIMG);
+
+        ImageLayer backIMG = PlayN.graphics().createImageLayer(PlayN.assets().getImage("images/MapScreen/back.png"));
+        backIMG.setOrigin(60,25);
+        backIMG.setTranslation(0,70);
+        overGroup.add(backIMG);
+
+        backIMG.addListener(new Pointer.Adapter(){
+            @Override
+            public void onPointerEnd(Pointer.Event event) {
+                gContent.setLevel(main.getLevel());
+                gContent.setExp(main.getExp());
+                ss.remove(ss.top());
+            }
+        });
+    }
+
+    public void GameClear()
+    {
+        gameState = GameState.end;
+
+        GroupLayer overGroup = PlayN.graphics().createGroupLayer();
+        overGroup.setTranslation(320,200);
+        UIGroup.add(overGroup);
+
+        ImageLayer overIMG = PlayN.graphics().createImageLayer(PlayN.assets().getImage("images/ui/clear.png"));
+        overIMG.setOrigin(180,50);
+        overGroup.add(overIMG);
+
+        ImageLayer backIMG = PlayN.graphics().createImageLayer(PlayN.assets().getImage("images/MapScreen/back.png"));
+        backIMG.setOrigin(60,25);
+        backIMG.setTranslation(0,70);
+        overGroup.add(backIMG);
+
+        backIMG.addListener(new Pointer.Adapter(){
+            @Override
+            public void onPointerEnd(Pointer.Event event) {
+                gContent.setLevel(main.getLevel());
+                gContent.setExp(main.getExp());
+                ss.remove(ss.top());
+            }
+        });
     }
 }

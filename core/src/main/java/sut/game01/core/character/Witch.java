@@ -23,6 +23,7 @@ public class Witch extends Character {
     private int level = 1;
     private int exp = 0;
 
+    private boolean dead = false;
     private State state = State.idleR;
 
     public Witch(final World world, final GroupLayer layer, final float x, final float y, FloatLabel fLabel,GameContent gContent)
@@ -86,7 +87,10 @@ public class Witch extends Character {
                     break;
                 case dead:
                     offset = 16;
-                    if(spriteIndex == 18) alive = false;
+                    if(spriteIndex == 18){
+                        alive = false;
+                        dead = true;
+                    }
                     break;
                 case atkR:
                     offset = 20;
@@ -216,5 +220,10 @@ public class Witch extends Character {
     @Override
     public float getAttack() {
         return attack + VariableConstant.dmgLVL[level-1];
+    }
+
+    public boolean isDead()
+    {
+        return dead;
     }
 }
