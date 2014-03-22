@@ -110,7 +110,8 @@ public class CharacterScreen extends UIScreen {
         positionRune.setTranslation(488,245);
         layer.add(positionRune);
 
-        gContent.create();
+        gContent.load();
+        //gContent.create();
 
         gContent.setSkill(SkillSelected);
         gContent.setItem(itemList);
