@@ -38,67 +38,86 @@ public class GameContent {
     public void save(){}
 
     public void load(){
-        BufferedReader file = null;
         try
         {
-            file = new BufferedReader(new FileReader(".savegame"));
-            System.out.println("FileFound:");
+            BufferedReader file = new BufferedReader(new FileReader(".savegame"));
+
+            String[] data = new String[6];
+            for(int i=0;i<6;i++)
+            {
+                data[i] = file.readLine();
+            }
+
+            file.close();
+
+            // skill reader
+            String[] skillSplit = data[0].split("=");
+            skillSplit = skillSplit[1].split(",");
+            for(int i=0;i<4;i++) skill[i] = Integer.valueOf(skillSplit[i]);
+
+            //ItemList reader
+            String[] itemList = data[1].split("=");
+            itemList = itemList[1].substring(1,itemList[1].length()-1).split(",");
+            this.itemList = new ArrayList<Integer>();
+            for(String x : itemList)
+            {
+                if(x.equals("")) continue;
+                int itemID = Integer.valueOf(x);
+                this.itemList.add(itemID);
+            }
+
+            //level reader
+            String[] levelSplit = data[2].split("=");
+            this.level = Integer.valueOf(levelSplit[1]);
+
+            //exp reader
+            String[] expSplit = data[3].split("=");
+            this.exp = Integer.valueOf(expSplit[1]);
+
+            //rune reader
+            String[] runeSplit = data[4].split("=");
+            this.rune = Integer.valueOf(runeSplit[1]);
+
+            //ItemList reader
+            String[] runeList = data[5].split("=");
+            runeList = runeList[1].substring(1,runeList[1].length()-1).split(",");
+            this.runeList = new ArrayList<Integer>();
+            for(String x : runeList)
+            {
+                if(x.equals("")) continue;
+                int runeID = Integer.valueOf(x);
+                this.runeList.add(runeID);
+            }
+
+
         }
         catch (IOException e)
         {
             create();
-        }
-        finally {
-
-            try {
-                if(file != null) file.close();
-            }
-            catch ( Exception ex)
-            {
-                System.out.println(ex.getMessage());
-            }
-
         }
     }
 
     public void create(){
         skill = new int[]{-1,-1,-1,-1};
         itemList = new ArrayList<Integer>();
-        itemList.add(1);
-        itemList.add(2);
         level = 1;
         exp = 0;
-        rune = 0;
+        rune = -1;
+        runeList = new ArrayList<Integer>();
 
-        BufferedWriter wFile = null;
         try {
-            wFile = new BufferedWriter(new FileWriter(".savegame",false));
-            wFile.write("skill = "+skill[0]+","+skill[1]+","+skill[2]+","+ skill[3]);
-            wFile.newLine();
-            wFile.write("itemList = " + itemList.toString());
-            wFile.newLine();
-            wFile.write("level = " + level);
-            wFile.newLine();
-            wFile.write("exp = " + exp);
-            wFile.newLine();
-            wFile.write("rune = " + rune);
-            System.out.println("Create new game context file.");
+            BufferedWriter wFile = new BufferedWriter(new FileWriter(".savegame",false));
+            wFile.write("skill="+skill[0]+","+skill[1]+","+skill[2]+","+ skill[3]+"\n");
+            wFile.write("itemList=" + itemList.toString() + "\n");
+            wFile.write("level=" + level + "\n");
+            wFile.write("exp=" + exp + "\n");
+            wFile.write("rune=" + rune + "\n");
+            wFile.write("runeList="+ runeList);
+            wFile.close();
         }
         catch (Exception ew)
         {
-            System.out.println("writefile error");
-        }
-        finally {
-            if(wFile != null)
-            {
-                try {
-                    wFile.close();
-                }
-                catch (Exception ec)
-                {
-
-                }
-            }
+            System.out.println("Creating context file ... failed");
         }
     }
 
