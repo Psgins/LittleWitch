@@ -179,7 +179,6 @@ public class Crytal1 extends Character {
                 Stage1.tmpDynamic.add(monster = new SkelWarrior(body.getWorld(),AllLayer.parent(),body.getPosition().x / VariableConstant.worldScale, body.getPosition().y / VariableConstant.worldScale,owner,floatLabel));
                 monsterGen.add(monster);
                 break;
-
         }
     }
 }
