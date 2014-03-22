@@ -338,9 +338,10 @@ public class Stage1 extends Screen {
                 UIGroup.setTranslation(0 - layer.tx(),0);
             }
         }
-        
+
         // Check Game Condition
         if(main.isDead()) GameOver();
+        if(boss.isDead()) GameClear();
 
         //Update Component
         fLabel.update(delta);
@@ -403,9 +404,37 @@ public class Stage1 extends Screen {
         backIMG.addListener(new Pointer.Adapter(){
             @Override
             public void onPointerEnd(Pointer.Event event) {
+                gContent.setLevel(main.getLevel());
+                gContent.setExp(main.getExp());
                 ss.remove(ss.top());
             }
         });
+    }
 
+    public void GameClear()
+    {
+        gameState = GameState.end;
+
+        GroupLayer overGroup = PlayN.graphics().createGroupLayer();
+        overGroup.setTranslation(320,200);
+        UIGroup.add(overGroup);
+
+        ImageLayer overIMG = PlayN.graphics().createImageLayer(PlayN.assets().getImage("images/ui/clear.png"));
+        overIMG.setOrigin(180,50);
+        overGroup.add(overIMG);
+
+        ImageLayer backIMG = PlayN.graphics().createImageLayer(PlayN.assets().getImage("images/MapScreen/back.png"));
+        backIMG.setOrigin(60,25);
+        backIMG.setTranslation(0,70);
+        overGroup.add(backIMG);
+
+        backIMG.addListener(new Pointer.Adapter(){
+            @Override
+            public void onPointerEnd(Pointer.Event event) {
+                gContent.setLevel(main.getLevel());
+                gContent.setExp(main.getExp());
+                ss.remove(ss.top());
+            }
+        });
     }
 }
