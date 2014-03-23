@@ -115,6 +115,7 @@ public class Character extends DynamicObject {
     public void setHp(float hp)
     {
        this.hp = hp;
+       gEnvir.hpBarUI.needUpdate = true;
     }
 
     public void dropItem()

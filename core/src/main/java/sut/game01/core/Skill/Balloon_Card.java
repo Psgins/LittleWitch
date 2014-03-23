@@ -6,6 +6,7 @@ import sut.game01.core.all_etc.DynamicObject;
 import sut.game01.core.all_etc.ImageStore;
 import sut.game01.core.all_etc.VariableConstant;
 import sut.game01.core.character.*;
+import sut.game01.core.character.Character;
 import sut.game01.core.screen.Stage1;
 
 import java.util.List;
@@ -30,7 +31,7 @@ public class Balloon_Card implements SkillCard {
     }
 
     @Override
-    public boolean Shoot(sut.game01.core.character.Character caster,boolean isLeft,List<DynamicObject> objTemp)
+    public boolean Shoot(Character caster,boolean isLeft,List<DynamicObject> objTemp)
     {
         if(e > 0)
         {

@@ -144,7 +144,6 @@ public class Stage1 extends Screen {
         gEnvir.world = world;
         gEnvir.layer = layer;
         gEnvir.fLabel = fLabel;
-        gEnvir.hpBarUI = hpBarUI;
         gEnvir.tmpList = tmpDynamic;
         gEnvir.gContent = gContent;
 
@@ -182,6 +181,7 @@ public class Stage1 extends Screen {
 
         //UI
         hpBarUI = new HPBarUI(main,UIGroup);
+        gEnvir.hpBarUI = hpBarUI;
         skill = ContentLoader.SkillCardLoader(gContent.getSkill());
         SkillUI = new SkillCardUI(main,UIGroup,tmpDynamic,skill);
         layer.add(UIGroup);

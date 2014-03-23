@@ -15,7 +15,7 @@ import sut.game01.core.screen.Stage1;
  */
 public class HPBarUI {
 
-    public boolean needUpdate = false;
+    public boolean needUpdate = true;
 
     private Witch focus;
     private GroupLayer AllLayer = graphics().createGroupLayer();
@@ -62,6 +62,8 @@ public class HPBarUI {
 
         lvlPosition.removeAll();
         lvlPosition.add(Level2Layer(focus.getLevel()));
+
+        needUpdate = false;
     }
 
     public GroupLayer Level2Layer(int lvl)

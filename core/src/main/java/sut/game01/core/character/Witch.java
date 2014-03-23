@@ -142,10 +142,11 @@ public class Witch extends Character {
                 if (dmg < 0) dmg = 1;
 
                 hp = (hp - dmg) < 0 ? 0 : (hp - dmg);
+                gEnvir.hpBarUI.needUpdate = true;
 
                 HPBar.setWidth(HPBarWidth * (hp/maxHP));
 
-                gEnvir.fLabel.CreateText((int)dmg,body.getPosition().x / VariableConstant.worldScale,(body.getPosition().y / VariableConstant.worldScale)-15f);
+                gEnvir.fLabel.CreateText((int) dmg, body.getPosition().x / VariableConstant.worldScale, (body.getPosition().y / VariableConstant.worldScale) - 15f);
 
                 if (hp <= 0)
                 {
@@ -216,6 +217,7 @@ public class Witch extends Character {
                 exp = VariableConstant.expRange[level-1];
             }
         }
+        gEnvir.hpBarUI.needUpdate = true;
     }
 
     @Override
