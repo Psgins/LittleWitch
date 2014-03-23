@@ -7,8 +7,10 @@ import playn.core.Pointer;
 import sut.game01.core.ModelShow.MiniSpiritModel;
 import sut.game01.core.ModelShow.WitchModel;
 import sut.game01.core.Skill.SkillCard;
+import sut.game01.core.all_etc.Countdown;
 import sut.game01.core.all_etc.GameContent;
 import sut.game01.core.all_etc.ImageStore;
+import sut.game01.core.all_etc.VariableConstant;
 import tripleplay.game.ScreenStack;
 import tripleplay.game.UIScreen;
 
@@ -38,6 +40,8 @@ public class CharacterScreen extends UIScreen {
     private int RuneSelected = 0;
     private List<Integer> runeList;
     private GroupLayer positionRune  = PlayN.graphics().createGroupLayer();
+
+    //Status
 
     public CharacterScreen(ScreenStack ss)
     {
@@ -155,6 +159,40 @@ public class CharacterScreen extends UIScreen {
         }
 
         gContent.Refresh();
+
+        GroupLayer Information = graphics().createGroupLayer();
+        Information.setTranslation(200,85);
+        ImageLayer info = graphics().createImageLayer(assets().getImage("images/CharacterScreen/information.png"));
+        Information.add(info);
+
+        float atk = 20 + VariableConstant.dmgLVL[gContent.getLevel()];
+        GroupLayer atknum = Countdown.Create((int)atk);
+        atknum.setTranslation(80,13);
+        Information.add(atknum);
+
+        float def = 2;
+        GroupLayer defnum = Countdown.Create((int)def);
+        defnum.setTranslation(80,35);
+        Information.add(defnum);
+
+        float hp = 150;
+        GroupLayer hpnum = Countdown.Create((int)hp);
+        hpnum.setTranslation(80,57);
+        Information.add(hpnum);
+
+        float exp = gContent.getExp();
+        GroupLayer expnum = Countdown.Create((int)exp);
+        expnum.setTranslation(80,79);
+        Information.add(expnum);
+
+        float lvl = gContent.getLevel();
+        GroupLayer lvlnum = Countdown.Create((int)lvl);
+        lvlnum.setTranslation(80,101);
+        Information.add(lvlnum);
+
+
+        layer.add(Information);
+
     }
 
     @Override
