@@ -29,7 +29,7 @@ public class CharacterScreen extends UIScreen {
 
     GameContent gContent = new GameContent();
 
-    private int[] SkillSelected = new int[]{-1,-1,-1,-1};
+    private int[] SkillSelected;
     private GroupLayer[] positionSkillSlot = new GroupLayer[4];
 
     private List<Integer> itemList;
@@ -116,6 +116,7 @@ public class CharacterScreen extends UIScreen {
 
         gContent.load();
 
+        this.SkillSelected = gContent.getSkill();
         this.itemList = gContent.getItem();
         this.RuneSelected = gContent.getRune();
 

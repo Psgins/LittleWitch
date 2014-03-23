@@ -9,6 +9,7 @@ import org.jbox2d.dynamics.World;
 import org.jbox2d.dynamics.contacts.Contact;
 import playn.core.*;
 import playn.core.util.Clock;
+import sut.game01.core.Environment.CubeBox;
 import sut.game01.core.Environment.EdgeLine;
 import sut.game01.core.Pet.MiniSpirit;
 import sut.game01.core.Rune.Rune;
@@ -28,7 +29,7 @@ public class Stage1 extends Screen {
     public enum GameState {load,run,end}
 
     // world variable
-    private  static int width = 48;
+    private  static int width = 96;
     private  static int height = 18;
     private World world;
 
@@ -138,10 +139,23 @@ public class Stage1 extends Screen {
         });
 
         //Environment
-
         new EdgeLine(world,new Vec2(0,height-3f),new Vec2(width,height-3f));
         new EdgeLine(world,new Vec2(0,0),new Vec2(0,height));
         new EdgeLine(world,new Vec2(width,0),new Vec2(width,height));
+        new CubeBox(world,layer,600,387);
+        new CubeBox(world,layer,650,387);
+        new CubeBox(world,layer,700,387);
+        new CubeBox(world,layer,625,362);
+        new CubeBox(world,layer,675,362);
+
+        new CubeBox(world,layer,1400,387);
+        new CubeBox(world,layer,1450,387);
+        new CubeBox(world,layer,1500,387);
+        new CubeBox(world,layer,1400,362);
+        new CubeBox(world,layer,1450,362);
+        new CubeBox(world,layer,1500,362);
+        new CubeBox(world,layer,1425,337);
+        new CubeBox(world,layer,1475,337);
 
         //Setup Game Environtment
         gEnvir.world = world;
@@ -172,11 +186,12 @@ public class Stage1 extends Screen {
         objDynamic.add(new MiniSpirit(world,layer,main,rune));
 
         // - Monster
-//        objDynamic.add(new MiniGhost(world,layer,700f,325f, Character.Owner.Enemy,fLabel));
-//        objDynamic.add(new MiniGhost(world,layer,600f,325f, Character.Owner.Enemy,fLabel));
-//        objDynamic.add(new MiniGhost(world,layer,550f,325f, Character.Owner.Enemy,fLabel));
-//        objDynamic.add(new MiniGhost(gEnvir,800f,275f, Character.Owner.Enemy));
-//        objDynamic.add(new SkelWarrior(gEnvir,500f,325f, Character.Owner.Enemy));
+        objDynamic.add(new MiniGhost(gEnvir,20 / VariableConstant.worldScale,325f, Character.Owner.Enemy));
+        objDynamic.add(new MiniGhost(gEnvir,1600,325f, Character.Owner.Enemy));
+        objDynamic.add(new MiniGhost(gEnvir,1650,325f, Character.Owner.Enemy));
+        objDynamic.add(new pinkporing(gEnvir,30 / VariableConstant.worldScale, 330, Character.Owner.Enemy));
+        objDynamic.add(new RedPoring(gEnvir,650f,337,Character.Owner.Enemy));
+        objDynamic.add(new RedPoring(gEnvir,1450f,312,Character.Owner.Enemy));
 
         // - Boss
         boss = new Crytal1(gEnvir,(width-12) / VariableConstant.worldScale,325,Character.Owner.Enemy);
@@ -199,11 +214,13 @@ public class Stage1 extends Screen {
                 switch (event.key()) {
                     case A:
                     case LEFT:
-                        main.setState(Witch.State.runL);
+                        if(main.getState() != Witch.State.dead)
+                            main.setState(Witch.State.runL);
                         break;
                     case D:
                     case RIGHT:
-                        main.setState(Witch.State.runR);
+                        if(main.getState() != Witch.State.dead)
+                            main.setState(Witch.State.runR);
                         break;
                     case SPACE:
                         main.jump();
@@ -305,11 +322,13 @@ public class Stage1 extends Screen {
                 switch (event.key()) {
                     case A:
                     case LEFT:
-                        main.setState(Witch.State.idleL);
+                        if(main.getState() != Witch.State.dead)
+                            main.setState(Witch.State.idleL);
                         break;
                     case D:
                     case RIGHT:
-                        main.setState(Witch.State.idleR);
+                        if(main.getState() != Witch.State.dead)
+                            main.setState(Witch.State.idleR);
                         break;
                     case ESCAPE:
                         gContent.setLevel(main.getLevel());

@@ -14,7 +14,7 @@ import java.util.List;
 /**
  * Created by PSG on 3/13/14.
  */
-public class Fireball extends Skill {
+public class FireProject extends Skill {
 
     private float y;
     private int timelife = 0;
@@ -22,13 +22,13 @@ public class Fireball extends Skill {
     List<Fireball_eff> coll = new ArrayList<Fireball_eff>();
     List<Fireball_eff> tmp = new ArrayList<Fireball_eff>();
 
-    public Fireball(World world, GroupLayer layer, float x, float y, Owner own, boolean isLeft, float moreDMG)
+    public FireProject(World world, GroupLayer layer, float x, float y, Owner own, boolean isLeft, float moreDMG)
     {
         owner = own;
         AdditionDamage = moreDMG;
         layer.add(AllLayer);
         this.y = y;
-        timelife = 500;
+        timelife = 650;
 
         BaseDamage = 20;
         RangeDamage = 5;
@@ -38,9 +38,9 @@ public class Fireball extends Skill {
         body.setFixedRotation(true);
 
         if(isLeft)
-            body.applyLinearImpulse(new Vec2(-4.7f,0f),body.getPosition());
+            body.applyLinearImpulse(new Vec2(-2.7f,-4f),body.getPosition());
         else
-            body.applyLinearImpulse(new Vec2(4.7f,0f),body.getPosition());
+            body.applyLinearImpulse(new Vec2(2.7f,-4f),body.getPosition());
 
         ready = true;
     }
@@ -91,10 +91,6 @@ public class Fireball extends Skill {
             else
                 return;
         }
-
-        // keep fireball floating
-        if (body != null)
-            if(body.getPosition().y / VariableConstant.worldScale > y + 10f) body.applyForce(new Vec2(0f,-30f),body.getPosition());
     }
 
     @Override

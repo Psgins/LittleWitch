@@ -92,9 +92,9 @@ public class Character extends DynamicObject {
         if(body.getLinearVelocity().x > -moveSpeed && body.getLinearVelocity().x < moveSpeed )
 
             if (distance.x > 0)
-                body.applyForce(new Vec2(moveSpeed,0f),body.getPosition());
+                body.applyForce(new Vec2(moveSpeed*3,0f),body.getPosition());
             else
-                body.applyForce(new Vec2(-moveSpeed,0f),body.getPosition());
+                body.applyForce(new Vec2(-moveSpeed*3,0f),body.getPosition());
     }
 
     protected boolean inScreen(Character focus)

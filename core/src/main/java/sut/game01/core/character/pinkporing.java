@@ -17,7 +17,7 @@ import sut.game01.core.sprite.SpriteLoader;
 /**
  * Created by PSG on 3/18/14.
  */
-public class SkelWarrior extends Character {
+public class pinkporing extends Character {
     public enum State {idleL,idleR,RunL,RunR,AtkL,AtkR,dead}
 
     private State state = State.RunL;
@@ -25,24 +25,25 @@ public class SkelWarrior extends Character {
     private int DelayCount = 0;
     private int AttackDelay = 1000;
 
-    public SkelWarrior(final GameEnvirontment gEnvir, final float x, final float y, Owner own)
+    public pinkporing(final GameEnvirontment gEnvir, final float x, final float y, Owner own)
     {
         renderSpeed = 100;
         this.gEnvir = gEnvir;
 
-        hp = 200;
-        maxHP = 200;
+        hp = 600;
+        maxHP = 600;
         attack = 30;
-        defend = 10;
+        defend = 13;
 
-        sprite = SpriteLoader.getSprite("images/CharSprite/SkelSprite.json");
+        sprite = SpriteLoader.getSprite("images/CharSprite/poring.json");
         sprite.addCallback(new Callback<Sprite>() {
             @Override
             public void onSuccess(Sprite result) {
                 sprite.setSprite(spriteIndex);
-                sprite.layer().setOrigin(70f, 75f);
+                sprite.layer().setOrigin(50f, 60f);
 
-                initPhysicsBody(gEnvir.world, x, y, 50f, 80f,false);
+                initPhysicsBody(gEnvir.world, x, y, 60f, 60f,false);
+                body.setLinearDamping(1f);
 
                 createHPbar(sprite.layer().tx(),sprite.layer().ty()- 55f,60);
 
@@ -72,34 +73,47 @@ public class SkelWarrior extends Character {
             switch (state)
             {
                 case idleR:
+                case idleL:
                     offset = 0;
                     break;
-                case idleL:
+                case RunR:
+                case RunL:
                     offset = 4;
                     break;
-                case RunR:
-                    offset = 8;
-                    break;
-                case RunL:
-                    offset = 12;
-                    break;
                 case AtkL:
-                    offset = 16;
-                    if(spriteIndex == 18) setState(State.idleL);
+                    offset = 4;
+                    if(spriteIndex == 6) setState(State.idleL);
                     break;
                 case AtkR:
-                    offset = 20;
-                    if(spriteIndex == 22) setState(State.idleR);
+                    offset = 4;
+                    if(spriteIndex == 6) setState(State.idleR);
                     break;
                 case dead:
-                    offset = 24;
-                    if (spriteIndex == 27 )
+                    offset = 8;
+                    if (spriteIndex == 10)
                     {
+                        dropItem();
                         AllLayer.parent().remove(AllLayer);
                         body.getWorld().destroyBody(body);
                         alive = false;
                         return;
                     }
+            }
+
+            switch (state)
+            {
+                case idleL:
+                case RunL:
+                case AtkL:
+                    sprite.layer().setWidth(100);
+                    sprite.layer().setOrigin(50,60);
+                    break;
+                case idleR:
+                case RunR:
+                case AtkR:
+                    sprite.layer().setWidth(-100);
+                    sprite.layer().setOrigin(-50,60);
+                    break;
             }
 
             spriteIndex = offset + ((spriteIndex + 1)%4);
@@ -114,7 +128,7 @@ public class SkelWarrior extends Character {
         Vec2 tmpSeek = seekMain(gEnvir.main);
         if((tmpSeek.x > 3 || tmpSeek.x < -3) && tmpSeek.x != 999f)
         {
-            Move2Main(gEnvir.main,tmpSeek,13f);
+            Move2Main(gEnvir.main,tmpSeek,5f);
             if(body.getLinearVelocity().x < 0)
             {
                 if(state != State.RunL) setState(State.RunL);
@@ -130,6 +144,14 @@ public class SkelWarrior extends Character {
             if (DelayCount >= AttackDelay)
             {
                 AttackMain(gEnvir.main,tmpSeek);
+                if(tmpSeek.x > 0)
+                {
+                    body.applyLinearImpulse(new Vec2(20,-20),body.getPosition());
+                }
+                else {
+                    body.applyLinearImpulse(new Vec2(-20,-20),body.getPosition());
+                }
+
                 DelayCount = 0;
             }
         }
