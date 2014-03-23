@@ -6,6 +6,7 @@ import playn.core.GroupLayer;
 import playn.core.ImageLayer;
 import playn.core.PlayN;
 import sut.game01.core.all_etc.DynamicObject;
+import sut.game01.core.all_etc.GameEnvirontment;
 import sut.game01.core.all_etc.ImageStore;
 import sut.game01.core.all_etc.VariableConstant;
 import sut.game01.core.character.Witch;
@@ -15,14 +16,17 @@ import sut.game01.core.screen.Stage1;
  * Created by PSG on 3/21/14.
  */
 public class ItemRune extends DynamicObject {
+
+    private GameEnvirontment gEnvir;
     private Vec2 Position;
     private int runeId = -1;
     private ImageLayer runeImage;
     private boolean hasKept = false;
     private int TimeOut = 10000;
 
-    public ItemRune(World world, GroupLayer layer, Vec2 Position, int runeId)
+    public ItemRune(GameEnvirontment gEnvir, Vec2 Position, int runeId)
     {
+        this.gEnvir = gEnvir;
         this.runeId = runeId;
         this.Position = Position;
 
@@ -30,11 +34,11 @@ public class ItemRune extends DynamicObject {
         runeImage.setOrigin(15,15);
         runeImage.setSize(30, 30);
 
-        initPhysicsBody(world, Position.x / VariableConstant.worldScale, Position.y / VariableConstant.worldScale, 20, 20, true);
+        initPhysicsBody(gEnvir.world, Position.x / VariableConstant.worldScale, Position.y / VariableConstant.worldScale, 20, 20, true);
         body.getFixtureList().setDensity(0.1f);
         body.applyLinearImpulse(new Vec2(0,-1),body.getPosition());
         runeImage.setTranslation(body.getPosition().x / VariableConstant.worldScale, body.getPosition().y / VariableConstant.worldScale);
-        layer.add(runeImage);
+        gEnvir.layer.add(runeImage);
 
         ready = true;
     }
@@ -90,7 +94,7 @@ public class ItemRune extends DynamicObject {
 
         if(other.getClass() == Witch.class)
         {
-            Stage1.runeList.add(runeId);
+            gEnvir.gContent.getRuneList().add(runeId);
             hasKept = true;
         }
     }

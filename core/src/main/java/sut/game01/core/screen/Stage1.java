@@ -11,7 +11,6 @@ import playn.core.*;
 import playn.core.util.Clock;
 import sut.game01.core.Environment.EdgeLine;
 import sut.game01.core.Pet.MiniSpirit;
-import sut.game01.core.Rune.HPRegenSmall;
 import sut.game01.core.Rune.Rune;
 import sut.game01.core.Skill.*;
 import sut.game01.core.UI.FloatLabel;
@@ -44,16 +43,14 @@ public class Stage1 extends Screen {
     private FloatLabel fLabel = new FloatLabel(layer);
 
     // list collection
-    public static List<DynamicObject> tmpDynamic = new ArrayList<DynamicObject>();
+    private List<DynamicObject> tmpDynamic = new ArrayList<DynamicObject>();
     private List<DynamicObject> objDynamic = new ArrayList<DynamicObject>();
     private List<DynamicObject> trash = new ArrayList<DynamicObject>();
-    public static Witch main;
+    private Witch main;
     private Crytal1 boss;
     private HPBarUI hpBarUI;
     private GameContent gContent;
-
-    public static List<Integer> itemList;
-    public static List<Integer> runeList;
+    private GameEnvirontment gEnvir = new GameEnvirontment();
 
     private SkillCardUI SkillUI;
     private SkillCard[] skill = new SkillCard[4];
@@ -143,12 +140,19 @@ public class Stage1 extends Screen {
         new EdgeLine(world,new Vec2(0,0),new Vec2(0,height));
         new EdgeLine(world,new Vec2(width,0),new Vec2(width,height));
 
-//      CubeBox box1 = new CubeBox(world,20,height-8,100,20);
+        //Setup Game Environtment
+        gEnvir.world = world;
+        gEnvir.layer = layer;
+        gEnvir.fLabel = fLabel;
+        gEnvir.hpBarUI = hpBarUI;
+        gEnvir.tmpList = tmpDynamic;
+        gEnvir.gContent = gContent;
 
         //character
         // - Main
-        main = new Witch(world,layer, 320,312,fLabel,gContent);
+        main = new Witch(gEnvir, 320,312);
         objDynamic.add(main);
+        gEnvir.main = main;
 
         // - Pet
         Rune rune = ContentLoader.RuneLoader(gContent.getRune());
@@ -169,19 +173,17 @@ public class Stage1 extends Screen {
 //        objDynamic.add(new MiniGhost(world,layer,700f,325f, Character.Owner.Enemy,fLabel));
 //        objDynamic.add(new MiniGhost(world,layer,600f,325f, Character.Owner.Enemy,fLabel));
 //        objDynamic.add(new MiniGhost(world,layer,550f,325f, Character.Owner.Enemy,fLabel));
-//        objDynamic.add(new MiniGhost(world,layer,800f,275f, Character.Owner.Enemy,fLabel));
-          objDynamic.add(new SkelWarrior(world,layer,500f,325f, Character.Owner.Enemy,fLabel));
+        objDynamic.add(new MiniGhost(gEnvir,800f,275f, Character.Owner.Enemy));
+        objDynamic.add(new SkelWarrior(gEnvir,500f,325f, Character.Owner.Enemy));
 
         // - Boss
-        boss = new Crytal1(world,layer,(width-12) / VariableConstant.worldScale,325,Character.Owner.Enemy,fLabel);
+        boss = new Crytal1(gEnvir,(width-12) / VariableConstant.worldScale,325,Character.Owner.Enemy);
         objDynamic.add(boss);
 
         //UI
         hpBarUI = new HPBarUI(main,UIGroup);
         skill = ContentLoader.SkillCardLoader(gContent.getSkill());
         SkillUI = new SkillCardUI(main,UIGroup,tmpDynamic,skill);
-        itemList = gContent.getItem();
-        runeList = gContent.getRuneList();
         layer.add(UIGroup);
 
         // controller

@@ -15,6 +15,8 @@ import sut.game01.core.screen.Stage1;
  */
 public class HPBarUI {
 
+    public boolean needUpdate = false;
+
     private Witch focus;
     private GroupLayer AllLayer = graphics().createGroupLayer();
 
@@ -50,6 +52,8 @@ public class HPBarUI {
 
     public void update()
     {
+        if(!needUpdate) return;
+
         float hpPercent = focus.getHp() / focus.getMaxHp();
         imgHPBar.setWidth(HPBarWidth * hpPercent);
 

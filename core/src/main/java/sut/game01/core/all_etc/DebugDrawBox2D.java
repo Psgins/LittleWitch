@@ -1,4 +1,4 @@
-package sut.game01.core.screen;
+package sut.game01.core.all_etc;
 
 import org.jbox2d.callbacks.DebugDraw;
 import org.jbox2d.common.Color3f;

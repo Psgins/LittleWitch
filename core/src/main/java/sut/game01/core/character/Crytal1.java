@@ -12,6 +12,7 @@ import playn.core.PlayN;
 import sut.game01.core.Skill.Skill;
 import sut.game01.core.UI.FloatLabel;
 import sut.game01.core.all_etc.DynamicObject;
+import sut.game01.core.all_etc.GameEnvirontment;
 import sut.game01.core.all_etc.VariableConstant;
 import sut.game01.core.screen.Stage1;
 
@@ -36,9 +37,9 @@ public class Crytal1 extends Character {
     private Vec2 position;
     private State state = State.Idle;
 
-    public Crytal1(final World world, final GroupLayer layer, final float x, final float y, Owner own, FloatLabel fLabel)
+    public Crytal1(final GameEnvirontment gEnvir, final float x, final float y, Owner own)
     {
-        floatLabel = fLabel;
+        this.gEnvir = gEnvir;
 
         hp = 2000;
         maxHP = 2000;
@@ -50,13 +51,13 @@ public class Crytal1 extends Character {
         crytal.setOrigin(100f /2f, 200f /2f);
         crytal.setScale(0.5f);
 
-        initPhysicsBody(world, x, y, 30f, 90f, true);
+        initPhysicsBody(gEnvir.world, x, y, 30f, 90f, true);
         body.setLinearVelocity(new Vec2(0,-1.2f));
 
         createHPbar(crytal.tx(), crytal.ty() - 65, 60);
 
         AllLayer.add(crytal);
-        layer.add(AllLayer);
+        gEnvir.layer.add(AllLayer);
         ready = true;
 
         owner = own;
@@ -65,7 +66,7 @@ public class Crytal1 extends Character {
     @Override
     public void update(int delta) {
 
-        if(!alive || !ready || !inScreen(Stage1.main) || dead) return;
+        if(!alive || !ready || !inScreen(gEnvir.main) || dead) return;
 
         e += delta;
 
@@ -99,7 +100,7 @@ public class Crytal1 extends Character {
     @Override
     public void paint() {
 
-        if(!alive || !ready || !inScreen(Stage1.main) || dead) return;
+        if(!alive || !ready || !inScreen(gEnvir.main) || dead) return;
         AllLayer.setTranslation(body.getPosition().x / VariableConstant.worldScale, body.getPosition().y / VariableConstant.worldScale);
     }
 
@@ -149,12 +150,12 @@ public class Crytal1 extends Character {
                 hp = (hp - dmg) < 0 ? 0 : (hp - dmg);
                 HPBar.setWidth(HPBarWidth * (hp/maxHP));
 
-                floatLabel.CreateText((int)dmg,body.getPosition().x / VariableConstant.worldScale,(body.getPosition().y / VariableConstant.worldScale)-15f);
+                gEnvir.fLabel.CreateText((int)dmg,body.getPosition().x / VariableConstant.worldScale,(body.getPosition().y / VariableConstant.worldScale)-15f);
 
                 if (hp <= 0)
                 {
                     dead = true;
-                    Stage1.main.gainEXP(80);
+                    gEnvir.main.gainEXP(80);
                 }
                 skillObject.destroy();
             }
@@ -169,14 +170,14 @@ public class Crytal1 extends Character {
         switch (ran)
         {
             case 0:
-                Stage1.tmpDynamic.add(monster = new MiniGhost(body.getWorld(),AllLayer.parent(),(body.getPosition().x) / VariableConstant.worldScale, (body.getPosition().y-1) / VariableConstant.worldScale,owner,floatLabel));
+                gEnvir.tmpList.add(monster = new MiniGhost(gEnvir,(body.getPosition().x) / VariableConstant.worldScale, (body.getPosition().y-1) / VariableConstant.worldScale,owner));
                 monsterGen.add(monster);
                 break;
             case 1:
 
-                Stage1.tmpDynamic.add(monster = new MiniGhost(body.getWorld(),AllLayer.parent(),(body.getPosition().x-1) / VariableConstant.worldScale, body.getPosition().y / VariableConstant.worldScale,owner,floatLabel));
+                gEnvir.tmpList.add(monster = new MiniGhost(gEnvir,(body.getPosition().x-1) / VariableConstant.worldScale, body.getPosition().y / VariableConstant.worldScale,owner));
                 monsterGen.add(monster);
-                Stage1.tmpDynamic.add(monster = new SkelWarrior(body.getWorld(),AllLayer.parent(),body.getPosition().x / VariableConstant.worldScale, body.getPosition().y / VariableConstant.worldScale,owner,floatLabel));
+                gEnvir.tmpList.add(monster = new SkelWarrior(gEnvir,body.getPosition().x / VariableConstant.worldScale, body.getPosition().y / VariableConstant.worldScale,owner));
                 monsterGen.add(monster);
                 break;
         }
