@@ -77,7 +77,7 @@ public class GameContent {
             for(String x : itemList)
             {
                 if(x.equals("")) continue;
-                int itemID = Integer.valueOf(x);
+                int itemID = Integer.valueOf(x.trim());
                 this.itemList.add(itemID);
             }
 
@@ -100,7 +100,7 @@ public class GameContent {
             for(String x : runeList)
             {
                 if(x.equals("")) continue;
-                int runeID = Integer.valueOf(x);
+                int runeID = Integer.valueOf(x.trim());
                 this.runeList.add(runeID);
             }
 

@@ -28,6 +28,8 @@ public class FloatLabel {
 
     public void update(int delta)
     {
+        if(collection.size() <= 0) return;
+
         for(GroupLayer x : collection)
         {
             if(x.alpha() > 0)
