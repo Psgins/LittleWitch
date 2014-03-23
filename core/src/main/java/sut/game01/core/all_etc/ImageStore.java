@@ -50,4 +50,6 @@ public class ImageStore {
     {
             PlayN.assets().getImage("images/Rune/psHPSmallIcon.png")
     };
+
+    public static final Image box = assets().getImage("images/etc/box.png");
 }

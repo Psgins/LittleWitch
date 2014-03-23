@@ -54,6 +54,8 @@ public class Crytal1 extends Character {
         initPhysicsBody(gEnvir.world, x, y, 30f, 90f, true);
         body.setLinearVelocity(new Vec2(0,-1.2f));
 
+        AllLayer.setTranslation(body.getPosition().x / VariableConstant.worldScale, body.getPosition().y / VariableConstant.worldScale);
+
         createHPbar(crytal.tx(), crytal.ty() - 65, 60);
 
         AllLayer.add(crytal);
@@ -177,7 +179,7 @@ public class Crytal1 extends Character {
 
                 gEnvir.tmpList.add(monster = new MiniGhost(gEnvir,(body.getPosition().x-1) / VariableConstant.worldScale, body.getPosition().y / VariableConstant.worldScale,owner));
                 monsterGen.add(monster);
-                gEnvir.tmpList.add(monster = new SkelWarrior(gEnvir,body.getPosition().x / VariableConstant.worldScale, body.getPosition().y / VariableConstant.worldScale,owner));
+                gEnvir.tmpList.add(monster = new pinkporing(gEnvir,body.getPosition().x / VariableConstant.worldScale, body.getPosition().y / VariableConstant.worldScale,owner));
                 monsterGen.add(monster);
                 break;
         }
