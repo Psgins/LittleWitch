@@ -35,7 +35,22 @@ public class GameContent {
     public void setRuneList(List<Integer> runeList){this.runeList = runeList;}
     public List<Integer> getRuneList() {return runeList;}
 
-    public void save(){}
+    public void save(){
+        try {
+            BufferedWriter wFile = new BufferedWriter(new FileWriter(".savegame",false));
+            wFile.write("skill="+skill[0]+","+skill[1]+","+skill[2]+","+ skill[3]+"\n");
+            wFile.write("itemList=" + itemList.toString() + "\n");
+            wFile.write("level=" + level + "\n");
+            wFile.write("exp=" + exp + "\n");
+            wFile.write("rune=" + rune + "\n");
+            wFile.write("runeList="+ runeList);
+            wFile.close();
+        }
+        catch (Exception ew)
+        {
+            System.out.println("Creating context file ... failed");
+        }
+    }
 
     public void load(){
         try
@@ -105,20 +120,7 @@ public class GameContent {
         rune = -1;
         runeList = new ArrayList<Integer>();
 
-        try {
-            BufferedWriter wFile = new BufferedWriter(new FileWriter(".savegame",false));
-            wFile.write("skill="+skill[0]+","+skill[1]+","+skill[2]+","+ skill[3]+"\n");
-            wFile.write("itemList=" + itemList.toString() + "\n");
-            wFile.write("level=" + level + "\n");
-            wFile.write("exp=" + exp + "\n");
-            wFile.write("rune=" + rune + "\n");
-            wFile.write("runeList="+ runeList);
-            wFile.close();
-        }
-        catch (Exception ew)
-        {
-            System.out.println("Creating context file ... failed");
-        }
+        save();
     }
 
     public void Refresh()
