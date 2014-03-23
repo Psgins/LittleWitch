@@ -28,7 +28,7 @@ public class Stage1 extends Screen {
     public enum GameState {load,run,end}
 
     // world variable
-    private  static int width = 48;
+    private  static int width = 96;
     private  static int height = 18;
     private World world;
 

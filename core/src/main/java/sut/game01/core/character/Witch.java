@@ -43,6 +43,7 @@ public class Witch extends Character {
                 sprite.setSprite(spriteIndex);
                 sprite.layer().setOrigin(75f / 2f, 84f / 2f);
                 initPhysicsBody(gEnvir.world,x,y,75f - 40f,84f - 10f,false);
+                body.setLinearDamping(1f);
 
                 AllLayer.add(sprite.layer());
                 createHPbar(sprite.layer().tx(),sprite.layer().ty() - 50f,70f);
@@ -80,11 +81,12 @@ public class Witch extends Character {
                     break;
                 case runR:
                     offset = 8;
-                    if(body.getLinearVelocity().x < 10) body.applyForce(new Vec2(40f,0),body.getPosition());
+                    if(body.getLinearVelocity().x < 10)
+                        body.applyForce(new Vec2(60f,0),body.getPosition());
                     break;
                 case  runL:
                     offset = 12;
-                    if(body.getLinearVelocity().x > -10) body.applyForce(new Vec2(-40f, 0), body.getPosition());
+                    if(body.getLinearVelocity().x > -10) body.applyForce(new Vec2(-60f, 0), body.getPosition());
                     break;
                 case dead:
                     offset = 16;
