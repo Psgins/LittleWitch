@@ -148,6 +148,15 @@ public class Stage1 extends Screen {
         new CubeBox(world,layer,625,362);
         new CubeBox(world,layer,675,362);
 
+        new CubeBox(world,layer,1400,387);
+        new CubeBox(world,layer,1450,387);
+        new CubeBox(world,layer,1500,387);
+        new CubeBox(world,layer,1400,362);
+        new CubeBox(world,layer,1450,362);
+        new CubeBox(world,layer,1500,362);
+        new CubeBox(world,layer,1425,337);
+        new CubeBox(world,layer,1475,337);
+
         //Setup Game Environtment
         gEnvir.world = world;
         gEnvir.layer = layer;
@@ -177,12 +186,12 @@ public class Stage1 extends Screen {
         objDynamic.add(new MiniSpirit(world,layer,main,rune));
 
         // - Monster
-//        objDynamic.add(new MiniGhost(gEnvir,20 / VariableConstant.worldScale,325f, Character.Owner.Enemy));
-//        objDynamic.add(new MiniGhost(gEnvir,40 / VariableConstant.worldScale,325f, Character.Owner.Enemy));
-//        objDynamic.add(new MiniGhost(gEnvir,60 / VariableConstant.worldScale,325f, Character.Owner.Enemy));
-//        objDynamic.add(new MiniGhost(gEnvir,80 / VariableConstant.worldScale,275f, Character.Owner.Enemy));
-//        objDynamic.add(new pinkporing(gEnvir,20 / VariableConstant.worldScale, 330, Character.Owner.Enemy));
+        objDynamic.add(new MiniGhost(gEnvir,20 / VariableConstant.worldScale,325f, Character.Owner.Enemy));
+        objDynamic.add(new MiniGhost(gEnvir,1600,325f, Character.Owner.Enemy));
+        objDynamic.add(new MiniGhost(gEnvir,1650,325f, Character.Owner.Enemy));
+        objDynamic.add(new pinkporing(gEnvir,30 / VariableConstant.worldScale, 330, Character.Owner.Enemy));
         objDynamic.add(new RedPoring(gEnvir,650f,337,Character.Owner.Enemy));
+        objDynamic.add(new RedPoring(gEnvir,1450f,312,Character.Owner.Enemy));
 
         // - Boss
         boss = new Crytal1(gEnvir,(width-12) / VariableConstant.worldScale,325,Character.Owner.Enemy);
@@ -205,11 +214,13 @@ public class Stage1 extends Screen {
                 switch (event.key()) {
                     case A:
                     case LEFT:
-                        main.setState(Witch.State.runL);
+                        if(main.getState() != Witch.State.dead)
+                            main.setState(Witch.State.runL);
                         break;
                     case D:
                     case RIGHT:
-                        main.setState(Witch.State.runR);
+                        if(main.getState() != Witch.State.dead)
+                            main.setState(Witch.State.runR);
                         break;
                     case SPACE:
                         main.jump();
@@ -311,11 +322,13 @@ public class Stage1 extends Screen {
                 switch (event.key()) {
                     case A:
                     case LEFT:
-                        main.setState(Witch.State.idleL);
+                        if(main.getState() != Witch.State.dead)
+                            main.setState(Witch.State.idleL);
                         break;
                     case D:
                     case RIGHT:
-                        main.setState(Witch.State.idleR);
+                        if(main.getState() != Witch.State.dead)
+                            main.setState(Witch.State.idleR);
                         break;
                     case ESCAPE:
                         gContent.setLevel(main.getLevel());

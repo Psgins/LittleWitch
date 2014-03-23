@@ -31,8 +31,8 @@ public class Witch extends Character {
     {
         this.gEnvir = gEnvir;
 
-        maxHP = 100;
-        hp = 100;
+        maxHP = 150;
+        hp = 150;
         level = gEnvir.gContent.getLevel();
         exp = gEnvir.gContent.getExp();
 

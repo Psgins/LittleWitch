@@ -30,10 +30,10 @@ public class pinkporing extends Character {
         renderSpeed = 100;
         this.gEnvir = gEnvir;
 
-        hp = 200;
-        maxHP = 200;
+        hp = 600;
+        maxHP = 600;
         attack = 30;
-        defend = 10;
+        defend = 13;
 
         sprite = SpriteLoader.getSprite("images/CharSprite/poring.json");
         sprite.addCallback(new Callback<Sprite>() {
@@ -92,6 +92,7 @@ public class pinkporing extends Character {
                     offset = 8;
                     if (spriteIndex == 10)
                     {
+                        dropItem();
                         AllLayer.parent().remove(AllLayer);
                         body.getWorld().destroyBody(body);
                         alive = false;

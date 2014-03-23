@@ -32,10 +32,10 @@ public class RedPoring extends Character {
         renderSpeed = 100;
         this.gEnvir = gEnvir;
 
-        hp = 200;
-        maxHP = 200;
-        attack = 30;
-        defend = 10;
+        hp = 450;
+        maxHP = 450;
+        attack = 45;
+        defend = 5;
 
         sprite = SpriteLoader.getSprite("images/CharSprite/redPoring.json");
         sprite.addCallback(new Callback<Sprite>() {
@@ -95,6 +95,7 @@ public class RedPoring extends Character {
                     offset = 8;
                     if (spriteIndex == 10)
                     {
+                        dropItem();
                         AllLayer.parent().remove(AllLayer);
                         body.getWorld().destroyBody(body);
                         alive = false;
