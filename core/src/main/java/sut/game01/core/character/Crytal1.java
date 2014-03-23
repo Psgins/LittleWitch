@@ -9,14 +9,11 @@ import org.jbox2d.dynamics.World;
 import playn.core.GroupLayer;
 import playn.core.ImageLayer;
 import playn.core.PlayN;
-import playn.core.util.Callback;
 import sut.game01.core.Skill.Skill;
 import sut.game01.core.UI.FloatLabel;
 import sut.game01.core.all_etc.DynamicObject;
 import sut.game01.core.all_etc.VariableConstant;
 import sut.game01.core.screen.Stage1;
-import sut.game01.core.sprite.Sprite;
-import sut.game01.core.sprite.SpriteLoader;
 
 import java.util.ArrayList;
 import java.util.List;

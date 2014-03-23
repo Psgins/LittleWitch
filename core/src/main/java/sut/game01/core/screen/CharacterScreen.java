@@ -32,11 +32,11 @@ public class CharacterScreen extends UIScreen {
     private int[] SkillSelected = new int[]{-1,-1,-1,-1};
     private GroupLayer[] positionSkillSlot = new GroupLayer[4];
 
-    private List<Integer> itemList = new ArrayList<Integer>();
+    private List<Integer> itemList;
     private GroupLayer[][] positionItemSlot = new GroupLayer[3][8];
 
     private int RuneSelected = 0;
-    private List<Integer> runeList = new ArrayList<Integer>();
+    private List<Integer> runeList;
     private GroupLayer positionRune  = PlayN.graphics().createGroupLayer();
 
     public CharacterScreen(ScreenStack ss)
@@ -110,11 +110,10 @@ public class CharacterScreen extends UIScreen {
         positionRune.setTranslation(488,245);
         layer.add(positionRune);
 
-        gContent.create();
+        gContent.load();
 
-        gContent.setSkill(SkillSelected);
-        gContent.setItem(itemList);
-        gContent.setRuneList(runeList);
+        this.itemList = gContent.getItem();
+        this.RuneSelected = gContent.getRune();
 
         // start button
         ImageLayer startLayer = PlayN.graphics().createImageLayer(PlayN.assets().getImage("images/CharacterScreen/MapButton.png"));
@@ -124,6 +123,7 @@ public class CharacterScreen extends UIScreen {
             @Override
             public void onPointerEnd(Pointer.Event event) {
                 super.onPointerEnd(event);
+                gContent.setSkill(SkillSelected);
                 ss.push(new MapScreen(ss,gContent));
             }
         });

@@ -6,3 +6,4 @@ ios/
 core/target/
 assets/target/
 java/target/
+.savegame

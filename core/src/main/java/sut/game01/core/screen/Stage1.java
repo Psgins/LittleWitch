@@ -308,6 +308,7 @@ public class Stage1 extends Screen {
                     case ESCAPE:
                         gContent.setLevel(main.getLevel());
                         gContent.setExp(main.getExp());
+                        gContent.save();
                         ss.remove(Stage1.this);
                         break;
                 }
@@ -340,8 +341,20 @@ public class Stage1 extends Screen {
         }
 
         // Check Game Condition
-        if(main.isDead()) GameOver();
-        if(boss.isDead()) GameClear();
+        if(main.isDead())
+        {
+            GameOver();
+            gContent.setExp(main.getExp());
+            gContent.setLevel(main.getLevel());
+            gContent.save();
+        }
+        if(boss.isDead())
+        {
+            GameClear();
+            gContent.setExp(main.getExp());
+            gContent.setLevel(main.getLevel());
+            gContent.save();
+        }
 
         //Update Component
         fLabel.update(delta);

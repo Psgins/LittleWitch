@@ -55,6 +55,7 @@ public class PetScreen extends UIScreen {
             @Override
             public void onPointerEnd(Pointer.Event event) {
                 gContent.setRune(runeSelected);
+                gContent.save();
                 ss.remove(PetScreen.this);
             }
         });
