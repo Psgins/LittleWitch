@@ -8,6 +8,7 @@ import sut.game01.core.Skill.Skill;
 import sut.game01.core.all_etc.DynamicObject;
 import sut.game01.core.UI.FloatLabel;
 import sut.game01.core.all_etc.GameContent;
+import sut.game01.core.all_etc.GameEnvirontment;
 import sut.game01.core.all_etc.VariableConstant;
 import sut.game01.core.screen.Stage1;
 import sut.game01.core.sprite.Sprite;
@@ -26,14 +27,14 @@ public class Witch extends Character {
     private boolean dead = false;
     private State state = State.idleR;
 
-    public Witch(final World world, final GroupLayer layer, final float x, final float y, FloatLabel fLabel,GameContent gContent)
+    public Witch(final GameEnvirontment gEnvir, final float x, final float y)
     {
+        this.gEnvir = gEnvir;
+
         maxHP = 100;
         hp = 100;
-        level = gContent.getLevel();
-        exp = gContent.getExp();
-
-        floatLabel = fLabel;
+        level = gEnvir.gContent.getLevel();
+        exp = gEnvir.gContent.getExp();
 
         sprite = SpriteLoader.getSprite("images/CharSprite/witch.json");
         sprite.addCallback(new Callback<Sprite>() {
@@ -41,12 +42,12 @@ public class Witch extends Character {
             public void onSuccess(Sprite result) {
                 sprite.setSprite(spriteIndex);
                 sprite.layer().setOrigin(75f / 2f, 84f / 2f);
-                initPhysicsBody(world,x,y,75f - 40f,84f - 10f,false);
+                initPhysicsBody(gEnvir.world,x,y,75f - 40f,84f - 10f,false);
 
                 AllLayer.add(sprite.layer());
                 createHPbar(sprite.layer().tx(),sprite.layer().ty() - 50f,70f);
 
-                layer.add(AllLayer);
+                gEnvir.layer.add(AllLayer);
 
                 ready = true;
             }
@@ -141,10 +142,11 @@ public class Witch extends Character {
                 if (dmg < 0) dmg = 1;
 
                 hp = (hp - dmg) < 0 ? 0 : (hp - dmg);
+                gEnvir.hpBarUI.needUpdate = true;
 
                 HPBar.setWidth(HPBarWidth * (hp/maxHP));
 
-                floatLabel.CreateText((int)dmg,body.getPosition().x / VariableConstant.worldScale,(body.getPosition().y / VariableConstant.worldScale)-15f);
+                gEnvir.fLabel.CreateText((int) dmg, body.getPosition().x / VariableConstant.worldScale, (body.getPosition().y / VariableConstant.worldScale) - 15f);
 
                 if (hp <= 0)
                 {
@@ -215,6 +217,7 @@ public class Witch extends Character {
                 exp = VariableConstant.expRange[level-1];
             }
         }
+        gEnvir.hpBarUI.needUpdate = true;
     }
 
     @Override

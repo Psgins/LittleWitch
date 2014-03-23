@@ -9,6 +9,7 @@ import sut.game01.core.Skill.ItemCard;
 import sut.game01.core.Skill.Skill;
 import sut.game01.core.all_etc.DynamicObject;
 import sut.game01.core.UI.FloatLabel;
+import sut.game01.core.all_etc.GameEnvirontment;
 import sut.game01.core.all_etc.VariableConstant;
 import sut.game01.core.screen.Stage1;
 import sut.game01.core.sprite.Sprite;
@@ -28,10 +29,10 @@ public class MiniGhost extends Character {
     private int AttackDelay = 2000;
     private State state = State.idle;
 
-    public MiniGhost(final World world, final GroupLayer layer, final float x, final float y, Owner own, FloatLabel fLabel)
+    public MiniGhost(final GameEnvirontment gEnvir, final float x, final float y, Owner own)
     {
         this.y = y;
-        floatLabel = fLabel;
+        this.gEnvir = gEnvir;
 
         hp = 200;
         maxHP = 200;
@@ -43,12 +44,12 @@ public class MiniGhost extends Character {
                 sprite.setSprite(spriteIndex);
                 sprite.layer().setOrigin(80f /2f, 48f /2f);
 
-                initPhysicsBody(world, x, y, 30f, 35f,true);
+                initPhysicsBody(gEnvir.world, x, y, 30f, 35f,true);
 
                 createHPbar(sprite.layer().tx(),sprite.layer().ty()- 25,45);
 
                 AllLayer.add(sprite.layer());
-                layer.add(AllLayer);
+                gEnvir.layer.add(AllLayer);
                 ready = true;
             }
 
@@ -64,7 +65,7 @@ public class MiniGhost extends Character {
     public void update(int delta) {
         super.update(delta);
 
-        if (!alive || !ready || !inScreen(Stage1.main)) return;
+        if (!alive || !ready || !inScreen(gEnvir.main)) return;
 
         e+= delta;
 
@@ -95,17 +96,17 @@ public class MiniGhost extends Character {
         if(state == State.die) return;
 
         // SeekMain
-        Vec2 tmpSeek = seekMain(Stage1.main);
+        Vec2 tmpSeek = seekMain(gEnvir.main);
         if((tmpSeek.x > 7 || tmpSeek.x < -7) && tmpSeek.x != 999f)
         {
-            Move2Main(Stage1.main,tmpSeek,1);
+            Move2Main(gEnvir.main,tmpSeek,1);
         }
         else
         {
             DelayCount += delta;
             if (DelayCount >= AttackDelay)
             {
-                AttackMain(Stage1.main,tmpSeek);
+                AttackMain(gEnvir.main,tmpSeek);
                 DelayCount = 0;
             }
         }
@@ -144,13 +145,13 @@ public class MiniGhost extends Character {
                 hp = (hp - dmg) < 0 ? 0 : (hp - dmg);
                 HPBar.setWidth(HPBarWidth * (hp/maxHP));
 
-                floatLabel.CreateText((int)dmg,body.getPosition().x / VariableConstant.worldScale,(body.getPosition().y / VariableConstant.worldScale)-15f);
+                gEnvir.fLabel.CreateText((int)dmg,body.getPosition().x / VariableConstant.worldScale,(body.getPosition().y / VariableConstant.worldScale)-15f);
 
                 if (hp <= 0)
                 {
                     renderSpeed = 50;
                     state = State.die;
-                    Stage1.main.gainEXP(15);
+                    gEnvir.main.gainEXP(15);
                 }
                 skillObject.destroy();
             }
@@ -164,7 +165,7 @@ public class MiniGhost extends Character {
 
         boolean isLeft = distance.x > 0 ? false:true;
 
-        Stage1.tmpDynamic.add(new Bubble(
+        gEnvir.tmpList.add(new Bubble(
                 body.getWorld(),
                 AllLayer.parent(),
                 body.getPosition().x / VariableConstant.worldScale,

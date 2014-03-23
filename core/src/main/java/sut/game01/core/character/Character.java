@@ -9,6 +9,7 @@ import sut.game01.core.Rune.ItemRune;
 import sut.game01.core.Skill.ItemCard;
 import sut.game01.core.all_etc.DynamicObject;
 import sut.game01.core.UI.FloatLabel;
+import sut.game01.core.all_etc.GameEnvirontment;
 import sut.game01.core.all_etc.ImageStore;
 import sut.game01.core.all_etc.VariableConstant;
 import sut.game01.core.screen.Stage1;
@@ -41,8 +42,8 @@ public class Character extends DynamicObject {
     protected ImageLayer HPBar;
     protected float HPBarWidth = 0;
 
-    // Float Label
-    protected FloatLabel floatLabel;
+    // Game Environtment
+    protected GameEnvirontment gEnvir;
 
     public float getAttack() { return attack; }
 
@@ -114,6 +115,7 @@ public class Character extends DynamicObject {
     public void setHp(float hp)
     {
        this.hp = hp;
+       gEnvir.hpBarUI.needUpdate = true;
     }
 
     public void dropItem()
@@ -126,12 +128,12 @@ public class Character extends DynamicObject {
             if(RuneChance < 10)
             {
                 int runeID = Math.abs((new Random()).nextInt()) % VariableConstant.runeIDRange;
-                Stage1.tmpDynamic.add(new ItemRune(body.getWorld(),AllLayer.parent(),new Vec2(body.getPosition().x, VariableConstant.worldGround - 2),runeID));
+                gEnvir.tmpList.add(new ItemRune(gEnvir,new Vec2(body.getPosition().x, VariableConstant.worldGround - 2),runeID));
             }
             else
             {
                 int itemID = Math.abs((new Random()).nextInt()) % VariableConstant.itemIDRange;
-                Stage1.tmpDynamic.add(new ItemCard(body.getWorld(),AllLayer.parent(),new Vec2(body.getPosition().x, VariableConstant.worldGround - 2),itemID));
+                gEnvir.tmpList.add(new ItemCard(gEnvir,new Vec2(body.getPosition().x, VariableConstant.worldGround - 2),itemID));
             }
         }
     }

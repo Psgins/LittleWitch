@@ -8,6 +8,7 @@ import sut.game01.core.Skill.Skill;
 import sut.game01.core.Skill.SwordAttack;
 import sut.game01.core.all_etc.DynamicObject;
 import sut.game01.core.UI.FloatLabel;
+import sut.game01.core.all_etc.GameEnvirontment;
 import sut.game01.core.all_etc.VariableConstant;
 import sut.game01.core.screen.Stage1;
 import sut.game01.core.sprite.Sprite;
@@ -24,10 +25,10 @@ public class SkelWarrior extends Character {
     private int DelayCount = 0;
     private int AttackDelay = 1000;
 
-    public SkelWarrior(final World world, final GroupLayer layer, final float x, final float y, Owner own, FloatLabel fLabel)
+    public SkelWarrior(final GameEnvirontment gEnvir, final float x, final float y, Owner own)
     {
         renderSpeed = 100;
-        floatLabel = fLabel;
+        this.gEnvir = gEnvir;
 
         hp = 200;
         maxHP = 200;
@@ -41,12 +42,12 @@ public class SkelWarrior extends Character {
                 sprite.setSprite(spriteIndex);
                 sprite.layer().setOrigin(70f, 75f);
 
-                initPhysicsBody(world, x, y, 50f, 80f,false);
+                initPhysicsBody(gEnvir.world, x, y, 50f, 80f,false);
 
                 createHPbar(sprite.layer().tx(),sprite.layer().ty()- 55f,60);
 
                 AllLayer.add(sprite.layer());
-                layer.add(AllLayer);
+                gEnvir.layer.add(AllLayer);
                 ready = true;
             }
 
@@ -62,7 +63,7 @@ public class SkelWarrior extends Character {
     public void update(int delta) {
         super.update(delta);
 
-        if (!alive || !ready || !inScreen(Stage1.main)) return;
+        if (!alive || !ready || !inScreen(gEnvir.main)) return;
 
         e+= delta;
 
@@ -110,10 +111,10 @@ public class SkelWarrior extends Character {
         if(state == State.dead) return;
 
         // SeekMain
-        Vec2 tmpSeek = seekMain(Stage1.main);
+        Vec2 tmpSeek = seekMain(gEnvir.main);
         if((tmpSeek.x > 3 || tmpSeek.x < -3) && tmpSeek.x != 999f)
         {
-            Move2Main(Stage1.main,tmpSeek,13f);
+            Move2Main(gEnvir.main,tmpSeek,13f);
             if(body.getLinearVelocity().x < 0)
             {
                 if(state != State.RunL) setState(State.RunL);
@@ -128,7 +129,7 @@ public class SkelWarrior extends Character {
             DelayCount += delta;
             if (DelayCount >= AttackDelay)
             {
-                AttackMain(Stage1.main,tmpSeek);
+                AttackMain(gEnvir.main,tmpSeek);
                 DelayCount = 0;
             }
         }
@@ -164,12 +165,12 @@ public class SkelWarrior extends Character {
                 hp = (hp - dmg) < 0 ? 0 : (hp - dmg);
                 HPBar.setWidth(HPBarWidth * (hp/maxHP));
 
-                floatLabel.CreateText((int)dmg,body.getPosition().x / VariableConstant.worldScale,(body.getPosition().y / VariableConstant.worldScale)-15f);
+                gEnvir.fLabel.CreateText((int)dmg,body.getPosition().x / VariableConstant.worldScale,(body.getPosition().y / VariableConstant.worldScale)-15f);
 
                 if (hp <= 0)
                 {
                     setState(State.dead);
-                    Stage1.main.gainEXP(30);
+                    gEnvir.main.gainEXP(30);
                 }
                 skillObject.destroy();
             }
@@ -183,7 +184,7 @@ public class SkelWarrior extends Character {
 
         if(distance.x > 0 )
         {
-            Stage1.tmpDynamic.add(new SwordAttack(
+            gEnvir.tmpList.add(new SwordAttack(
                     body.getWorld(),
                     body.getPosition().x / VariableConstant.worldScale,
                     body.getPosition().y / VariableConstant.worldScale,
@@ -194,7 +195,7 @@ public class SkelWarrior extends Character {
         }
         else
         {
-            Stage1.tmpDynamic.add(new SwordAttack(
+            gEnvir.tmpList.add(new SwordAttack(
                     body.getWorld(),
                     body.getPosition().x / VariableConstant.worldScale,
                     body.getPosition().y / VariableConstant.worldScale,
