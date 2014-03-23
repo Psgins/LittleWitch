@@ -42,6 +42,9 @@ public class Stage1 extends Screen {
     //FloatLabel
     private FloatLabel fLabel = new FloatLabel(layer);
 
+    // countdown
+    Countdown cd;
+
     // list collection
     private List<DynamicObject> tmpDynamic = new ArrayList<DynamicObject>();
     private List<DynamicObject> objDynamic = new ArrayList<DynamicObject>();
@@ -172,8 +175,8 @@ public class Stage1 extends Screen {
 //        objDynamic.add(new MiniGhost(world,layer,700f,325f, Character.Owner.Enemy,fLabel));
 //        objDynamic.add(new MiniGhost(world,layer,600f,325f, Character.Owner.Enemy,fLabel));
 //        objDynamic.add(new MiniGhost(world,layer,550f,325f, Character.Owner.Enemy,fLabel));
-        objDynamic.add(new MiniGhost(gEnvir,800f,275f, Character.Owner.Enemy));
-        objDynamic.add(new SkelWarrior(gEnvir,500f,325f, Character.Owner.Enemy));
+//        objDynamic.add(new MiniGhost(gEnvir,800f,275f, Character.Owner.Enemy));
+//        objDynamic.add(new SkelWarrior(gEnvir,500f,325f, Character.Owner.Enemy));
 
         // - Boss
         boss = new Crytal1(gEnvir,(width-12) / VariableConstant.worldScale,325,Character.Owner.Enemy);
@@ -185,6 +188,7 @@ public class Stage1 extends Screen {
         skill = ContentLoader.SkillCardLoader(gContent.getSkill());
         SkillUI = new SkillCardUI(main,UIGroup,tmpDynamic,skill);
         layer.add(UIGroup);
+        cd = new Countdown(UIGroup,10,0);
 
         // controller
         PlayN.keyboard().setListener(new Keyboard.Adapter() {
@@ -343,7 +347,7 @@ public class Stage1 extends Screen {
         }
 
         // Check Game Condition
-        if(main.isDead())
+        if(main.isDead() || cd.isTimeout())
         {
             GameOver();
             gContent.setExp(main.getExp());
@@ -359,6 +363,7 @@ public class Stage1 extends Screen {
         }
 
         //Update Component
+        cd.update(delta);
         fLabel.update(delta);
         SkillUI.update(delta);
         hpBarUI.update();

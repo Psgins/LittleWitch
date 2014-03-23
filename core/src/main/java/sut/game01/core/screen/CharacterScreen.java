@@ -57,6 +57,8 @@ public class CharacterScreen extends UIScreen {
             @Override
             public void onPointerEnd(Pointer.Event event) {
                 super.onPointerEnd(event);
+                gContent.setSkill(SkillSelected);
+                gContent.save();
                 ss.remove(CharacterScreen.this);
             }
         });
@@ -78,6 +80,8 @@ public class CharacterScreen extends UIScreen {
         pet.layer().addListener(new Pointer.Adapter(){
             @Override
             public void onPointerEnd(Pointer.Event event) {
+                gContent.setSkill(SkillSelected);
+                gContent.save();
                 ss.push(new PetScreen(ss,gContent));
             }
         });
@@ -124,6 +128,7 @@ public class CharacterScreen extends UIScreen {
             public void onPointerEnd(Pointer.Event event) {
                 super.onPointerEnd(event);
                 gContent.setSkill(SkillSelected);
+                gContent.save();
                 ss.push(new MapScreen(ss,gContent));
             }
         });
@@ -140,6 +145,8 @@ public class CharacterScreen extends UIScreen {
             runeIcon.addListener(new Pointer.Adapter(){
                 @Override
                 public void onPointerEnd(Pointer.Event event) {
+                    gContent.setSkill(SkillSelected);
+                    gContent.save();
                     ss.push(new PetScreen(ss,gContent));
                 }
             });

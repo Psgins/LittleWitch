@@ -26,6 +26,7 @@ public class ImageStore {
         assets().getImage("images/Number/8.png"),
         assets().getImage("images/Number/9.png")
     };
+    public static final Image colon = assets().getImage("images/Number/colon.png");
     public static final  Image[] numberO = new Image[]{
             assets().getImage("images/Number/O0.png"),
             assets().getImage("images/Number/O1.png"),
