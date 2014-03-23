@@ -34,7 +34,7 @@ public class Stage1 extends Screen {
     private World world;
 
     // showdebug
-    private boolean ShowDebugDraw = true;
+    private boolean ShowDebugDraw = false;
     private DebugDrawBox2D debugDraw;
 
     //Screen
