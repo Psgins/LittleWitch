@@ -1,9 +1,11 @@
 package sut.game01.core.ModelShow;
 
+import com.sun.org.apache.xpath.internal.operations.Variable;
 import playn.core.GroupLayer;
 import playn.core.ImageLayer;
 import playn.core.PlayN;
 import playn.core.util.Callback;
+import sut.game01.core.all_etc.VariableConstant;
 import sut.game01.core.sprite.Sprite;
 import sut.game01.core.sprite.SpriteLoader;
 
@@ -18,9 +20,9 @@ public class WitchModel {
     int e = 0;
     int offset =0;
 
-    public WitchModel(final GroupLayer layer,final float px,final float py)
+    public WitchModel(final GroupLayer layer,final float px,final float py,int charID)
     {
-        sprite = SpriteLoader.getSprite("images/Model/witch.json");
+        sprite = SpriteLoader.getSprite(VariableConstant.ModelPeth[charID]);
         sprite.addCallback(new Callback<Sprite>() {
             @Override
             public void onSuccess(Sprite result) {
@@ -52,6 +54,11 @@ public class WitchModel {
             sprite.setSprite(spriteIndex);
             e = 0;
         }
+    }
+
+    public ImageLayer layer()
+    {
+        return sprite.layer();
     }
 
 }

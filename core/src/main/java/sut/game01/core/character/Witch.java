@@ -38,9 +38,7 @@ public class Witch extends Character {
         level = gEnvir.gContent.getLevel();
         exp = gEnvir.gContent.getExp();
 
-        System.out.println(gEnvir.gContent.getLevel());
-
-        sprite = SpriteLoader.getSprite("images/CharSprite/witch.json");
+        sprite = SpriteLoader.getSprite(VariableConstant.CharPeth[gEnvir.gContent.getCharID()]);
         sprite.addCallback(new Callback<Sprite>() {
             @Override
             public void onSuccess(Sprite result) {

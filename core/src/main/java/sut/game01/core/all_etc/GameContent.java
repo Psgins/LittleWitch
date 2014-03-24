@@ -14,6 +14,7 @@ public class GameContent {
     private int level;
     private int exp;
     private int petID;
+    private int charID;
 
     private int rune;
     private List<Integer> runeList;
@@ -39,6 +40,9 @@ public class GameContent {
     public void setPetID(int petID) {this.petID = petID;}
     public int getPetID(){ return  petID;}
 
+    public void setCharID(int CharID) {this.charID = CharID;}
+    public int getCharID(){return charID;}
+
     public void save(){
         try {
             BufferedWriter wFile = new BufferedWriter(new FileWriter(".savegame",false));
@@ -48,7 +52,8 @@ public class GameContent {
             wFile.write("exp=" + exp + "\n");
             wFile.write("rune=" + rune + "\n");
             wFile.write("runeList="+ runeList + "\n");
-            wFile.write("PetID="+ petID);
+            wFile.write("PetID="+ petID + "\n");
+            wFile.write("CharID="+ charID);
             wFile.close();
         }
         catch (Exception ew)
@@ -62,8 +67,8 @@ public class GameContent {
         {
             BufferedReader file = new BufferedReader(new FileReader(".savegame"));
 
-            String[] data = new String[7];
-            for(int i=0;i<7;i++)
+            String[] data = new String[8];
+            for(int i=0;i<8;i++)
             {
                 data[i] = file.readLine();
             }
@@ -113,6 +118,10 @@ public class GameContent {
             String[] petSplit = data[6].split("=");
             this.petID = Integer.valueOf(petSplit[1]);
 
+            //Character reader
+            String[] charSplit = data[7].split("=");
+            this.charID = Integer.valueOf(charSplit[1]);
+
         }
         catch (Exception e)
         {
@@ -129,6 +138,7 @@ public class GameContent {
         rune = -1;
         runeList = new ArrayList<Integer>();
         petID = 0;
+        charID = 0;
 
         save();
     }

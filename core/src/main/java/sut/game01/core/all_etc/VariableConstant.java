@@ -13,7 +13,6 @@ public class VariableConstant {
     public static final int runeIDRange = 1;
 
     public static final float[] dmgLVL = new float[]{
-            0,
             2,
             7,
             15,
@@ -27,7 +26,6 @@ public class VariableConstant {
 
     public static final float[] hpLVL = new float[]{
             0,
-            0,
             25,
             60,
             127,
@@ -40,7 +38,6 @@ public class VariableConstant {
 
     public static final float[] defLVL = new float[]{
             0,
-            0,
             2,
             3,
             5,
@@ -52,7 +49,6 @@ public class VariableConstant {
     };
 
     public static final int[] expRange = new int[] {
-            0,
             100,
             200,
             400,
@@ -68,5 +64,15 @@ public class VariableConstant {
     public static final String[] petPath = new String[]{
             "images/Pet/MiniSpirit.json",
             "images/Pet/Cloud.json"
+    };
+
+    public static final String[] CharPeth = new String[] {
+            "images/CharSprite/witch.json",
+            "images/CharSprite/Demon.json"
+    };
+
+    public static final String[] ModelPeth = new String[] {
+            "images/Model/witch.json",
+            "images/Model/Demon.json"
     };
 }
