@@ -3,6 +3,9 @@ package sut.game01.core.screen;
 import playn.core.ImageLayer;
 import playn.core.PlayN;
 import playn.core.Pointer;
+import sut.game01.core.all_etc.GameContent;
+import sut.game01.core.all_etc.GameEnvirontment;
+import sut.game01.core.all_etc.SoundStore;
 import tripleplay.game.ScreenStack;
 import tripleplay.game.UIScreen;
 
@@ -25,21 +28,28 @@ public class StartScreen extends UIScreen {
         ImageLayer bgLayer = PlayN.graphics().createImageLayer(PlayN.assets().getImage("images/bg.png"));
         layer.add(bgLayer);
 
-        ImageLayer startLayer = PlayN.graphics().createImageLayer(PlayN.assets().getImage("images/startbutton.png"));
-        startLayer.setWidth(100f);
-        startLayer.setHeight(100f);
-        startLayer.setTranslation(640f/2f-50f,480/2f-50f);
-
-        startLayer.addListener(new Pointer.Adapter(){
+        ImageLayer PlayButton = PlayN.graphics().createImageLayer(PlayN.assets().getImage("images/ui/play.png"));
+        PlayButton.setTranslation(214,172);
+        PlayButton.addListener(new Pointer.Adapter(){
             @Override
             public void onPointerEnd(Pointer.Event event) {
-                super.onPointerEnd(event);
-
                 ss.push(new CharacterScreen(ss));
             }
         });
-        layer.add(startLayer);
+        layer.add(PlayButton);
+
+        ImageLayer NewButton = PlayN.graphics().createImageLayer(PlayN.assets().getImage("images/ui/NewGame.png"));
+        NewButton.setTranslation(214,241);
+        NewButton.addListener(new Pointer.Adapter(){
+            @Override
+            public void onPointerEnd(Pointer.Event event) {
+                GameContent gContent = new GameContent();
+                gContent.create();
+                ss.push(new CharacterScreen(ss));
+            }
+        });
+        layer.add(NewButton);
+
+        SoundStore.stage1Music.prepare();
     }
-
-
 }

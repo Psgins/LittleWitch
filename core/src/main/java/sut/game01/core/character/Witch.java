@@ -233,6 +233,8 @@ public class Witch extends Character {
                 maxHP = 150 + VariableConstant.hpLVL[level-1];
                 hp = 150 + VariableConstant.hpLVL[level-1];
                 defend = VariableConstant.defLVL[level-1];
+
+                SoundStore.levelup.play();
             }
             else
             {

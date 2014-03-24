@@ -31,7 +31,7 @@ public class FireProject extends Skill {
         this.y = y;
         timelife = 650;
 
-        BaseDamage = 20;
+        BaseDamage = 30;
         RangeDamage = 5;
 
         initPhysicsBody(world,x,y,20,20,true);
@@ -39,9 +39,9 @@ public class FireProject extends Skill {
         body.setFixedRotation(true);
 
         if(isLeft)
-            body.applyLinearImpulse(new Vec2(-2.7f,-4f),body.getPosition());
+            body.applyLinearImpulse(new Vec2(-3.2f,-4f),body.getPosition());
         else
-            body.applyLinearImpulse(new Vec2(2.7f,-4f),body.getPosition());
+            body.applyLinearImpulse(new Vec2(3.2f,-4f),body.getPosition());
 
         SoundStore.fireball.play();
 
