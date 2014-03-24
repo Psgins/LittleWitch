@@ -183,7 +183,7 @@ public class Stage1 extends Screen {
             UIGroup.add(rune.getIcon().setTranslation(565,15));
         }
 
-        objDynamic.add(new MiniSpirit(world,layer,main,rune));
+        objDynamic.add(new MiniSpirit(world,layer,main,gContent.getPetID(),rune));
 
         // - Monster
         objDynamic.add(new MiniGhost(gEnvir,20 / VariableConstant.worldScale,325f, Character.Owner.Enemy));

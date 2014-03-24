@@ -27,7 +27,10 @@ public class CharacterScreen extends UIScreen {
 
     private final ScreenStack ss;
     private WitchModel model;
+
+    // pet
     private MiniSpiritModel pet;
+    private GroupLayer petPosition = graphics().createGroupLayer();
 
     GameContent gContent = new GameContent();
 
@@ -42,6 +45,7 @@ public class CharacterScreen extends UIScreen {
     private GroupLayer positionRune  = PlayN.graphics().createGroupLayer();
 
     //Status
+    GroupLayer Information = graphics().createGroupLayer();
 
     public CharacterScreen(ScreenStack ss)
     {
@@ -68,27 +72,18 @@ public class CharacterScreen extends UIScreen {
         });
         layer.add(backLayer);
 
-        ImageLayer upLayer = PlayN.graphics().createImageLayer(PlayN.assets().getImage("images/CharacterScreen/Up.png"));
-        upLayer.setTranslation(640f - 275f,480f - 170f);
-        layer.add(upLayer);
-
-        ImageLayer downLayer = PlayN.graphics().createImageLayer(PlayN.assets().getImage("images/CharacterScreen/Down.png"));
-        downLayer.setTranslation(640f - 275f,480f - 60f);
-        layer.add(downLayer);
+        // Game Context loader
+        gContent.load();
+        this.SkillSelected = gContent.getSkill();
+        this.itemList = gContent.getItem();
+        this.RuneSelected = gContent.getRune();
 
         // Add model for show
         model = new WitchModel(layer,125f,150f);
 
         // Add pet Model
-        pet = new MiniSpiritModel(layer,540f,180f);
-        pet.layer().addListener(new Pointer.Adapter(){
-            @Override
-            public void onPointerEnd(Pointer.Event event) {
-                gContent.setSkill(SkillSelected);
-                gContent.save();
-                ss.push(new PetScreen(ss,gContent));
-            }
-        });
+        petPosition.setTranslation(540,180);
+        layer.add(petPosition);
 
         // Skill Selected
         for(int i = 0;i< 4;i++)
@@ -117,12 +112,6 @@ public class CharacterScreen extends UIScreen {
 
         positionRune.setTranslation(488,245);
         layer.add(positionRune);
-
-        gContent.load();
-
-        this.SkillSelected = gContent.getSkill();
-        this.itemList = gContent.getItem();
-        this.RuneSelected = gContent.getRune();
 
         // start button
         ImageLayer startLayer = PlayN.graphics().createImageLayer(PlayN.assets().getImage("images/CharacterScreen/MapButton.png"));
@@ -160,7 +149,7 @@ public class CharacterScreen extends UIScreen {
 
         gContent.Refresh();
 
-        GroupLayer Information = graphics().createGroupLayer();
+        Information.removeAll();
         Information.setTranslation(200,85);
         ImageLayer info = graphics().createImageLayer(assets().getImage("images/CharacterScreen/information.png"));
         Information.add(info);
@@ -182,16 +171,25 @@ public class CharacterScreen extends UIScreen {
 
         float exp = gContent.getExp();
         GroupLayer expnum = Countdown.Create((int)exp);
-        expnum.setTranslation(80,79);
+        expnum.setTranslation(80, 79);
         Information.add(expnum);
 
         float lvl = gContent.getLevel();
         GroupLayer lvlnum = Countdown.Create((int)lvl);
         lvlnum.setTranslation(80,101);
         Information.add(lvlnum);
-
-
         layer.add(Information);
+
+        petPosition.removeAll();
+        pet = new MiniSpiritModel(petPosition,0,0,gContent.getPetID());
+        pet.layer().addListener(new Pointer.Adapter(){
+            @Override
+            public void onPointerEnd(Pointer.Event event) {
+                gContent.setSkill(SkillSelected);
+                gContent.save();
+                ss.push(new PetScreen(ss,gContent));
+            }
+        });
 
     }
 

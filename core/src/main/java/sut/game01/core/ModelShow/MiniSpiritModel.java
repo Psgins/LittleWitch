@@ -4,6 +4,7 @@ import playn.core.GroupLayer;
 import playn.core.ImageLayer;
 import playn.core.PlayN;
 import playn.core.util.Callback;
+import sut.game01.core.all_etc.VariableConstant;
 import sut.game01.core.sprite.Sprite;
 import sut.game01.core.sprite.SpriteLoader;
 
@@ -17,9 +18,9 @@ public class MiniSpiritModel {
     int e = 0;
     int offset =0;
 
-    public MiniSpiritModel(final GroupLayer layer, final float px, final float py)
+    public MiniSpiritModel(final GroupLayer layer, final float px, final float py, int PetID)
     {
-        sprite = SpriteLoader.getSprite("images/Pet/MiniSpirit.json");
+        sprite = SpriteLoader.getSprite(VariableConstant.petPath[PetID]);
         sprite.addCallback(new Callback<Sprite>() {
             @Override
             public void onSuccess(Sprite result) {
