@@ -4,8 +4,10 @@ import playn.core.GroupLayer;
 import playn.core.ImageLayer;
 import playn.core.Pointer;
 import sut.game01.core.ModelShow.MiniSpiritModel;
+import sut.game01.core.Pet.MiniSpirit;
 import sut.game01.core.all_etc.GameContent;
 import sut.game01.core.all_etc.ImageStore;
+import sut.game01.core.character.MiniGhost;
 import tripleplay.game.ScreenStack;
 import tripleplay.game.UIScreen;
 
@@ -21,11 +23,16 @@ public class PetScreen extends UIScreen {
     final ScreenStack ss;
 
     private MiniSpiritModel pet;
+    private MiniSpiritModel mChoice;
+    private MiniSpiritModel cChoice;
+
+    private GroupLayer petPosition = graphics().createGroupLayer();
+
     private GameContent gContent;
     private int runeSelected = -1;
     private List<Integer> runeList;
-    private GroupLayer[][] runeListPosition = new GroupLayer[3][6];
 
+    private GroupLayer[][] runeListPosition = new GroupLayer[3][6];
     private GroupLayer runeSelectedPosition = graphics().createGroupLayer();
 
     public PetScreen(ScreenStack ss,GameContent gContent)
@@ -61,7 +68,10 @@ public class PetScreen extends UIScreen {
         });
         layer.add(backLayer);
 
-        pet = new MiniSpiritModel(layer,200f,260f);
+        petPosition.setTranslation(200,260f);
+        layer.add(petPosition);
+
+        pet = new MiniSpiritModel(petPosition,0,0,gContent.getPetID());
         pet.layer().setScale(1.5f);
 
         runeSelectedPosition.setTranslation(432,81);
@@ -94,11 +104,45 @@ public class PetScreen extends UIScreen {
                 layer.add(runeListPosition[i][j]);
             }
         }
+
+        GroupLayer miniSpiritChoice = graphics().createGroupLayer();
+        mChoice = new MiniSpiritModel(miniSpiritChoice,0,0,0);
+        miniSpiritChoice.setTranslation(100,400);
+        miniSpiritChoice.setScale(0.8f);
+        layer.add(miniSpiritChoice);
+        mChoice.layer().addListener(new Pointer.Adapter()
+        {
+            @Override
+            public void onPointerEnd(Pointer.Event event) {
+                petPosition.removeAll();
+                pet = new MiniSpiritModel(petPosition,0,0,0);
+                pet.layer().setScale(1.5f);
+                gContent.setPetID(0);
+            }
+        });
+
+        GroupLayer cloudChoice = graphics().createGroupLayer();
+        cChoice = new MiniSpiritModel(cloudChoice,0,0,1);
+        cloudChoice.setTranslation(200,400);
+        cloudChoice.setScale(0.8f);
+        layer.add(cloudChoice);
+        cChoice.layer().addListener(new Pointer.Adapter()
+        {
+            @Override
+                public void onPointerEnd(Pointer.Event event) {
+                petPosition.removeAll();
+                pet = new MiniSpiritModel(petPosition,0,0,1);
+                pet.layer().setScale(1.5f);
+                gContent.setPetID(1);
+            }
+        });
     }
 
     @Override
     public void update(int delta) {
         pet.update(delta);
+        mChoice.update(delta);
+        cChoice.update(delta);
         updateSelectedRune();
         updateRuneList();
     }

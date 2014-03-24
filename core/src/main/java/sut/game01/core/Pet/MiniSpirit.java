@@ -16,12 +16,12 @@ import sut.game01.core.sprite.SpriteLoader;
  */
 public class MiniSpirit extends Pet {
 
-    public MiniSpirit(final World world,final GroupLayer layer,final Character focus,Rune cRune)
+    public MiniSpirit(final World world,final GroupLayer layer,final Character focus,int petID,Rune cRune)
     {
         main = focus;
         rune = cRune;
 
-        sprite = SpriteLoader.getSprite("images/pet/MiniSpirit.json");
+        sprite = SpriteLoader.getSprite(VariableConstant.petPath[petID]);
         sprite.addCallback(new Callback<Sprite>() {
             @Override
             public void onSuccess(Sprite result) {

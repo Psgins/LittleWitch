@@ -36,4 +36,9 @@ public class VariableConstant {
             900,
             1000
     };
+
+    public static final String[] petPath = new String[]{
+            "images/Pet/MiniSpirit.json",
+            "images/Pet/Cloud.json"
+    };
 }
