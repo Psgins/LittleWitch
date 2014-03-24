@@ -5,10 +5,7 @@ import org.jbox2d.dynamics.World;
 import playn.core.GroupLayer;
 import playn.core.ImageLayer;
 import playn.core.PlayN;
-import sut.game01.core.all_etc.DynamicObject;
-import sut.game01.core.all_etc.GameEnvirontment;
-import sut.game01.core.all_etc.ImageStore;
-import sut.game01.core.all_etc.VariableConstant;
+import sut.game01.core.all_etc.*;
 import sut.game01.core.character.Witch;
 import sut.game01.core.screen.Stage1;
 
@@ -96,6 +93,7 @@ public class ItemCard extends DynamicObject {
 
         if(other.getClass() == Witch.class)
         {
+            SoundStore.itemkeeping.play();
             gEnvir.gContent.getItem().add(itemId);
             hasKept = true;
         }

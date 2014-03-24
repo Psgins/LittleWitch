@@ -30,7 +30,7 @@ public class Stage1 extends Screen {
     public enum GameState {load,run,end}
 
     // world variable
-    private  static int width = 96;
+    private  static int width = 192;
     private  static int height = 18;
     private World world;
 
@@ -160,6 +160,27 @@ public class Stage1 extends Screen {
         new CubeBox(world,layer,1425,337);
         new CubeBox(world,layer,1475,337);
 
+        new CubeBox(world,layer,2000,387);
+
+        new CubeBox(world,layer,2550,387);
+        new CubeBox(world,layer,2550,362);
+        new CubeBox(world,layer,2550,337);
+        new CubeBox(world,layer,2600,387);
+        new CubeBox(world,layer,2600,362);
+        new CubeBox(world,layer,2650,387);
+
+        new CubeBox(world,layer,3000,387);
+        new CubeBox(world,layer,3000,362);
+        new CubeBox(world,layer,3000,337);
+
+        new CubeBox(world,layer,4000,387);
+        new CubeBox(world,layer,4050,387);
+        new CubeBox(world,layer,4100,387);
+        new CubeBox(world,layer,4025,362);
+        new CubeBox(world,layer,4075,362);
+        new CubeBox(world,layer,4025,337);
+        new CubeBox(world,layer,4075,337);
+
         //Setup Game Environtment
         gEnvir.world = world;
         gEnvir.layer = layer;
@@ -195,6 +216,20 @@ public class Stage1 extends Screen {
         objDynamic.add(new pinkporing(gEnvir,30 / VariableConstant.worldScale, 330, Character.Owner.Enemy));
         objDynamic.add(new RedPoring(gEnvir,650f,337,Character.Owner.Enemy));
         objDynamic.add(new RedPoring(gEnvir,1450f,312,Character.Owner.Enemy));
+        objDynamic.add(new RedPoring(gEnvir,1950f,312,Character.Owner.Enemy));
+        objDynamic.add(new RedPoring(gEnvir,2000f,312,Character.Owner.Enemy));
+        objDynamic.add(new RedPoring(gEnvir,2050f,312,Character.Owner.Enemy));
+        objDynamic.add(new MiniGhost(gEnvir,2200,325f, Character.Owner.Enemy));
+        objDynamic.add(new MiniGhost(gEnvir,2250,300f, Character.Owner.Enemy));
+        objDynamic.add(new pinkporing(gEnvir, 2550,330,Character.Owner.Enemy));
+        objDynamic.add(new pinkporing(gEnvir, 2575,330,Character.Owner.Enemy));
+        objDynamic.add(new MiniGhost(gEnvir,2750,330f, Character.Owner.Enemy));
+        objDynamic.add(new pinkporing(gEnvir, 3600,330,Character.Owner.Enemy));
+        objDynamic.add(new RedPoring(gEnvir,3600f,312,Character.Owner.Enemy));
+        objDynamic.add(new MiniGhost(gEnvir,3600,330f, Character.Owner.Enemy));
+        objDynamic.add(new MiniGhost(gEnvir,4200,330f, Character.Owner.Enemy));
+        objDynamic.add(new MiniGhost(gEnvir,4250,300f, Character.Owner.Enemy));
+        objDynamic.add(new MiniGhost(gEnvir,4300,330f, Character.Owner.Enemy));
 
         // - Boss
         boss = new Crytal1(gEnvir,(width-12) / VariableConstant.worldScale,325,Character.Owner.Enemy);
@@ -211,6 +246,15 @@ public class Stage1 extends Screen {
         ImageLayer backLayer = PlayN.graphics().createImageLayer(PlayN.assets().getImage("images/MapScreen/back.png"));
         backLayer.setTranslation(500,15);
         UIGroup.add(backLayer);
+        backLayer.addListener(new Pointer.Adapter(){
+            @Override
+            public void onPointerEnd(Pointer.Event event) {
+                gContent.setLevel(main.getLevel());
+                gContent.setExp(main.getExp());
+                Music.stop();
+                ss.remove(ss.top());
+            }
+        });
 
         // controller
         PlayN.keyboard().setListener(new Keyboard.Adapter() {
@@ -350,6 +394,7 @@ public class Stage1 extends Screen {
 
         // Music
         Music = SoundStore.stage1Music;
+        Music.setLooping(true);
         Music.play();
     }
 

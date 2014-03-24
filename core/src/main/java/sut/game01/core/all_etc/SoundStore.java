@@ -12,4 +12,6 @@ public class SoundStore {
     public static final Sound hawkScream = assets().getSound("sounds/hawk-Scream");
     public static final Sound balloon = assets().getSound("sounds/balloon");
     public static final Sound fireball = assets().getSound("sounds/fireball");
+    public static final Sound itemkeeping = assets().getSound("sounds/itemkeeping");
+    public static final Sound levelup = assets().getSound("sounds/levelup");
 }
