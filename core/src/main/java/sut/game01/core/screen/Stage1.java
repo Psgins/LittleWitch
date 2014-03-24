@@ -8,6 +8,7 @@ import org.jbox2d.common.Vec2;
 import org.jbox2d.dynamics.World;
 import org.jbox2d.dynamics.contacts.Contact;
 import playn.core.*;
+import playn.core.util.Callback;
 import playn.core.util.Clock;
 import sut.game01.core.Environment.CubeBox;
 import sut.game01.core.Environment.EdgeLine;
@@ -177,12 +178,12 @@ public class Stage1 extends Screen {
         if(rune == null)
         {
             ImageLayer runeIcon = PlayN.graphics().createImageLayer(ImageStore.NullSkill);
-            runeIcon.setTranslation(565,15);
+            runeIcon.setTranslation(295,15);
             UIGroup.add(runeIcon);
         }
         else
         {
-            UIGroup.add(rune.getIcon().setTranslation(565,15));
+            UIGroup.add(rune.getIcon().setTranslation(295,15));
         }
 
         objDynamic.add(new MiniSpirit(world,layer,main,gContent.getPetID(),rune));
@@ -206,6 +207,10 @@ public class Stage1 extends Screen {
         SkillUI = new SkillCardUI(main,UIGroup,tmpDynamic,skill,gEnvir);
         layer.add(UIGroup);
         cd = new Countdown(UIGroup,10,0);
+
+        ImageLayer backLayer = PlayN.graphics().createImageLayer(PlayN.assets().getImage("images/MapScreen/back.png"));
+        backLayer.setTranslation(500,15);
+        UIGroup.add(backLayer);
 
         // controller
         PlayN.keyboard().setListener(new Keyboard.Adapter() {
@@ -345,7 +350,6 @@ public class Stage1 extends Screen {
 
         // Music
         Music = SoundStore.stage1Music;
-        Music.setLooping(true);
         Music.play();
     }
 

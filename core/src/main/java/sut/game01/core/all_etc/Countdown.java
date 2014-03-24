@@ -48,7 +48,7 @@ public class Countdown {
 
         timer.add(minute);
         timer.add(secound);
-        timer.setTranslation(400,30);
+        timer.setTranslation(400,37);
 
         layer.add(timer);
     }

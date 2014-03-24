@@ -52,4 +52,8 @@ public class ImageStore {
     };
 
     public static final Image box = assets().getImage("images/etc/box.png");
+    public static final Image LeftArrow = assets().getImage("images/ui/LeftArrow.png");
+    public static final Image RightArrow = assets().getImage("images/ui/RightArrow.png");
+    public static final Image AButton = assets().getImage("images/ui/AButton.png");
+    public static final Image jumpButton = assets().getImage("images/ui/jumpButton.png");
 }
