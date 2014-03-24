@@ -60,10 +60,10 @@ public class SkillCardUI {
             SkillUI.add(SkillSlot[i]);
         }
 
-        SkillSlot[0].setTranslation(150, 420);
-        SkillSlot[1].setTranslation(250, 420);
-        SkillSlot[2].setTranslation(350, 420);
-        SkillSlot[3].setTranslation(450, 420);
+        SkillSlot[0].setTranslation(190, 420);
+        SkillSlot[1].setTranslation(265, 420);
+        SkillSlot[2].setTranslation(345, 420);
+        SkillSlot[3].setTranslation(420, 420);
 
         layer.add(SkillUI);
     }

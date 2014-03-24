@@ -65,6 +65,8 @@ public class Stage1 extends Screen {
     //UIGroup
     private GroupLayer UIGroup = PlayN.graphics().createGroupLayer();
 
+    private Sound Music;
+
     public Stage1(ScreenStack ss,GameContent gContent)
     {
         this.ss = ss;
@@ -334,18 +336,27 @@ public class Stage1 extends Screen {
                         gContent.setLevel(main.getLevel());
                         gContent.setExp(main.getExp());
                         gContent.save();
+                        Music.stop();
                         ss.remove(Stage1.this);
                         break;
                 }
             }
         });
+
+        // Music
+        Music = SoundStore.stage1Music;
+        Music.setLooping(true);
+        Music.play();
     }
 
     @Override
     public void update(int delta) {
         super.update(delta);
 
-        if(gameState != GameState.run) return;
+        if(gameState != GameState.run){
+            Music.stop();
+            return;
+        }
 
         world.step(0.033f,10,10);
 

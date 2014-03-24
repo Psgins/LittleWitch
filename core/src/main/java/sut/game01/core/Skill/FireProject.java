@@ -5,6 +5,7 @@ import org.jbox2d.dynamics.World;
 import playn.core.GroupLayer;
 import sut.game01.core.all_etc.DynamicObject;
 import sut.game01.core.all_etc.ImageStore;
+import sut.game01.core.all_etc.SoundStore;
 import sut.game01.core.all_etc.VariableConstant;
 import sut.game01.core.screen.Stage1;
 
@@ -41,6 +42,8 @@ public class FireProject extends Skill {
             body.applyLinearImpulse(new Vec2(-2.7f,-4f),body.getPosition());
         else
             body.applyLinearImpulse(new Vec2(2.7f,-4f),body.getPosition());
+
+        SoundStore.fireball.play();
 
         ready = true;
     }

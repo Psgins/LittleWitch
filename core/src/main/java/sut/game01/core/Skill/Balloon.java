@@ -29,7 +29,7 @@ public class Balloon extends Skill {
         this.y = y;
         timelife = 500;
 
-        BaseDamage = 15;
+        BaseDamage = 25;
         RangeDamage = 10;
 
         initPhysicsBody(world,x,y,20,20,true);
