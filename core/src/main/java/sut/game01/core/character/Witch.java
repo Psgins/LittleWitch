@@ -31,10 +31,14 @@ public class Witch extends Character {
     {
         this.gEnvir = gEnvir;
 
-        maxHP = 150;
-        hp = 150;
+        attack = 20 + VariableConstant.dmgLVL[gEnvir.gContent.getLevel()-1];
+        maxHP = 150 + VariableConstant.hpLVL[gEnvir.gContent.getLevel()-1];
+        hp = 150 + VariableConstant.hpLVL[gEnvir.gContent.getLevel()-1];
+        defend = VariableConstant.defLVL[gEnvir.gContent.getLevel()-1];
         level = gEnvir.gContent.getLevel();
         exp = gEnvir.gContent.getExp();
+
+        System.out.println(gEnvir.gContent.getLevel());
 
         sprite = SpriteLoader.getSprite("images/CharSprite/witch.json");
         sprite.addCallback(new Callback<Sprite>() {
@@ -213,6 +217,10 @@ public class Witch extends Character {
             {
                 exp = 0;
                 level++;
+                
+                maxHP = 150 + VariableConstant.hpLVL[level-1];
+                hp = 150 + VariableConstant.hpLVL[level-1];
+                defend = VariableConstant.defLVL[level-1];
             }
             else
             {
@@ -224,7 +232,7 @@ public class Witch extends Character {
 
     @Override
     public float getAttack() {
-        return attack + VariableConstant.dmgLVL[level-1];
+        return attack;
     }
 
     public boolean isDead()

@@ -32,9 +32,9 @@ public class RedPoring extends Character {
         renderSpeed = 100;
         this.gEnvir = gEnvir;
 
-        hp = 450;
-        maxHP = 450;
-        attack = 45;
+        hp = 550;
+        maxHP = 550;
+        attack = 50;
         defend = 5;
 
         sprite = SpriteLoader.getSprite("images/CharSprite/redPoring.json");
@@ -75,25 +75,25 @@ public class RedPoring extends Character {
         {
             switch (state)
             {
-                case idleR:
                 case idleL:
+                case RunL:
+                case AtkL:
                     offset = 0;
+                    sprite.layer().setWidth(100);
+                    sprite.layer().setOrigin(50,60);
+                    if(spriteIndex == 2) setState(State.idleL);
                     break;
                 case RunR:
-                case RunL:
-                    offset = 4;
-                    break;
-                case AtkL:
-                    offset = 4;
-                    if(spriteIndex == 6) setState(State.idleL);
-                    break;
+                case idleR:
                 case AtkR:
-                    offset = 4;
-                    if(spriteIndex == 6) setState(State.idleR);
+                    offset = 0;
+                    sprite.layer().setWidth(-100);
+                    sprite.layer().setOrigin(-50,60);
+                    if(spriteIndex == 2) setState(State.idleR);
                     break;
                 case dead:
-                    offset = 8;
-                    if (spriteIndex == 10)
+                    offset = 4;
+                    if (spriteIndex == 6)
                     {
                         dropItem();
                         AllLayer.parent().remove(AllLayer);
@@ -101,22 +101,6 @@ public class RedPoring extends Character {
                         alive = false;
                         return;
                     }
-            }
-
-            switch (state)
-            {
-                case idleL:
-                case RunL:
-                case AtkL:
-                    sprite.layer().setWidth(100);
-                    sprite.layer().setOrigin(50,60);
-                    break;
-                case idleR:
-                case RunR:
-                case AtkR:
-                    sprite.layer().setWidth(-100);
-                    sprite.layer().setOrigin(-50,60);
-                    break;
             }
 
             spriteIndex = offset + ((spriteIndex + 1)%4);

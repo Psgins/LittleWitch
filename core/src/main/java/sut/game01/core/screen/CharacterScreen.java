@@ -159,12 +159,12 @@ public class CharacterScreen extends UIScreen {
         atknum.setTranslation(80,13);
         Information.add(atknum);
 
-        float def = 2;
+        float def = 0 + VariableConstant.defLVL[gContent.getLevel()];
         GroupLayer defnum = Countdown.Create((int)def);
         defnum.setTranslation(80,35);
         Information.add(defnum);
 
-        float hp = 150;
+        float hp = 150 + VariableConstant.hpLVL[gContent.getLevel()];
         GroupLayer hpnum = Countdown.Create((int)hp);
         hpnum.setTranslation(80,57);
         Information.add(hpnum);

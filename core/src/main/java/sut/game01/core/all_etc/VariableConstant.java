@@ -13,28 +13,56 @@ public class VariableConstant {
     public static final int runeIDRange = 1;
 
     public static final float[] dmgLVL = new float[]{
+            0,
             2,
+            7,
+            15,
+            32,
+            57,
+            86,
+            110,
+            154,
+            223
+    };
+
+    public static final float[] hpLVL = new float[]{
+            0,
+            0,
+            25,
+            60,
+            127,
+            190,
+            441,
+            716,
+            1064,
+            1252,
+    };
+
+    public static final float[] defLVL = new float[]{
+            0,
+            0,
+            2,
+            3,
             5,
             9,
-            14,
-            20,
-            28,
-            36,
-            47,
-            59
+            15,
+            30,
+            42,
+            63
     };
 
     public static final int[] expRange = new int[] {
+            0,
             100,
             200,
-            300,
             400,
-            500,
-            600,
-            700,
             800,
-            900,
-            1000
+            1600,
+            3200,
+            6400,
+            13800,
+            27600,
+            55200
     };
 
     public static final String[] petPath = new String[]{
