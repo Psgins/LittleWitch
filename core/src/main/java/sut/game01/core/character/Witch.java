@@ -3,13 +3,12 @@ package sut.game01.core.character;
 import org.jbox2d.common.Vec2;
 import org.jbox2d.dynamics.World;
 import playn.core.GroupLayer;
+import playn.core.PlayN;
+import playn.core.Sound;
 import playn.core.util.Callback;
 import sut.game01.core.Skill.Skill;
-import sut.game01.core.all_etc.DynamicObject;
+import sut.game01.core.all_etc.*;
 import sut.game01.core.UI.FloatLabel;
-import sut.game01.core.all_etc.GameContent;
-import sut.game01.core.all_etc.GameEnvirontment;
-import sut.game01.core.all_etc.VariableConstant;
 import sut.game01.core.screen.Stage1;
 import sut.game01.core.sprite.Sprite;
 import sut.game01.core.sprite.SpriteLoader;
@@ -205,7 +204,10 @@ public class Witch extends Character {
     public void jump()
     {
         if(body.getLinearVelocity().y == 0 && state != State.dead)
+        {
             body.applyLinearImpulse(new Vec2(0f,-45f),body.getPosition());
+            SoundStore.jump.play();
+        }
     }
 
     public int getLevel()

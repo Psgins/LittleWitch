@@ -4,6 +4,7 @@ import playn.core.GroupLayer;
 import playn.core.ImageLayer;
 import sut.game01.core.all_etc.DynamicObject;
 import sut.game01.core.all_etc.ImageStore;
+import sut.game01.core.all_etc.SoundStore;
 import sut.game01.core.all_etc.VariableConstant;
 import sut.game01.core.character.*;
 import sut.game01.core.screen.Stage1;
@@ -38,6 +39,8 @@ public class Screeming_Card implements SkillCard {
         }
         else
         {
+            SoundStore.hawkScream.setVolume(30f);
+            SoundStore.hawkScream.play();
             objTemp.add(new Screeming(
                     caster.getBody().getWorld(),
                     caster.layer().parent(),
