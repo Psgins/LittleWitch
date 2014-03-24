@@ -38,9 +38,7 @@ public class Witch extends Character {
         level = gEnvir.gContent.getLevel();
         exp = gEnvir.gContent.getExp();
 
-        System.out.println(gEnvir.gContent.getLevel());
-
-        sprite = SpriteLoader.getSprite("images/CharSprite/witch.json");
+        sprite = SpriteLoader.getSprite(VariableConstant.CharPeth[gEnvir.gContent.getCharID()]);
         sprite.addCallback(new Callback<Sprite>() {
             @Override
             public void onSuccess(Sprite result) {
@@ -79,33 +77,45 @@ public class Witch extends Character {
             {
                 case idleR:
                     offset = 0;
+                    sprite.layer().setOrigin(37.5f, 42f);
+                    sprite.layer().setWidth(75);
                     break;
                 case idleL:
                     offset = 4;
+                    sprite.layer().setOrigin(37.5f, 42f);
+                    sprite.layer().setWidth(75);
                     break;
                 case runR:
                     offset = 8;
+                    sprite.layer().setOrigin(37.5f, 42f);
+                    sprite.layer().setWidth(75);
                     if(body.getLinearVelocity().x < 10)
                         body.applyForce(new Vec2(60f,0),body.getPosition());
                     break;
                 case  runL:
-                    offset = 12;
+                    offset = 8;
+                    sprite.layer().setOrigin(-37.5f, 42f);
+                    sprite.layer().setWidth(-75);
                     if(body.getLinearVelocity().x > -10) body.applyForce(new Vec2(-60f, 0), body.getPosition());
                     break;
                 case dead:
-                    offset = 16;
-                    if(spriteIndex == 18){
+                    offset = 12;
+                    if(spriteIndex == 14){
                         alive = false;
                         dead = true;
                     }
                     break;
                 case atkR:
-                    offset = 20;
-                    if(spriteIndex == 22) setState(State.idleR);
+                    offset = 16;
+                    sprite.layer().setOrigin(37.5f, 42f);
+                    sprite.layer().setWidth(75);
+                    if(spriteIndex == 18) setState(State.idleR);
                     break;
                 case atkL:
-                    offset = 24;
-                    if(spriteIndex == 26) setState(State.idleL);
+                    offset = 16;
+                    sprite.layer().setOrigin(-37.5f, 42f);
+                    sprite.layer().setWidth(-75);
+                    if(spriteIndex == 18) setState(State.idleL);
                     break;
             }
 

@@ -26,13 +26,16 @@ import static playn.core.PlayN.*;
 public class CharacterScreen extends UIScreen {
 
     private final ScreenStack ss;
-    private WitchModel model;
 
     // pet
     private MiniSpiritModel pet;
     private GroupLayer petPosition = graphics().createGroupLayer();
 
-    GameContent gContent = new GameContent();
+    //char
+    private WitchModel model;
+    private GroupLayer charPosition = graphics().createGroupLayer();
+
+    private GameContent gContent = new GameContent();
 
     private int[] SkillSelected;
     private GroupLayer[] positionSkillSlot = new GroupLayer[4];
@@ -79,7 +82,8 @@ public class CharacterScreen extends UIScreen {
         this.RuneSelected = gContent.getRune();
 
         // Add model for show
-        model = new WitchModel(layer,125f,150f);
+        charPosition.setTranslation(125,150);
+        layer.add(charPosition);
 
         // Add pet Model
         petPosition.setTranslation(540,180);
@@ -154,17 +158,17 @@ public class CharacterScreen extends UIScreen {
         ImageLayer info = graphics().createImageLayer(assets().getImage("images/CharacterScreen/information.png"));
         Information.add(info);
 
-        float atk = 20 + VariableConstant.dmgLVL[gContent.getLevel()];
+        float atk = 20 + VariableConstant.dmgLVL[gContent.getLevel()-1];
         GroupLayer atknum = Countdown.Create((int)atk);
         atknum.setTranslation(80,13);
         Information.add(atknum);
 
-        float def = 0 + VariableConstant.defLVL[gContent.getLevel()];
+        float def = 0 + VariableConstant.defLVL[gContent.getLevel()-1];
         GroupLayer defnum = Countdown.Create((int)def);
         defnum.setTranslation(80,35);
         Information.add(defnum);
 
-        float hp = 150 + VariableConstant.hpLVL[gContent.getLevel()];
+        float hp = 150 + VariableConstant.hpLVL[gContent.getLevel()-1];
         GroupLayer hpnum = Countdown.Create((int)hp);
         hpnum.setTranslation(80,57);
         Information.add(hpnum);
@@ -180,6 +184,7 @@ public class CharacterScreen extends UIScreen {
         Information.add(lvlnum);
         layer.add(Information);
 
+        // Pet Refresh
         petPosition.removeAll();
         pet = new MiniSpiritModel(petPosition,0,0,gContent.getPetID());
         pet.layer().addListener(new Pointer.Adapter(){
@@ -188,6 +193,16 @@ public class CharacterScreen extends UIScreen {
                 gContent.setSkill(SkillSelected);
                 gContent.save();
                 ss.push(new PetScreen(ss,gContent));
+            }
+        });
+
+        //Character Refresh
+        charPosition.removeAll();
+        model = new WitchModel(charPosition,0,0,gContent.getCharID());
+        model.layer().addListener(new Pointer.Adapter(){
+            @Override
+            public void onPointerEnd(Pointer.Event event) {
+                ss.push(new CharacterSelect(ss,gContent));
             }
         });
 
