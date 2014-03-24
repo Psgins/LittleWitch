@@ -41,9 +41,9 @@ public class Crytal1 extends Character {
     {
         this.gEnvir = gEnvir;
 
-        hp = 2000;
-        maxHP = 2000;
-        defend = 10;
+        hp = 2500;
+        maxHP = 2500;
+        defend = 25;
 
         position = new Vec2(x * VariableConstant.worldScale, y * VariableConstant.worldScale);
 

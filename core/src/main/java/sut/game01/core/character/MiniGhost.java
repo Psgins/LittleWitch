@@ -34,8 +34,10 @@ public class MiniGhost extends Character {
         this.y = y;
         this.gEnvir = gEnvir;
 
-        hp = 200;
-        maxHP = 200;
+        hp = 400;
+        maxHP = 400;
+        attack = 10;
+        defend = 3;
 
         sprite = SpriteLoader.getSprite("images/CharSprite/MiniGhost.json");
         sprite.addCallback(new Callback<Sprite>() {
@@ -172,6 +174,6 @@ public class MiniGhost extends Character {
                 body.getPosition().y / VariableConstant.worldScale,
                 owner,
                 isLeft,
-                0));
+                attack));
     }
 }
