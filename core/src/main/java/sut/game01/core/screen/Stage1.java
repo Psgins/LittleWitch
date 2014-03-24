@@ -203,7 +203,7 @@ public class Stage1 extends Screen {
         hpBarUI = new HPBarUI(main,UIGroup);
         gEnvir.hpBarUI = hpBarUI;
         skill = ContentLoader.SkillCardLoader(gContent.getSkill());
-        SkillUI = new SkillCardUI(main,UIGroup,tmpDynamic,skill);
+        SkillUI = new SkillCardUI(main,UIGroup,tmpDynamic,skill,gEnvir);
         layer.add(UIGroup);
         cd = new Countdown(UIGroup,10,0);
 

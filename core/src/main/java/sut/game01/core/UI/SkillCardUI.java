@@ -1,11 +1,14 @@
 package sut.game01.core.UI;
 
 import playn.core.GroupLayer;
+import playn.core.ImageLayer;
+import playn.core.Pointer;
 import sut.game01.core.Rune.Rune;
 import sut.game01.core.Skill.SkillCard;
 import static playn.core.PlayN.*;
 
 import sut.game01.core.all_etc.DynamicObject;
+import sut.game01.core.all_etc.GameEnvirontment;
 import sut.game01.core.all_etc.ImageStore;
 import sut.game01.core.character.Character;
 import sut.game01.core.screen.Stage1;
@@ -27,10 +30,13 @@ public class SkillCardUI {
     private GroupLayer[] SkillSlot = new GroupLayer[4];
     private GroupLayer[] CooldownSlot = new GroupLayer[4];
 
-    public SkillCardUI(Character focus,GroupLayer layer,List<DynamicObject> objTemp,SkillCard[] skill)
+    private GameEnvirontment gEnvir;
+
+    public SkillCardUI(Character focus,GroupLayer layer,List<DynamicObject> objTemp,SkillCard[] skill,final GameEnvirontment gEnvir)
     {
         this.focus = focus;
         this.objTemp = objTemp;
+        this.gEnvir = gEnvir;
 
         for(int i=0;i<4;i++)
         {
@@ -49,7 +55,29 @@ public class SkillCardUI {
                 this.skill[i] = skill[i];
 
                 // Add Skill ICON to SkillSlot
-                SkillSlot[i].add(skill[i].getIcon());
+                ImageLayer icon = skill[i].getIcon();
+                SkillSlot[i].add(icon);
+
+                final int skillID = i;
+                icon.addListener(new Pointer.Adapter(){
+                    @Override
+                    public void onPointerEnd(Pointer.Event event) {
+                        switch (gEnvir.main.getState())
+                        {
+                            case atkR:
+                            case runR:
+                            case idleR:
+                                Shoot(false,skillID);
+                                break;
+                            case atkL:
+                            case runL:
+                            case idleL:
+                                Shoot(true,skillID);
+                                break;
+                        }
+
+                    }
+                });
 
                 // Add Cooldown Position to SkillSlot
                 this.skill[i].setCover(CooldownSlot[i]);
