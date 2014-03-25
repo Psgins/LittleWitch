@@ -7,10 +7,7 @@ import playn.core.Pointer;
 import sut.game01.core.ModelShow.MiniSpiritModel;
 import sut.game01.core.ModelShow.WitchModel;
 import sut.game01.core.Skill.SkillCard;
-import sut.game01.core.all_etc.Countdown;
-import sut.game01.core.all_etc.GameContent;
-import sut.game01.core.all_etc.ImageStore;
-import sut.game01.core.all_etc.VariableConstant;
+import sut.game01.core.all_etc.*;
 import tripleplay.game.ScreenStack;
 import tripleplay.game.UIScreen;
 
@@ -135,6 +132,13 @@ public class CharacterScreen extends UIScreen {
 
     @Override
     public void wasShown() {
+
+        if(SoundStore.stage1Music.isPlaying())
+            SoundStore.stage1Music.stop();
+
+        if(!SoundStore.UIScreen.isPlaying())
+            SoundStore.UIScreen.play();
+
         positionRune.removeAll();
 
         if(gContent.getRune() > -1)

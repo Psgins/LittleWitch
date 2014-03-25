@@ -3,6 +3,7 @@ package sut.game01.core;
 import playn.core.Game;
 
 import playn.core.util.Clock;
+import sut.game01.core.all_etc.SoundStore;
 import sut.game01.core.screen.StartScreen;
 import tripleplay.game.ScreenStack;
 import tripleplay.game.Screen;
@@ -22,6 +23,8 @@ public class MyGame extends Game.Default {
   @Override
   public void init() {
 
+      SoundStore.UIScreen.setLooping(true);
+      SoundStore.UIScreen.prepare();
       final Screen home = new StartScreen(ss);
       ss.push(home);
   }

@@ -4,6 +4,7 @@ import playn.core.ImageLayer;
 import playn.core.PlayN;
 import playn.core.Pointer;
 import sut.game01.core.all_etc.GameContent;
+import sut.game01.core.all_etc.SoundStore;
 import tripleplay.game.ScreenStack;
 import tripleplay.game.UIScreen;
 
@@ -60,5 +61,14 @@ public class MapScreen extends UIScreen {
         btnStage3.setOrigin(22.5f,22.5f);
         btnStage3.setTranslation(640f - 210f, 480f - 290f);
         layer.add(btnStage3);
+    }
+
+    @Override
+    public void wasShown() {
+        if(SoundStore.stage1Music.isPlaying())
+            SoundStore.stage1Music.stop();
+
+        if(!SoundStore.UIScreen.isPlaying())
+            SoundStore.UIScreen.play();
     }
 }

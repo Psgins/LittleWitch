@@ -395,7 +395,14 @@ public class Stage1 extends Screen {
         // Music
         Music = SoundStore.stage1Music;
         Music.setLooping(true);
-        Music.play();
+
+        if(SoundStore.UIScreen.isPlaying())
+            SoundStore.UIScreen.stop();
+
+        if(!SoundStore.stage1Music.isPlaying())
+            SoundStore.stage1Music.play();
+
+
     }
 
     @Override

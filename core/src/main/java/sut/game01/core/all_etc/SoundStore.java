@@ -14,4 +14,5 @@ public class SoundStore {
     public static final Sound fireball = assets().getSound("sounds/fireball");
     public static final Sound itemkeeping = assets().getSound("sounds/itemkeeping");
     public static final Sound levelup = assets().getSound("sounds/levelup");
+    public static final Sound UIScreen = assets().getSound("sounds/UIScreen");
 }
