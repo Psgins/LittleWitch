@@ -52,4 +52,12 @@ public class StartScreen extends UIScreen {
 
         SoundStore.stage1Music.prepare();
     }
+
+    @Override
+    public void wasShown() {
+        if(!SoundStore.UIScreen.isPlaying())
+        {
+            SoundStore.UIScreen.play();
+        }
+    }
 }

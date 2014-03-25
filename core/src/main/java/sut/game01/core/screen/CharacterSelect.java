@@ -5,6 +5,7 @@ import playn.core.ImageLayer;
 import playn.core.Pointer;
 import sut.game01.core.ModelShow.WitchModel;
 import sut.game01.core.all_etc.GameContent;
+import sut.game01.core.all_etc.SoundStore;
 import tripleplay.game.Screen;
 import tripleplay.game.ScreenStack;
 import static playn.core.PlayN.*;
@@ -81,6 +82,15 @@ public class CharacterSelect extends Screen {
             }
         });
 
+    }
+
+    @Override
+    public void wasShown() {
+        if(SoundStore.stage1Music.isPlaying())
+            SoundStore.stage1Music.stop();
+
+        if(!SoundStore.UIScreen.isPlaying())
+            SoundStore.UIScreen.play();
     }
 
     @Override

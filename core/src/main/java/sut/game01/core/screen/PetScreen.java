@@ -7,6 +7,7 @@ import sut.game01.core.ModelShow.MiniSpiritModel;
 import sut.game01.core.Pet.MiniSpirit;
 import sut.game01.core.all_etc.GameContent;
 import sut.game01.core.all_etc.ImageStore;
+import sut.game01.core.all_etc.SoundStore;
 import sut.game01.core.character.MiniGhost;
 import tripleplay.game.ScreenStack;
 import tripleplay.game.UIScreen;
@@ -136,6 +137,15 @@ public class PetScreen extends UIScreen {
                 gContent.setPetID(1);
             }
         });
+    }
+
+    @Override
+    public void wasShown() {
+        if(SoundStore.stage1Music.isPlaying())
+            SoundStore.stage1Music.stop();
+
+        if(!SoundStore.UIScreen.isPlaying())
+            SoundStore.UIScreen.play();
     }
 
     @Override
